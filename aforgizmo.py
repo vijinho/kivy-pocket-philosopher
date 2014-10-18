@@ -219,17 +219,21 @@ def list(config):
         click.secho("(%s)\n" % aphorism.source, fg='yellow')
 
 @cli.command()
-@click.option('-t', '--tag',
+@click.option('-t', '--hashtag',
               required=True,
               prompt='Search Tag',
-              help='The tag to search for.')
+              help='The text to search hashtags for.')
 @pass_config
-def search(config, tag):
+def search(config, hashtag):
     '''Search for an aphorism by tag.'''
-    click.echo(click.style('SEARCHING FOR APHORISMS IN THE DATABASE NOT '
-                           'YET IMPLEMENTED',
-                           fg='red'),
-                           file=config.logfile)
+    for aphorism in models.Aphorism.select().where(
+            models.Aphorism.hashtags ** hashtag).order_by(
+            models.Aphorism.author,
+                                                      models.Aphorism.source):
+        click.secho('id:%d' % aphorism.id, fg='white')
+        click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
+        click.secho(' -- %s' % aphorism.author, fg='green')
+        click.secho("(%s)\n" % aphorism.source, fg='yellow')
 
 if __name__ == '__main__':
     cli()

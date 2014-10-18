@@ -53,6 +53,10 @@ Commands:
  * `aforgizmo COMMAND --help`
  * `sqlite3 data/aphorisms.db` see http://www.sqlite.org/cli.html
 
+### Searching by hashtag text
+* `aforgizmo search -t '%blah%'` where blah is the tag text you are searching
+ for
+
 ## Credits
  * Command-line implemented using click - http://click.pocoo.org/3/quickstart/
  * SQLite - http://www.sqlite.org/cli.html
