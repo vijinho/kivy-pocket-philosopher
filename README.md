@@ -20,3 +20,7 @@ Credits
 -------
  * Command-line implemented using click - http://click.pocoo.org/3/quickstart/
  * Database ORM - https://github.com/coleifer/peewee
+
+See Also
+--------
+ * https://github.com/jcalazan/random-quotes - A similar Kivy App 
