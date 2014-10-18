@@ -208,10 +208,13 @@ def dump(config, output_format):
 @pass_config
 def list(config):
     '''Show all aphorisms.'''
-    click.echo(click.style('LISTING OF APHORISMS FROM THE DATABASE NOT '
-                           'YET IMPLEMENTED',
-                           fg='red'),
-                           file=config.logfile)
+    click.clear()
+    for aphorism in models.Aphorism.select().order_by(models.Aphorism.author,
+                                                      models.Aphorism.source):
+        click.secho('id:%d' % aphorism.id, fg='white')
+        click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
+        click.secho(' -- %s' % aphorism.author, fg='green')
+        click.secho("(%s)\n" % aphorism.source, fg='yellow')
 
 @cli.command()
 @click.option('-t', '--tag',
