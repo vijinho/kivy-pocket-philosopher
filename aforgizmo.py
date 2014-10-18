@@ -8,7 +8,7 @@ An App which saves, retrieves, edits and displays aphorisms
 import click
 import os
 import pwd
-from peewee import *
+import models
 
 # setup config passing storage
 class Config(object):
@@ -21,21 +21,11 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 @click.option('-l', '--logfile',
               type=click.File('w'),
               required=False)
-@click.option('-dd', '--data-directory',
-              type=click.Path(),
-              default='data')
 @pass_config
-def cli(config, verbose, logfile, data_directory):
+def cli(config, verbose, logfile):
     config.verbose = verbose
     config.logfile = logfile
     config.username = pwd.getpwuid(os.getuid())[0]
-
-    # set the data directory to 'data' if invalid
-    if data_directory is None:
-        data_directory = 'data'
-    config.data_directory = data_directory
-    if (os.path.exists(config.data_directory) is False):
-        config.data_directory = 'data'
 
     # display some verbose information
     if config.verbose:
@@ -44,16 +34,6 @@ def cli(config, verbose, logfile, data_directory):
                                bold=True,
                                reverse=True,
                                blink=True))
-        click.echo(click.style('Data directory: %s' % config.data_directory,
-                                fg='yellow'))
-
-@cli.command()
-@pass_config
-def init(config):
-    '''Initialise a clean database of aphorisms.'''
-    click.echo(click.style('INITIALISING TO DATABASE NOT YET IMPLEMENTED',
-                           fg='red'),
-                           file=config.logfile)
 
 @cli.command()
 @click.option('-a', '--author',
@@ -79,8 +59,19 @@ def init(config):
 @pass_config
 def add(config, author, source, aphorism, hashtags):
     '''Add an aphorism.'''
-    click.echo(click.style('SAVING TO DATABASE NOT YET IMPLEMENTED',fg='red'),
+    try:
+        aphorism = models.Aphorism(
+            author=author,
+            source=source,
+            aphorism=aphorism,
+            hashtags=hashtags)
+        aphorism.save()
+    except Exception:
+        click.echo(click.style('Failed saving the aphorism!',fg='red'),
                            file=config.logfile)
+    else:
+        click.echo(click.style('Saved the aphorism successfully.',fg='green'),
+                   file=config.logfile)
 
 @cli.command()
 @click.option('-id',

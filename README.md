@@ -9,18 +9,37 @@ What is an Aphorism?
 --------------------
  * http://www.thefreedictionary.com/aphorism
  * http://en.wikipedia.org/wiki/Aphorism
+
+Setup
+-----
+ * `$ pip install --editable .`
+ * `python models.py` - setup database `data/aphorisms.db`
+ 
+Manual Database Setup
+---------------------
+```
+CREATE TABLE "aphorism" (
+    "id" INTEGER NOT NULL PRIMARY KEY, 
+    "author" VARCHAR(255) NOT NULL, 
+    "source" VARCHAR(255) NOT NULL, 
+    "aphorism" TEXT NOT NULL, 
+    "hashtags" TEXT NOT NULL, 
+    "created" DATETIME NOT NULL
+);
+```
  
 Command Line Usage
 ------------------
- * `$ pip install --editable .`
  * `aforgizmo --help`
  * `aforgizmo COMMAND --help`
+ * `sqlite3 data/aphorisms.db` see http://www.sqlite.org/cli.html
 
 Credits
 -------
  * Command-line implemented using click - http://click.pocoo.org/3/quickstart/
+ * SQLite - http://www.sqlite.org/cli.html
  * Database ORM - https://github.com/coleifer/peewee
-
+ 
 See Also
 --------
  * https://github.com/jcalazan/random-quotes - A similar Kivy App 
