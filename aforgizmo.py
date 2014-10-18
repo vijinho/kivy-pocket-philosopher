@@ -9,6 +9,7 @@ import click
 import os
 import pwd
 import models
+import json
 
 # setup config passing storage
 class Config(object):
@@ -121,10 +122,21 @@ def random(config):
 @pass_config
 def insert(config, source_file, input_format):
     '''Insert aphorisms by file.'''
-    click.echo(click.style('IMPORTING APHORISMS TO THE DATABASE NOT '
-                           'YET IMPLEMENTED',
-                           fg='red'),
-                           file=config.logfile)
+    try:
+        with open(source_file) as json_file:
+            json_data = json.load(json_file)
+    except Exception:
+        click.echo(click.style('Unable to import the file', fg='red'),
+                   file=config.logfile)
+    else:
+        try:
+            models.Aphorism.insert_many(json_data).execute()
+        except Exception:
+            click.echo(click.style('Unable to insert the data',
+                        fg='red'), file=config.logfile)
+        else:
+            click.echo(click.style('Inserted the data successfully.',
+                                   fg='green'), file=config.logfile)
 
 @cli.command()
 @click.option('-tf', '--target-file',

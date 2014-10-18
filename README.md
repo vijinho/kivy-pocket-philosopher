@@ -1,22 +1,19 @@
-Aforgizmo
-=========
+# Aforgizmo
 
 An App which saves, retrieves, edits and displays aphorisms.  
-
 This app is written in Python using the Kivy library for cross-platform support (Android, IOS, Windows, Linux, Mac OSX).  See http://kivy.org/docs/guide/packaging.html for instructions on packaging the application for the different platforms.
 
-What is an Aphorism?
---------------------
+## What is an Aphorism?
  * http://www.thefreedictionary.com/aphorism
  * http://en.wikipedia.org/wiki/Aphorism
 
-Setup
------
+## Setup
  * `$ pip install --editable .`
  * `python models.py` - setup database `data/aphorisms.db`
+ * insert example aphorisms with `aforgizmo insert` then hit the RETURN/ENTER 
+ key twice
  
-Manual Database Setup
----------------------
+### Manual Database Setup
 ```
 CREATE TABLE "aphorism" (
     "id" INTEGER NOT NULL PRIMARY KEY, 
@@ -28,18 +25,15 @@ CREATE TABLE "aphorism" (
 );
 ```
  
-Command Line Usage
-------------------
+## Command Line Usage
  * `aforgizmo --help`
  * `aforgizmo COMMAND --help`
  * `sqlite3 data/aphorisms.db` see http://www.sqlite.org/cli.html
 
-Credits
--------
+## Credits
  * Command-line implemented using click - http://click.pocoo.org/3/quickstart/
  * SQLite - http://www.sqlite.org/cli.html
  * Database ORM - https://github.com/coleifer/peewee
  
-See Also
---------
+## See Also
  * https://github.com/jcalazan/random-quotes - A similar Kivy App 
