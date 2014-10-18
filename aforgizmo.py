@@ -165,7 +165,7 @@ def list(config):
               prompt='Search Tag',
               help='The tag to search for.')
 @pass_config
-def search(config, keyword):
+def search(config, tag):
     '''Search for an aphorism by tag.'''
     click.echo(click.style('SEARCHING FOR APHORISMS IN THE DATABASE NOT '
                            'YET IMPLEMENTED',
