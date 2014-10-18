@@ -106,6 +106,7 @@ def remove(config, id):
     click.echo(click.style('DELETING FROM THE DATABASE NOT YET IMPLEMENTED',
                            fg='red'),
                            file=config.logfile)
+
 @cli.command()
 @pass_config
 def random(config):
@@ -114,6 +115,7 @@ def random(config):
                            'YET IMPLEMENTED',
                            fg='red'),
                            file=config.logfile)
+
 @cli.command()
 @click.option('-sf', '--source-file',
               required=True,
@@ -132,6 +134,7 @@ def insert(config, source_file, input_format):
                            'YET IMPLEMENTED',
                            fg='red'),
                            file=config.logfile)
+
 @cli.command()
 @click.option('-tf', '--target-file',
               type=click.File('w'),
@@ -151,14 +154,16 @@ def dump(config, target_file, output_format):
                            'YET IMPLEMENTED',
                            fg='red'),
                            file=config.logfile)
+
 @cli.command()
 @pass_config
 def list(config):
     '''Show all aphorisms.'''
-    click.echo(click.style('LISTONG OF APHORISMS FROM THE DATABASE NOT '
+    click.echo(click.style('LISTING OF APHORISMS FROM THE DATABASE NOT '
                            'YET IMPLEMENTED',
                            fg='red'),
                            file=config.logfile)
+
 @cli.command()
 @click.option('-t', '--tag',
               required=True,
@@ -171,5 +176,6 @@ def search(config, tag):
                            'YET IMPLEMENTED',
                            fg='red'),
                            file=config.logfile)
+
 if __name__ == '__main__':
     cli()
