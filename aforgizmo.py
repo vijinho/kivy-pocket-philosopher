@@ -81,11 +81,42 @@ def add(config, author, source, aphorism, hashtags):
               prompt='Aphorism Id',
               help='The aphorism id within the database')
 @pass_config
+def show(config, id):
+    '''Show an aphorism by ID for display.'''
+    try:
+        aphorism = models.Aphorism.select().where(models.Aphorism.id==id).get()
+    except Exception as e:
+        click.echo(click.style("Exception: %s" % e, fg='yellow', style='bold'),
+                   file=config.logfile)
+        click.echo(click.style('Failed get the aphorism!', fg='red'),
+                           file=config.logfile)
+    else:
+        click.clear()
+        click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
+        click.secho(' -- %s' % aphorism.author, fg='green')
+        click.secho('(%s)' % aphorism.source, fg='yellow')
+@cli.command()
+@click.option('-id',
+              type=int,
+              required=True,
+              prompt='Aphorism Id',
+              help='The aphorism id within the database')
+@pass_config
 def get(config, id):
     '''Get an aphorism by ID.'''
-    click.echo(click.style('LOADING FROM THE DATABASE NOT YET IMPLEMENTED',
-                           fg='red'),
+    try:
+        aphorism = models.Aphorism.select().where(models.Aphorism.id==id).get()
+    except Exception as e:
+        click.echo(click.style("Exception: %s" % e, fg='yellow', style='bold'),
+                   file=config.logfile)
+        click.echo(click.style('Failed get the aphorism!', fg='red'),
                            file=config.logfile)
+    else:
+        data = {'author': aphorism.author,
+                'source': aphorism.source,
+                'aphorism': aphorism.aphorism,
+                'hashtags': aphorism.hashtags}
+        click.echo(json.dumps(data))
 @cli.command()
 @click.option('-id',
               type=int,
@@ -95,9 +126,26 @@ def get(config, id):
 @pass_config
 def remove(config, id):
     '''Remove an aphorism by ID.'''
-    click.echo(click.style('DELETING FROM THE DATABASE NOT YET IMPLEMENTED',
-                           fg='red'),
+    try:
+        aphorism = models.Aphorism.select().where(models.Aphorism.id==id).get()
+        click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
+        click.secho(' -- %s' % aphorism.author, fg='green')
+        click.secho('(%s)' % aphorism.source, fg='yellow')
+        click.echo('Are you sure you want to delete this? [yn] ', nl=False)
+        c = click.getchar()
+        click.echo()
+        if c == 'y':
+            aphorism.delete_instance()
+        else:
+            raise Exception("Delete cancelled!")
+    except Exception as e:
+        click.echo(click.style("Exception: %s" % e, fg='yellow'),
+                   file=config.logfile)
+        click.echo(click.style('Failed delete the aphorism!',fg='red'),
                            file=config.logfile)
+    else:
+        click.echo(click.style('Deleted the aphorism.',fg='green'),
+                   file=config.logfile)
 
 @cli.command()
 @pass_config

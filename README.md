@@ -26,7 +26,30 @@ CREATE TABLE "aphorism" (
 ```
  
 ## Command Line Usage
- * `aforgizmo --help`
+Type `aforgizmo` or failing that:
+
+```
+$ python aforgizmo.py --help 
+
+Usage: aforgizmo [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  -v, --verbose
+  -l, --logfile FILENAME
+  --help                  Show this message and exit.
+
+Commands:
+  add     Add an aphorism.
+  dump    Dump all aphorisms to a file.
+  get     Get an aphorism by ID.
+  insert  Insert aphorisms by file.
+  list    Show all aphorisms.
+  random  Get a random aphorism.
+  remove  Remove an aphorism by ID.
+  search  Search for an aphorism by tag.
+  show    Show an aphorism by ID for display.
+``` 
+ 
  * `aforgizmo COMMAND --help`
  * `sqlite3 data/aphorisms.db` see http://www.sqlite.org/cli.html
 
