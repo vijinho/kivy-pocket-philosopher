@@ -1,0 +1,12 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Vijay Mahrra -- vijay.mahrra@gmail.com -- http://about.me/vijay.mahrra
+
+# THANKS
+
+# TECHNOLOGY COLOPHON
+    Python, Kivy
+    SQLite, Peewee ORM

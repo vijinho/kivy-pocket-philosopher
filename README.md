@@ -56,11 +56,10 @@ Commands:
 ### Searching by hashtag text
 * `aforgizmo search -t '%blah%'` where blah is the tag text you are searching
  for
-
-## Credits
- * Command-line implemented using click - http://click.pocoo.org/3/quickstart/
- * SQLite - http://www.sqlite.org/cli.html
- * Database ORM - https://github.com/coleifer/peewee
  
 ## See Also
  * https://github.com/jcalazan/random-quotes - A similar Kivy App 
+
+-- 
+(c) Copyright 2014 Vijay Mahrra 
+http://about.me/vijay.mahrra
