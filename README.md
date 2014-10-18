@@ -9,6 +9,7 @@ Command Line Usage
 ------------------
 `$ pip install --editable .`
 `aforgizmo --help`
+`aforgizmo COMMAND --help`
 
 Android
 -------
