@@ -10,6 +10,7 @@ import os
 import pwd
 import models
 import json
+from peewee import *
 
 # setup config passing storage
 class Config(object):
@@ -151,10 +152,11 @@ def remove(config, id):
 @pass_config
 def random(config):
     '''Get a random aphorism.'''
-    click.echo(click.style('LOADING A RANDOM APHORISM FROM THE DATABASE NOT '
-                           'YET IMPLEMENTED',
-                           fg='red'),
-                           file=config.logfile)
+    for aphorism in  models.Aphorism.select().order_by(fn.Random()).limit(1):
+        click.secho('id:%d' % aphorism.id, fg='white')
+        click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
+        click.secho(' -- %s' % aphorism.author, fg='green')
+        click.secho("(%s)\n" % aphorism.source, fg='yellow')
 
 @cli.command()
 @click.option('-sf', '--source-file',
