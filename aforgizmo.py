@@ -187,24 +187,22 @@ def insert(config, source_file, input_format):
                                    fg='green'), file=config.logfile)
 
 @cli.command()
-@click.option('-tf', '--target-file',
-              type=click.File('w'),
-              required=True,
-              help='The full path to the output target file.',
-              prompt='Target Output File',
-              default='data/dumpfile.json')
 @click.option('-of', '--output-format',
               type=click.Choice(['text', 'json', 'csv', 'html']),
               default='json',
               prompt='Output Format (json|csv|txt|html)',
               help='The output format of the data.')
 @pass_config
-def dump(config, target_file, output_format):
+def dump(config, output_format):
     '''Dump all aphorisms to a file.'''
-    click.echo(click.style('OUTPUT OF APHORISMS FROM THE DATABASE NOT '
-                           'YET IMPLEMENTED',
-                           fg='red'),
-                           file=config.logfile)
+    data = {}
+    for aphorism in models.Aphorism.select().order_by(models.Aphorism.author,
+                                                      models.Aphorism.source):
+        data[aphorism.id] = {'author': aphorism.author,
+                'source': aphorism.source,
+                'aphorism': aphorism.aphorism,
+                'hashtags': aphorism.hashtags}
+    click.echo(json.dumps(data))
 
 @cli.command()
 @pass_config
