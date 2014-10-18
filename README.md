@@ -1,18 +1,15 @@
 Aforgizmo
 =========
 
-An App which saves, retrieves, edits and displays aphorisms
+An App which saves, retrieves, edits and displays aphorisms.  
 
 This app is written in Python using the Kivy library for cross-platform support (Android, IOS, Windows, Linux, Mac OSX).  See http://kivy.org/docs/guide/packaging.html for instructions on packaging the application for the different platforms.
 
 Command Line Usage
 ------------------
-`$ pip install --editable .`
-`aforgizmo --help`
-`aforgizmo COMMAND --help`
-
-Android
--------
+ * `$ pip install --editable .`
+ * `aforgizmo --help`
+ * `aforgizmo COMMAND --help`
 
 CREDITS
 -------
