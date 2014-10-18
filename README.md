@@ -7,8 +7,8 @@ This app is written in Python using the Kivy library for cross-platform support 
 
 Command Line Usage
 ------------------
-pip install --editable .
-aforgizmo --help
+`$ pip install --editable .`
+`aforgizmo --help`
 
 Android
 -------
