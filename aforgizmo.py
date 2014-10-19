@@ -6,8 +6,6 @@ An App which saves, retrieves, edits and displays aphorisms
 '''
 
 import click
-import os
-import pwd
 from models import Aphorism
 import json
 from peewee import *
@@ -26,7 +24,6 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 def cli(config, verbose, logfile):
     config.verbose = verbose
     config.logfile = logfile
-    config.username = pwd.getpwuid(os.getuid())[0]
 
     # display some verbose information
     if config.verbose:
@@ -215,7 +212,7 @@ def dump(config, output_format):
     data = {}
     if output_format == 'json':
         for aphorism in Aphorism.select().order_by(Aphorism.author,
-                                                          Aphorism.source):
+                                                   Aphorism.source):
             data[aphorism.id] = {'author': aphorism.author,
                     'source': aphorism.source,
                     'aphorism': aphorism.aphorism,
@@ -233,7 +230,7 @@ def list(config):
     '''Show all aphorisms.'''
     click.clear()
     for aphorism in Aphorism.select().order_by(Aphorism.author,
-                                                      Aphorism.source):
+                                               Aphorism.source):
         click.secho('id:%d' % aphorism.id, fg='white')
         click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
         click.secho(' -- %s' % aphorism.author, fg='green')
@@ -249,9 +246,7 @@ def list(config):
 def search(config, hashtag):
     '''Search for an aphorism by tag.'''
     for aphorism in Aphorism.select().where(
-            Aphorism.hashtags ** hashtag).order_by(
-            Aphorism.author,
-                                                      Aphorism.source):
+            Aphorism.hashtags ** hashtag).order_by(Aphorism.author, Aphorism.source):
         click.secho('id:%d' % aphorism.id, fg='white')
         click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
         click.secho(' -- %s' % aphorism.author, fg='green')
