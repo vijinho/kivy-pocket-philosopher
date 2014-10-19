@@ -102,22 +102,32 @@ def show(config, id):
               required=True,
               prompt='Aphorism Id',
               help='The aphorism id within the database')
+@click.option('-of', '--output-format',
+              type=click.Choice(['text', 'json', 'csv', 'html']),
+              default='json',
+              prompt='Output Format (json|csv|txt|html)',
+              help='The output format of the data.')
 @pass_config
-def get(config, id):
+def get(config, id, output_format):
     '''Get an aphorism by ID.'''
-    try:
-        aphorism = models.Aphorism.select().where(models.Aphorism.id==id).get()
-    except Exception as e:
-        click.echo(click.style("Exception: %s" % e, fg='yellow', style='bold'),
-                   file=config.logfile)
-        click.echo(click.style('Failed get the aphorism!', fg='red'),
-                           file=config.logfile)
+    if output_format == 'json':
+        try:
+            aphorism = models.Aphorism.select().where(models.Aphorism.id==id).get()
+        except Exception as e:
+            click.echo(click.style("Exception: %s" % e, fg='yellow', style='bold'),
+                       file=config.logfile)
+            click.echo(click.style('Failed get the aphorism!', fg='red'),
+                               file=config.logfile)
+        else:
+            data = {'author': aphorism.author,
+                    'source': aphorism.source,
+                    'aphorism': aphorism.aphorism,
+                    'hashtags': aphorism.hashtags}
+            click.echo(json.dumps(data))
     else:
-        data = {'author': aphorism.author,
-                'source': aphorism.source,
-                'aphorism': aphorism.aphorism,
-                'hashtags': aphorism.hashtags}
-        click.echo(json.dumps(data))
+        click.echo(click.style("Output format '%s' not yet implemented." %
+                               output_format, fg='red'),
+                   file=config.logfile)
 @cli.command()
 @click.option('-id',
               type=int,
