@@ -1,23 +1,26 @@
 [
     {
-        "author": "@vijinho",
-        "source": "https://twitter.com/vijinh0/status/522294028604547072",
-        "aphorism": "The coffee lovers forced to drink substitutes in the form frothy milky syrupy calorific hot milkshakes or Nespresso and Nescafe.",
-        "hashtags": "#coffee #milk"
-        
-    },
+        "aphorism": "The coffee lovers forced to drink substitutes in the form frothy milky syrupy calorific hot milkshakes or Nespresso and Nescafe.", 
+        "author": "@vijinho", 
+        "created": "2014-10-19 22:12:58.708304", 
+        "hashtags": "#coffee #milk", 
+        "id": 1, 
+        "source": "https://twitter.com/vijinh0/status/522294028604547072"
+    }, 
     {
-        "author": "Vijay Mahrra",
-        "source": "Facebook Status Update",
-        "aphorism": "In the distant future humanity evolved to such an extent that religion was diagnosed as a dangerous yet treatable mental illness.",
-        "hashtags": "#humanity #religion #philosophy"
-        
-    },
+        "aphorism": "In the distant future humanity evolved to such an extent that religion was diagnosed as a dangerous yet treatable mental illness.", 
+        "author": "Vijay Mahrra", 
+        "created": "2014-10-19 22:12:58.708373", 
+        "hashtags": "#humanity #religion #philosophy", 
+        "id": 2, 
+        "source": "Facebook Status Update"
+    }, 
     {
-        "author": "Vijay Mahrra",
-        "source": "twitter:@vijinho",
-        "aphorism": "The problem isn't that there's not enough time and life's too short, it's sadly that we misuse it.",
-        "hashtags": "#time #life #philosophy"
-
+        "aphorism": "The problem isn't that there's not enough time and life's too short, it's sadly that we misuse it.", 
+        "author": "Vijay Mahrra", 
+        "created": "2014-10-19 22:12:58.708406", 
+        "hashtags": "#time #life #philosophy", 
+        "id": 3, 
+        "source": "twitter:@vijinho"
     }
 ]
