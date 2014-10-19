@@ -240,6 +240,7 @@ def list(config):
 @pass_config
 def search(config, hashtag):
     '''Search for an aphorism by tag.'''
+    hashtag = '%%{0}%%'.format(hashtag)
     for a in Aphorism.select().where(
             Aphorism.hashtags ** hashtag).order_by(Aphorism.author, Aphorism.source):
         click.secho('id:%d' % a.id, fg='white')
