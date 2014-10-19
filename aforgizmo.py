@@ -16,13 +16,12 @@ from peewee import *
 class Config(object):
     def __init__(self):
         self.verbose = False
+
 pass_config = click.make_pass_decorator(Config, ensure=True)
 
 @click.group()
 @click.option('-v', '--verbose', is_flag=True)
-@click.option('-l', '--logfile',
-              type=click.File('w'),
-              required=False)
+@click.option('-l', '--logfile', type=click.File('w'), required=False)
 @pass_config
 def cli(config, verbose, logfile):
     config.verbose = verbose
@@ -32,22 +31,19 @@ def cli(config, verbose, logfile):
     # display some verbose information
     if config.verbose:
         click.secho('Verbose mode: Enabled',
-                               fg='white',
-                               bold=True,
-                               reverse=True,
-                               blink=True)
+                    fg='white', bold=True, reverse=True, blink=True)
 
 @cli.command()
 @click.option('-a', '--author',
               prompt='Who are you quoting?',
               help='The author of the aphorism.',
-              required=True,
-              default='Anonymous')
+              default='Anonymous',
+              required=True)
 @click.option('-s', '--source',
               prompt='Where did you source the text?',
               help='The source of the aphorism text.',
-              required=False,
-              default='Unknown')
+              default='Unknown',
+              required=False)
 @click.option('-text', '--aphorism',
               prompt='Write the aphorism',
               help='The text of the aphorism itself.',
@@ -56,8 +52,8 @@ def cli(config, verbose, logfile):
               prompt='Hashtags',
               help='Hashtags for the aphorism, space or comma separated, '
                    '# symbol optional',
-              required=False,
-              default='none')
+              default='none',
+              required=False)
 @pass_config
 def add(config, author, source, aphorism, hashtags):
     '''Add an aphorism.'''
@@ -70,17 +66,17 @@ def add(config, author, source, aphorism, hashtags):
         aphorism.save()
     except Exception:
         click.echo(click.style('Failed saving the aphorism!',fg='red'),
-                           file=config.logfile)
+                   file=config.logfile)
     else:
         click.echo(click.style('Saved the aphorism successfully.',fg='green'),
                    file=config.logfile)
 
+
 @cli.command()
-@click.option('-id',
-              type=int,
-              required=True,
+@click.option('-id', type=int,
               prompt='Aphorism Id',
-              help='The aphorism id within the database')
+              help='The aphorism id within the database',
+              required=True)
 @pass_config
 def show(config, id):
     '''Show an aphorism by ID for display.'''
@@ -96,12 +92,13 @@ def show(config, id):
         click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
         click.secho(' -- %s' % aphorism.author, fg='green')
         click.secho('(%s)' % aphorism.source, fg='yellow')
+
+
 @cli.command()
-@click.option('-id',
-              type=int,
-              required=True,
+@click.option('-id', type=int,
               prompt='Aphorism Id',
-              help='The aphorism id within the database')
+              help='The aphorism id within the database',
+              required=True)
 @click.option('-of', '--output-format',
               type=click.Choice(['text', 'json', 'csv', 'html']),
               default='json',
@@ -128,12 +125,13 @@ def get(config, id, output_format):
         click.echo(click.style("Output format '%s' not yet implemented." %
                                output_format, fg='red'),
                    file=config.logfile)
+
+
 @cli.command()
-@click.option('-id',
-              type=int,
-              required=True,
+@click.option('-id', type=int,
               prompt='Aphorism Id',
-              help='The aphorism id within the database')
+              help='The aphorism id within the database',
+              required=True)
 @pass_config
 def remove(config, id):
     '''Remove an aphorism by ID.'''
@@ -158,6 +156,7 @@ def remove(config, id):
         click.echo(click.style('Deleted the aphorism.',fg='green'),
                    file=config.logfile)
 
+
 @cli.command()
 @pass_config
 def random(config):
@@ -170,10 +169,10 @@ def random(config):
 
 @cli.command()
 @click.option('-sf', '--source-file',
-              required=True,
               help='The full path to the source file.',
               prompt='Source File',
-              default='data/aphorisms.json')
+              default='data/aphorisms.json',
+              required=True)
 @click.option('-if', '--input-format',
               type=click.Choice(['json', 'csv']),
               default='json',
@@ -203,6 +202,7 @@ def insert(config, source_file, input_format):
                                input_format, fg='red'),
                    file=config.logfile)
 
+
 @cli.command()
 @click.option('-of', '--output-format',
               type=click.Choice(['text', 'json', 'csv', 'html']),
@@ -226,6 +226,7 @@ def dump(config, output_format):
                                output_format, fg='red'),
                    file=config.logfile)
 
+
 @cli.command()
 @pass_config
 def list(config):
@@ -238,11 +239,12 @@ def list(config):
         click.secho(' -- %s' % aphorism.author, fg='green')
         click.secho("(%s)\n" % aphorism.source, fg='yellow')
 
+
 @cli.command()
 @click.option('-t', '--hashtag',
-              required=True,
               prompt='Search Tag',
-              help='The text to search hashtags for.')
+              help='The text to search hashtags for.',
+              required=True)
 @pass_config
 def search(config, hashtag):
     '''Search for an aphorism by tag.'''
