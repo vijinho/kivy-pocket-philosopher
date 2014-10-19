@@ -5,9 +5,9 @@ Aforgizmo Database Models
 Models to handle aphorism data
 '''
 
-from peewee import *
 import click
-import datetime
+from peewee import *
+from datetime import datetime
 import json
 
 database = SqliteDatabase('data/aphorisms.db')
@@ -23,7 +23,7 @@ class Aphorism(BaseModel):
     source   = CharField()
     aphorism = TextField()
     hashtags = TextField()
-    created  = DateTimeField(default=datetime.datetime.now)
+    created  = DateTimeField(default=datetime.now)
 
     def AsHash(self):
         '''Return a representation of the object field data as a hash
