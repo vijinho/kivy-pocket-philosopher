@@ -6,9 +6,9 @@ An App which saves, retrieves, edits and displays aphorisms
 '''
 
 import click
-from models import Aphorism
 import json
-from peewee import *
+#from peewee import *
+from models import Aphorism
 
 # setup config passing storage
 class Config(object):
@@ -24,8 +24,6 @@ pass_config = click.make_pass_decorator(Config, ensure=True)
 def cli(config, verbose, logfile):
     config.verbose = verbose
     config.logfile = logfile
-
-    # display some verbose information
     if config.verbose:
         click.secho('Verbose mode: Enabled',
                     fg='white', bold=True, reverse=True, blink=True)
@@ -55,12 +53,12 @@ def cli(config, verbose, logfile):
 def add(config, author, source, aphorism, hashtags):
     '''Add an aphorism.'''
     try:
-        aphorism = Aphorism(
+        a = Aphorism(
             author=author,
             source=source,
             aphorism=aphorism,
             hashtags=hashtags)
-        aphorism.save()
+        a.save()
     except Exception:
         click.echo(click.style('Failed saving the aphorism!',fg='red'),
                    file=config.logfile)
@@ -78,17 +76,16 @@ def add(config, author, source, aphorism, hashtags):
 def show(config, id):
     '''Show an aphorism by ID for display.'''
     try:
-        aphorism = Aphorism.select().where(Aphorism.id==id).get()
+        a = Aphorism.select().where(Aphorism.id==id).get()
     except Exception as e:
         click.echo(click.style("Exception: %s" % e, fg='yellow', style='bold'),
                    file=config.logfile)
         click.echo(click.style('Failed get the aphorism!', fg='red'),
-                           file=config.logfile)
+                   file=config.logfile)
     else:
-        click.clear()
-        click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
-        click.secho(' -- %s' % aphorism.author, fg='green')
-        click.secho('(%s)' % aphorism.source, fg='yellow')
+        click.secho('"%s"' % a.aphorism, fg='white',bold=True)
+        click.secho(' -- %s' % a.author, fg='green')
+        click.secho('(%s)' % a.source, fg='yellow')
 
 
 @cli.command()
@@ -106,17 +103,19 @@ def get(config, id, output_format):
     '''Get an aphorism by ID.'''
     if output_format == 'json':
         try:
-            aphorism = Aphorism.select().where(Aphorism.id==id).get()
+            a = Aphorism.select().where(Aphorism.id==id).get()
         except Exception as e:
             click.echo(click.style("Exception: %s" % e, fg='yellow', style='bold'),
                        file=config.logfile)
             click.echo(click.style('Failed get the aphorism!', fg='red'),
-                               file=config.logfile)
+                       file=config.logfile)
         else:
-            data = {'author': aphorism.author,
-                    'source': aphorism.source,
-                    'aphorism': aphorism.aphorism,
-                    'hashtags': aphorism.hashtags}
+            data = {
+                'author': a.author,
+                'source': a.source,
+                'aphorism': a.aphorism,
+                'hashtags': a.hashtags
+            }
             click.echo(json.dumps(data))
     else:
         click.echo(click.style("Output format '%s' not yet implemented." %
@@ -133,10 +132,10 @@ def get(config, id, output_format):
 def remove(config, id):
     '''Remove an aphorism by ID.'''
     try:
-        aphorism = Aphorism.select().where(Aphorism.id==id).get()
-        click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
-        click.secho(' -- %s' % aphorism.author, fg='green')
-        click.secho('(%s)' % aphorism.source, fg='yellow')
+        a = Aphorism.select().where(Aphorism.id==id).get()
+        click.secho('"%s"' % a.aphorism, fg='white',bold=True)
+        click.secho(' -- %s' % a.author, fg='green')
+        click.secho('(%s)' % a.source, fg='yellow')
         click.echo('Are you sure you want to delete this? [yn] ', nl=False)
         c = click.getchar()
         click.echo()
@@ -158,11 +157,11 @@ def remove(config, id):
 @pass_config
 def random(config):
     '''Get a random aphorism.'''
-    for aphorism in  Aphorism.select().order_by(fn.Random()).limit(1):
-        click.secho('id:%d' % aphorism.id, fg='white')
-        click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
-        click.secho(' -- %s' % aphorism.author, fg='green')
-        click.secho("(%s)\n" % aphorism.source, fg='yellow')
+    for a in Aphorism.select().order_by(fn.Random()).limit(1):
+        click.secho('id:%d' % a.id, fg='white')
+        click.secho('"%s"' % a.aphorism, fg='white',bold=True)
+        click.secho(' -- %s' % a.author, fg='green')
+        click.secho("(%s)\n" % a.source, fg='yellow')
 
 @cli.command()
 @click.option('-sf', '--source-file',
@@ -190,14 +189,13 @@ def insert(config, source_file, input_format):
                 Aphorism.insert_many(json_data).execute()
             except Exception:
                 click.echo(click.style('Unable to insert the data',
-                            fg='red'), file=config.logfile)
+                           fg='red'), file=config.logfile)
             else:
                 click.echo(click.style('Inserted the data successfully.',
-                                       fg='green'), file=config.logfile)
+                           fg='green'), file=config.logfile)
     else:
         click.echo(click.style("Insert format '%s' not yet implemented." %
-                               input_format, fg='red'),
-                   file=config.logfile)
+                               input_format, fg='red'), file=config.logfile)
 
 
 @cli.command()
@@ -211,30 +209,28 @@ def dump(config, output_format):
     '''Dump all aphorisms to a file.'''
     data = {}
     if output_format == 'json':
-        for aphorism in Aphorism.select().order_by(Aphorism.author,
+        for a in Aphorism.select().order_by(Aphorism.author,
                                                    Aphorism.source):
             data[aphorism.id] = {'author': aphorism.author,
-                    'source': aphorism.source,
-                    'aphorism': aphorism.aphorism,
-                    'hashtags': aphorism.hashtags}
+                    'source': a.source,
+                    'aphorism': a.aphorism,
+                    'hashtags': a.hashtags}
         click.echo(json.dumps(data))
     else:
         click.echo(click.style("Dump format '%s' not yet implemented." %
-                               output_format, fg='red'),
-                   file=config.logfile)
+                               output_format, fg='red'), file=config.logfile)
 
 
 @cli.command()
 @pass_config
 def list(config):
     '''Show all aphorisms.'''
-    click.clear()
-    for aphorism in Aphorism.select().order_by(Aphorism.author,
+    for a in Aphorism.select().order_by(Aphorism.author,
                                                Aphorism.source):
-        click.secho('id:%d' % aphorism.id, fg='white')
-        click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
-        click.secho(' -- %s' % aphorism.author, fg='green')
-        click.secho("(%s)\n" % aphorism.source, fg='yellow')
+        click.secho('id:%d' % a.id, fg='white')
+        click.secho('"%s"' % a.aphorism, fg='white',bold=True)
+        click.secho(' -- %s' % a.author, fg='green')
+        click.secho("(%s)\n" % a.source, fg='yellow')
 
 
 @cli.command()
@@ -245,12 +241,12 @@ def list(config):
 @pass_config
 def search(config, hashtag):
     '''Search for an aphorism by tag.'''
-    for aphorism in Aphorism.select().where(
+    for a in Aphorism.select().where(
             Aphorism.hashtags ** hashtag).order_by(Aphorism.author, Aphorism.source):
-        click.secho('id:%d' % aphorism.id, fg='white')
-        click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
-        click.secho(' -- %s' % aphorism.author, fg='green')
-        click.secho("(%s)\n" % aphorism.source, fg='yellow')
+        click.secho('id:%d' % a.id, fg='white')
+        click.secho('"%s"' % a.aphorism, fg='white',bold=True)
+        click.secho(' -- %s' % a.author, fg='green')
+        click.secho("(%s)\n" % a.source, fg='yellow')
 
 if __name__ == '__main__':
     cli()
