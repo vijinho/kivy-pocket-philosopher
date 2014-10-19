@@ -78,7 +78,7 @@ def show(config, id):
     try:
         a = Aphorism.select().where(Aphorism.id==id).get()
     except Exception as e:
-        click.echo(click.style("Exception: %s" % e, fg='yellow', style='bold'),
+        click.echo(click.style("Exception: %s" % e, fg='yellow'),
                    file=config.logfile)
         click.echo(click.style('Failed get the aphorism!', fg='red'),
                    file=config.logfile)
@@ -105,7 +105,7 @@ def get(config, id, output_format):
         try:
             a = Aphorism.select().where(Aphorism.id==id).get()
         except Exception as e:
-            click.echo(click.style("Exception: %s" % e, fg='yellow', style='bold'),
+            click.echo(click.style("Exception: %s" % e, fg='yellow'),
                        file=config.logfile)
             click.echo(click.style('Failed get the aphorism!', fg='red'),
                        file=config.logfile)
