@@ -140,14 +140,14 @@ def remove(config, id):
         c = click.getchar()
         click.echo()
         if c == 'y':
-            aphorism.delete_instance()
+            a.delete_instance()
         else:
             raise Exception("Delete cancelled!")
     except Exception as e:
         click.echo(click.style("Exception: %s" % e, fg='yellow'),
                    file=config.logfile)
         click.echo(click.style('Failed delete the aphorism!',fg='red'),
-                           file=config.logfile)
+                   file=config.logfile)
     else:
         click.echo(click.style('Deleted the aphorism.',fg='green'),
                    file=config.logfile)
