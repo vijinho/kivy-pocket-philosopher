@@ -7,7 +7,7 @@ An App which saves, retrieves, edits and displays aphorisms
 
 import click
 import json
-#from peewee import *
+from peewee import fn
 from models import Aphorism
 
 # setup config passing storage
