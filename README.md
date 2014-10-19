@@ -56,6 +56,10 @@ Commands:
 ### Searching by hashtag text
 * `aforgizmo search -t '%blah%'` where blah is the tag text you are searching
  for
+
+## Running the Kivy App
+ * On Mac OS X: `kivy main.py` - On other platforms it may 'just work' with
+  `python main.py`
  
 ## See Also
  * https://github.com/jcalazan/random-quotes - A similar Kivy App 
