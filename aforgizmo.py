@@ -76,7 +76,7 @@ def add(config, author, source, aphorism, hashtags):
 def show(config, id):
     '''Show an aphorism by ID for display.'''
     try:
-        a = Aphorism.select().where(Aphorism.id==id).get()
+        a = Aphorism.get(Aphorism.id == id)
     except Exception as e:
         click.echo(click.style("Exception: %s" % e, fg='yellow'),
                    file=config.logfile)
@@ -103,7 +103,7 @@ def get(config, id, output_format):
     '''Get an aphorism by ID.'''
     if output_format == 'json':
         try:
-            a = Aphorism.select().where(Aphorism.id==id).get()
+            a = Aphorism.get(Aphorism.id == id)
         except Exception as e:
             click.echo(click.style("Exception: %s" % e, fg='yellow'),
                        file=config.logfile)
@@ -125,7 +125,7 @@ def get(config, id, output_format):
 def remove(config, id):
     '''Remove an aphorism by ID.'''
     try:
-        a = Aphorism.select().where(Aphorism.id==id).get()
+        a = Aphorism.get(Aphorism.id == id)
         click.secho('"%s"' % a.aphorism, fg='white',bold=True)
         click.secho(' -- %s' % a.author, fg='green')
         click.secho('(%s)' % a.source, fg='yellow')
