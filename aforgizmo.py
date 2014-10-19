@@ -8,7 +8,7 @@ An App which saves, retrieves, edits and displays aphorisms
 import click
 import os
 import pwd
-import models
+from models import Aphorism
 import json
 from peewee import *
 
@@ -58,7 +58,7 @@ def cli(config, verbose, logfile):
 def add(config, author, source, aphorism, hashtags):
     '''Add an aphorism.'''
     try:
-        aphorism = models.Aphorism(
+        aphorism = Aphorism(
             author=author,
             source=source,
             aphorism=aphorism,
@@ -81,7 +81,7 @@ def add(config, author, source, aphorism, hashtags):
 def show(config, id):
     '''Show an aphorism by ID for display.'''
     try:
-        aphorism = models.Aphorism.select().where(models.Aphorism.id==id).get()
+        aphorism = Aphorism.select().where(Aphorism.id==id).get()
     except Exception as e:
         click.echo(click.style("Exception: %s" % e, fg='yellow', style='bold'),
                    file=config.logfile)
@@ -109,7 +109,7 @@ def get(config, id, output_format):
     '''Get an aphorism by ID.'''
     if output_format == 'json':
         try:
-            aphorism = models.Aphorism.select().where(models.Aphorism.id==id).get()
+            aphorism = Aphorism.select().where(Aphorism.id==id).get()
         except Exception as e:
             click.echo(click.style("Exception: %s" % e, fg='yellow', style='bold'),
                        file=config.logfile)
@@ -136,7 +136,7 @@ def get(config, id, output_format):
 def remove(config, id):
     '''Remove an aphorism by ID.'''
     try:
-        aphorism = models.Aphorism.select().where(models.Aphorism.id==id).get()
+        aphorism = Aphorism.select().where(Aphorism.id==id).get()
         click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
         click.secho(' -- %s' % aphorism.author, fg='green')
         click.secho('(%s)' % aphorism.source, fg='yellow')
@@ -161,7 +161,7 @@ def remove(config, id):
 @pass_config
 def random(config):
     '''Get a random aphorism.'''
-    for aphorism in  models.Aphorism.select().order_by(fn.Random()).limit(1):
+    for aphorism in  Aphorism.select().order_by(fn.Random()).limit(1):
         click.secho('id:%d' % aphorism.id, fg='white')
         click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
         click.secho(' -- %s' % aphorism.author, fg='green')
@@ -190,7 +190,7 @@ def insert(config, source_file, input_format):
                        file=config.logfile)
         else:
             try:
-                models.Aphorism.insert_many(json_data).execute()
+                Aphorism.insert_many(json_data).execute()
             except Exception:
                 click.echo(click.style('Unable to insert the data',
                             fg='red'), file=config.logfile)
@@ -214,8 +214,8 @@ def dump(config, output_format):
     '''Dump all aphorisms to a file.'''
     data = {}
     if output_format == 'json':
-        for aphorism in models.Aphorism.select().order_by(models.Aphorism.author,
-                                                          models.Aphorism.source):
+        for aphorism in Aphorism.select().order_by(Aphorism.author,
+                                                          Aphorism.source):
             data[aphorism.id] = {'author': aphorism.author,
                     'source': aphorism.source,
                     'aphorism': aphorism.aphorism,
@@ -232,8 +232,8 @@ def dump(config, output_format):
 def list(config):
     '''Show all aphorisms.'''
     click.clear()
-    for aphorism in models.Aphorism.select().order_by(models.Aphorism.author,
-                                                      models.Aphorism.source):
+    for aphorism in Aphorism.select().order_by(Aphorism.author,
+                                                      Aphorism.source):
         click.secho('id:%d' % aphorism.id, fg='white')
         click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
         click.secho(' -- %s' % aphorism.author, fg='green')
@@ -248,10 +248,10 @@ def list(config):
 @pass_config
 def search(config, hashtag):
     '''Search for an aphorism by tag.'''
-    for aphorism in models.Aphorism.select().where(
-            models.Aphorism.hashtags ** hashtag).order_by(
-            models.Aphorism.author,
-                                                      models.Aphorism.source):
+    for aphorism in Aphorism.select().where(
+            Aphorism.hashtags ** hashtag).order_by(
+            Aphorism.author,
+                                                      Aphorism.source):
         click.secho('id:%d' % aphorism.id, fg='white')
         click.secho('"%s"' % aphorism.aphorism, fg='white',bold=True)
         click.secho(' -- %s' % aphorism.author, fg='green')
