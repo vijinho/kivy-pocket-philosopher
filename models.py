@@ -26,10 +26,13 @@ class Aphorism(BaseModel):
     created = DateTimeField(default=datetime.datetime.now)
 
     def AsHash(self):
-        '''Return a representation of the object field data as a hash'''
+        '''Return a representation of the object field data as a hash
+        hack was required to make bulk insert possible by replacing 'T' in
+        isoformat
+        '''
         data = {
             'id': self.id,
-            'created': self.created.isoformat(),
+            'created': self.created.isoformat().replace('T', ' '),
             'author': self.author,
             'source': self.source,
             'aphorism': self.aphorism,
