@@ -174,13 +174,14 @@ def insert(config, source_file, input_format):
         try:
             with open(source_file) as json_file:
                 json_data = json.load(json_file)
+
         except Exception:
             click.echo(click.style('Unable to import the file', fg='red'),
                        file=config.logfile)
         else:
             try:
                 Aphorism.insert_many(json_data).execute()
-            except Exception:
+            except Exception as e:
                 click.echo(click.style('Unable to insert the data',
                            fg='red'), file=config.logfile)
             else:
@@ -200,10 +201,10 @@ def insert(config, source_file, input_format):
 @pass_config
 def dump(config, output_format):
     '''Dump all aphorisms to a file.'''
-    data = {}
+    data = []
     if output_format == 'json':
         for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
-            data[a.id] = a.AsHash()
+            data.append(a.AsHash())
         click.echo(json.dumps(data, indent=4, sort_keys=True))
     else:
         click.echo(click.style("Dump format '%s' not yet implemented." %
