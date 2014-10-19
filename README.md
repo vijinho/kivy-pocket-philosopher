@@ -53,10 +53,6 @@ Commands:
  * `aforgizmo COMMAND --help`
  * `sqlite3 data/aphorisms.db` see http://www.sqlite.org/cli.html
 
-### Searching by hashtag text
-* `aforgizmo search -t '%blah%'` where blah is the tag text you are searching
- for
-
 ## Running the Kivy App
  * On Mac OS X: `kivy main.py` - On other platforms it may 'just work' with
   `python main.py`
