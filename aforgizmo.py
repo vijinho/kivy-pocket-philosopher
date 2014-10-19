@@ -30,25 +30,25 @@ def cli(config, verbose, logfile):
 
 @cli.command()
 @click.option('-a', '--author',
-              prompt='Who are you quoting?',
-              help='The author of the aphorism.',
-              default='Anonymous',
-              required=True)
+              prompt = 'Who are you quoting?',
+              help = 'The author of the aphorism.',
+              default = 'Anonymous',
+              required = True)
 @click.option('-s', '--source',
-              prompt='Where did you source the text?',
-              help='The source of the aphorism text.',
-              default='Unknown',
-              required=False)
+              prompt = 'Where did you source the text?',
+              help = 'The source of the aphorism text.',
+              default = 'Unknown',
+              required = False)
 @click.option('-text', '--aphorism',
-              prompt='Write the aphorism',
-              help='The text of the aphorism itself.',
-              required=True)
+              prompt = 'Write the aphorism',
+              help = 'The text of the aphorism itself.',
+              required = True)
 @click.option('-t', '--hashtags',
-              prompt='Hashtags',
-              help='Hashtags for the aphorism, space or comma separated, '
+              prompt = 'Hashtags',
+              help = 'Hashtags for the aphorism, space or comma separated, '
                    '# symbol optional',
-              default='none',
-              required=False)
+              default = 'none',
+              required = False)
 @pass_config
 def add(config, author, source, aphorism, hashtags):
     '''Add an aphorism.'''
