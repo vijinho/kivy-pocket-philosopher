@@ -1,0 +1,30 @@
+#:kivy 1.8.0
+
+<MainWindow>:
+    orientation: "vertical"
+    quote_text: text_input
+    button_previous: btn_previous
+    button_next: btn_next
+    button_random: btn_random
+
+    TextInput:
+        id: text_input
+        size_hint: (1,0.3)
+
+    GridLayout:
+        cols: 3
+
+        Button:
+            id: btn_previous
+            text: "Previous Aphorism"
+            on_press: root.aphorism_button_press('previous')
+
+        Button:
+            id: btn_next
+            text: "Next Aphorism"
+            on_press: root.aphorism_button_press('next')
+
+        Button:
+            id: btn_random
+            text: "Random Aphorism"
+            on_press: root.aphorism_button_press('random')

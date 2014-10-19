@@ -1,0 +1,4 @@
+title=Aforgizmo Aphorisms
+author=Vijay Mahrra
+orientation=portrait
+
