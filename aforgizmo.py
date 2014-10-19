@@ -51,7 +51,7 @@ def cli(config, verbose, logfile):
               required = False)
 @pass_config
 def add(config, author, source, aphorism, hashtags):
-    '''Add an aphorism.'''
+    """Add an aphorism."""
     try:
         a = Aphorism(
             author   = author,
@@ -76,7 +76,7 @@ def add(config, author, source, aphorism, hashtags):
               required = True)
 @pass_config
 def show(config, id):
-    '''Show an aphorism by ID for display.'''
+    """Show an aphorism by ID for display."""
     try:
         a = Aphorism.get(Aphorism.id == id)
     except Exception as e:
@@ -103,7 +103,7 @@ def show(config, id):
               help     = 'The output format of the data.')
 @pass_config
 def get(config, id, output_format):
-    '''Get an aphorism by ID.'''
+    """Get an aphorism by ID."""
     if output_format == 'json':
         try:
             a = Aphorism.get(Aphorism.id == id)
@@ -127,7 +127,7 @@ def get(config, id, output_format):
               required = True)
 @pass_config
 def remove(config, id):
-    '''Remove an aphorism by ID.'''
+    """Remove an aphorism by ID."""
     try:
         a = Aphorism.get(Aphorism.id == id)
         click.secho('"%s"'   % a.aphorism, fg = 'white', bold = True)
@@ -153,7 +153,7 @@ def remove(config, id):
 @cli.command()
 @pass_config
 def random(config):
-    '''Get a random aphorism.'''
+    """Get a random aphorism."""
     for a in Aphorism.select().order_by(fn.Random()).limit(1):
         click.secho('id:%d'  % a.id, fg = 'white')
         click.secho('"%s"'   % a.aphorism, fg = 'white', bold = True)
@@ -173,7 +173,7 @@ def random(config):
               help    = 'The input format of the source file.')
 @pass_config
 def insert(config, source_file, input_format):
-    '''Insert aphorisms by file.'''
+    """Insert aphorisms by file."""
     if input_format == 'json':
         try:
             with open(source_file) as json_file:
@@ -204,7 +204,7 @@ def insert(config, source_file, input_format):
               help    = 'The output format of the data.')
 @pass_config
 def dump(config, output_format):
-    '''Dump all aphorisms to a file.'''
+    """Dump all aphorisms to a file."""
     data = []
     if output_format == 'json':
         for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
@@ -218,7 +218,7 @@ def dump(config, output_format):
 @cli.command()
 @pass_config
 def list(config):
-    '''Show all aphorisms.'''
+    """Show all aphorisms."""
     for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
         click.secho('id:%d'  % a.id,       fg = 'white')
         click.secho('"%s"'   % a.aphorism, fg = 'white', bold = True)
@@ -233,7 +233,7 @@ def list(config):
               required = True)
 @pass_config
 def search(config, hashtag):
-    '''Search for an aphorism by tag.'''
+    """Search for an aphorism by tag."""
     hashtag = '%%{0}%%'.format(hashtag)
     for a in Aphorism.select().where(
             Aphorism.hashtags ** hashtag).order_by(Aphorism.author, Aphorism.source):
