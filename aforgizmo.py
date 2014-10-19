@@ -31,11 +31,11 @@ def cli(config, verbose, logfile):
 
     # display some verbose information
     if config.verbose:
-        click.echo(click.style('Verbose mode: Enabled',
+        click.secho('Verbose mode: Enabled',
                                fg='white',
                                bold=True,
                                reverse=True,
-                               blink=True))
+                               blink=True)
 
 @cli.command()
 @click.option('-a', '--author',
@@ -198,13 +198,18 @@ def insert(config, source_file, input_format):
 def dump(config, output_format):
     '''Dump all aphorisms to a file.'''
     data = {}
-    for aphorism in models.Aphorism.select().order_by(models.Aphorism.author,
-                                                      models.Aphorism.source):
-        data[aphorism.id] = {'author': aphorism.author,
-                'source': aphorism.source,
-                'aphorism': aphorism.aphorism,
-                'hashtags': aphorism.hashtags}
-    click.echo(json.dumps(data))
+    if output_format == 'json':
+        for aphorism in models.Aphorism.select().order_by(models.Aphorism.author,
+                                                          models.Aphorism.source):
+            data[aphorism.id] = {'author': aphorism.author,
+                    'source': aphorism.source,
+                    'aphorism': aphorism.aphorism,
+                    'hashtags': aphorism.hashtags}
+        click.echo(json.dumps(data))
+    else:
+        click.echo(click.style("Dump format '%s' not yet implemented." %
+                               output_format, fg='red'),
+                   file=config.logfile)
 
 @cli.command()
 @pass_config
