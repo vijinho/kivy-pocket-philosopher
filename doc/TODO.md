@@ -3,7 +3,6 @@
 # Backend
 ## Command-Line
 ### Refactoring `aforgizmo.py`
- * Move database actions into `models.py`
  * Implement import/export for non-JSON formats such as CSV
 
 ## Data
