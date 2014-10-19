@@ -39,7 +39,7 @@ class Aphorism(BaseModel):
 
     def ToJSON(self):
         '''Return a representation of the object field data as JSON'''
-        return json.dumps(self.AsHash())
+        return json.dumps(self.AsHash(), indent=4, sort_keys=True)
 
 def CreateTables():
     '''Create database tables for Aphorisms in SQLite'''

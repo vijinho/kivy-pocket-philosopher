@@ -204,7 +204,7 @@ def dump(config, output_format):
     if output_format == 'json':
         for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
             data[a.id] = a.AsHash()
-        click.echo(json.dumps(data))
+        click.echo(json.dumps(data, indent=4, sort_keys=True))
     else:
         click.echo(click.style("Dump format '%s' not yet implemented." %
                                output_format, fg='red'), file=config.logfile)
