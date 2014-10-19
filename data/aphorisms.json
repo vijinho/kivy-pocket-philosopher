@@ -4,15 +4,79 @@
         "author": "@vijinho", 
         "created": "2014-10-19 22:12:58.708304", 
         "hashtags": "#coffee #milk", 
-        "id": 1, 
+        "id": 9, 
         "source": "https://twitter.com/vijinh0/status/522294028604547072"
+    }, 
+    {
+        "aphorism": "The important thing is to not stop questioning.", 
+        "author": "Albert Einstein", 
+        "created": "2014-10-19 22:16:17.334724", 
+        "hashtags": "#einstein", 
+        "id": 1, 
+        "source": "Unknown"
+    }, 
+    {
+        "aphorism": "We are what we repeatedly do. Excellence, then, is not an act but a habit.", 
+        "author": "Aristotle", 
+        "created": "2014-10-19 22:17:52.109175", 
+        "hashtags": "#aristotle #philosophy #excellence #habit", 
+        "id": 3, 
+        "source": "Unknown"
+    }, 
+    {
+        "aphorism": "Two-thirds of what we see is behind our eyes.", 
+        "author": "Chinese Proverb", 
+        "created": "2014-10-19 22:17:03.750464", 
+        "hashtags": "#chinese #proverb", 
+        "id": 2, 
+        "source": "Unknown"
+    }, 
+    {
+        "aphorism": "Narcissim, like selfishness, is an overcompensation for the basic lack of self-love.", 
+        "author": "Erich Fromm", 
+        "created": "2014-10-19 22:19:52.098806", 
+        "hashtags": "#erich #fromm #erichfromm #narcissim #selfishness #love #selflove", 
+        "id": 5, 
+        "source": "Escape from Freedom, 1941"
+    }, 
+    {
+        "aphorism": "We have art to save ourselves from the truth.", 
+        "author": "Friedrich Nietzsche", 
+        "created": "2014-10-19 22:18:54.113867", 
+        "hashtags": "#nietzsche #philosophy #art #truth", 
+        "id": 4, 
+        "source": "Unknown"
+    }, 
+    {
+        "aphorism": "I shall not waste my days in trying to prolong them.", 
+        "author": "Ian L. Fleming", 
+        "created": "2014-10-19 22:27:40.100105", 
+        "hashtags": "#ianfleming #fleming #life", 
+        "id": 8, 
+        "source": "Unknown"
+    }, 
+    {
+        "aphorism": "Never interrupt your enemy when he is making a mistake.", 
+        "author": "Napoleon Bonaparte", 
+        "created": "2014-10-19 22:26:15.551887", 
+        "hashtags": "#napoleon #enemy #mistake", 
+        "id": 7, 
+        "source": "Unknown"
+    }, 
+    {
+        "aphorism": "The only difference between me and a madman is that I'm not mad.", 
+        "author": "Salvador Dali", 
+        "created": "2014-10-19 22:25:33.839158", 
+        "hashtags": "#SalvadorDali #Dali #madness #art", 
+        "id": 6, 
+        "source": "Unknown"
     }, 
     {
         "aphorism": "In the distant future humanity evolved to such an extent that religion was diagnosed as a dangerous yet treatable mental illness.", 
         "author": "Vijay Mahrra", 
         "created": "2014-10-19 22:12:58.708373", 
         "hashtags": "#humanity #religion #philosophy", 
-        "id": 2, 
+        "id": 10, 
         "source": "Facebook Status Update"
     }, 
     {
@@ -20,7 +84,7 @@
         "author": "Vijay Mahrra", 
         "created": "2014-10-19 22:12:58.708406", 
         "hashtags": "#time #life #philosophy", 
-        "id": 3, 
+        "id": 11, 
         "source": "twitter:@vijinho"
     }
 ]
