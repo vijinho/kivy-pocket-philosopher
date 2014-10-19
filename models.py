@@ -8,6 +8,7 @@ Models to handle aphorism data
 from peewee import *
 import click
 import datetime
+import json
 
 database = SqliteDatabase('data/aphorisms.db')
 
@@ -23,6 +24,22 @@ class Aphorism(BaseModel):
     aphorism = TextField()
     hashtags = TextField()
     created = DateTimeField(default=datetime.datetime.now)
+
+    def AsHash(self):
+        '''Return a representation of the object field data as a hash'''
+        data = {
+            'id': self.id,
+            'created': self.created.isoformat(),
+            'author': self.author,
+            'source': self.source,
+            'aphorism': self.aphorism,
+            'hashtags': self.hashtags
+        }
+        return data
+
+    def ToJSON(self):
+        '''Return a representation of the object field data as JSON'''
+        return json.dumps(self.AsHash())
 
 def CreateTables():
     '''Create database tables for Aphorisms in SQLite'''

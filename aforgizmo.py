@@ -110,17 +110,10 @@ def get(config, id, output_format):
             click.echo(click.style('Failed get the aphorism!', fg='red'),
                        file=config.logfile)
         else:
-            data = {
-                'author': a.author,
-                'source': a.source,
-                'aphorism': a.aphorism,
-                'hashtags': a.hashtags
-            }
-            click.echo(json.dumps(data))
+            click.echo(a.ToJSON())
     else:
         click.echo(click.style("Output format '%s' not yet implemented." %
-                               output_format, fg='red'),
-                   file=config.logfile)
+                               output_format, fg='red'), file=config.logfile)
 
 
 @cli.command()
@@ -210,10 +203,7 @@ def dump(config, output_format):
     data = {}
     if output_format == 'json':
         for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
-            data[a.id] = {'author': a.author,
-                    'source': a.source,
-                    'aphorism': a.aphorism,
-                    'hashtags': a.hashtags}
+            data[a.id] = a.AsHash()
         click.echo(json.dumps(data))
     else:
         click.echo(click.style("Dump format '%s' not yet implemented." %
