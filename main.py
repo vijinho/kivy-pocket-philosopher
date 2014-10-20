@@ -53,6 +53,7 @@ class MainWindow(BoxLayout):
     backgrounds = ListProperty([])
     background_image = ObjectProperty()
     button_random = ObjectProperty()
+    button_settings = ObjectProperty()
     quote_text    = ObjectProperty()
     quote_format  = ObjectProperty()
     quote_font    = ObjectProperty()
@@ -105,18 +106,14 @@ class MainWindow(BoxLayout):
 
 
     def button_random_press(self, *args):
-        action = args[0]
-        if action == 'random':
-            self.background_image.source = self.get_rnd_bg_image()
-            for a in models.Aphorism.select().order_by(fn.Random()).limit(1):
-                self.quote_text.text = self.quote_format.format(
-                                            aphorism = a.aphorism,
-                                            author = a.author,
-                                            author_font = self.author_font,
-                                            author_size = int(self.ids.label_text.font_size * 0.75),
-                                            quote_font = self.quote_font)
-        else:
-            pass
+        self.background_image.source = self.get_rnd_bg_image()
+        for a in models.Aphorism.select().order_by(fn.Random()).limit(1):
+            self.quote_text.text = self.quote_format.format(
+                                        aphorism = a.aphorism,
+                                        author = a.author,
+                                        author_font = self.author_font,
+                                        author_size = int(self.ids.label_text.font_size * 0.75),
+                                        quote_font = self.quote_font)
 
 
 class MainApp(App):

@@ -8,6 +8,7 @@
     quote_format: ''
     quote_text: label_text
     button_random: btn_random
+    button_settings: btn_settings
     background_image: bg_image
 
     ScatterLayout:
@@ -16,7 +17,7 @@
             id: bg_image
         Label:
             id: label_text
-            font_size: self.parent.height / 15
+            font_size: self.parent.height / 20
             markup: True
             text_size: self.size
             text: 'Press the Button!'
@@ -26,8 +27,10 @@
         Button:
             id: btn_random
             on_press: root.button_random_press('random')
-            font_size: self.parent.height / 3
+            font_size: self.parent.height / 3.5
             text: "Random Aphorism"
         Button:
-            text: "Settings"
+            id: btn_settings
             on_press: app.open_settings()
+            font_size: self.parent.height / 3.5
+            text: "Settings"
