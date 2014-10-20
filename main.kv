@@ -2,8 +2,7 @@
 
 <MainWindow>:
     orientation: "vertical"
-    font_name: ''
-    button_font: ''
+    font_path: ''
     author_font: ''
     quote_font:  ''
     quote_format: ''
@@ -28,6 +27,5 @@
             id: btn_random
             on_press: root.button_random_press('random')
             font_size: self.parent.height / 3
-            font_name: root.button_font
             text: "Random Aphorism"
 

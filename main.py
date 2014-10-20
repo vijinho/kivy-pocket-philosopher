@@ -54,8 +54,7 @@ class MainWindow(BoxLayout):
     quote_text    = ObjectProperty()
     quote_format  = ObjectProperty()
 
-    font_name    = ObjectProperty()
-    button_font   = ObjectProperty()
+    font_path    = ObjectProperty()
     quote_font    = ObjectProperty()
     author_font   = ObjectProperty()
 
@@ -77,11 +76,12 @@ class MainWindow(BoxLayout):
         config = self.app.config
 
         # set default values from main.ini file
-        self.font_name = config.get('fonts', 'font_name')
-        self.button_font = config.get('fonts', 'button_font')
-        self.quote_font = config.get('fonts', 'quote_font')
-        self.author_font = config.get('fonts', 'author_font')
         self.quote_format = config.get('display', 'quote_format')
+
+        self.font_path = config.get('fonts', 'font_path')
+        fp = self.font_path + '/';
+        self.quote_font = fp + config.get('fonts', 'quote_font')
+        self.author_font = fp + config.get('fonts', 'author_font')
 
         # set up initial aphorism background images
         self.backgrounds.append(self.get_bg_images())
@@ -136,15 +136,31 @@ class MainApp(App):
 
     def build_config(self, config):
         config.setdefaults('fonts', {
-            'font_name': 'assets/fonts/ubuntu/Ubuntu-M.ttf',
-            'button_font': 'assets/fonts/ubuntu/Ubuntu-M.ttf',
-            'quote_font': 'assets/fonts/ubuntu/Ubuntu-B.ttf',
-            'author_font': 'assets/fonts/ubuntu/Ubuntu-LI.ttf'
+            'font_path': 'assets/fonts/ubuntu',
+            'quote_font': 'Ubuntu-B.ttf',
+            'author_font': 'Ubuntu-LI.ttf'
         })
         config.setdefaults('display', {
             'quote_format': '"[color=#fff][b][font={quote_font}]{aphorism}[/font][/b][/color]"\n  [size={author_size}][color=#ddd][i][font={author_font}]  -- {author}[/font][/i][/color][/size]',
             'bg_images_folder': 'assets/img/bg'
         })
+
+    def build_settings(self, settings):
+        jsondata = """[
+            {
+                "type": "title",
+                "title": "Display Settings"
+            },
+            {
+                "type": "path",
+                "title": "Background Image Folder",
+                "desc": "The folder used for to get the background images.",
+                "section": "display",
+                "key": "bg_images_folder"
+            }
+            ]"""
+        settings.add_json_panel('Aforgizmo Aphorisms Settings',
+            self.config, data=jsondata)
 
 if __name__ == '__main__':
     MainApp().run()
