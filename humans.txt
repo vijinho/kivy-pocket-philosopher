@@ -10,3 +10,4 @@
 # TECHNOLOGY COLOPHON
     Python, Kivy
     SQLite, Peewee ORM
+    Travis
