@@ -88,6 +88,7 @@ class MainWindow(BoxLayout):
         Get a the list of background images
         :return: list of the background images
         """
+        self.backgrounds = []
         for root, dirs, files in os.walk(self.app.config.get('display', 'bg_images_folder')):
             for file in files:
                 if file.endswith('.jpg'):
@@ -168,8 +169,7 @@ class MainApp(App):
         if config is self.config:
             token = (section, key)
             if token == ('display', 'bg_images_folder'):
-                images = self.MainWindow.get_bg_images()
-                self.MainWindow.backgrounds.item_strings = images
+                self.MainWindow.get_bg_images()
 
 if __name__ == '__main__':
     MainApp().run()
