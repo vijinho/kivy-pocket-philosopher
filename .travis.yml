@@ -7,10 +7,10 @@ before_install:
     - sudo apt-get install python-kivy
     - sudo apt-get install kivy-example
 install:
-    - pip install click
-    - pip install peewee
     - pip install pip
     - pip install setuptools
     - pip install wsgiref
+    - pip install -r requirements.txt
 virtualenv:
     system_site_packages: true
+script: nosetests
