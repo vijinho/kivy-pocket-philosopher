@@ -15,6 +15,7 @@ from kivy.config import Config
 from kivy.utils import platform
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ObjectProperty, ListProperty
 
 from peewee import *
@@ -39,8 +40,7 @@ else:
 
 Config.set('kivy', 'window_icon', 'assets/img/icon.png')
 
-
-class MainWindow(BoxLayout):
+class MainScreen(BoxLayout):
     '''Main UI Widget
     .. versionadded:: 1.0
     .. note:: This new feature will likely blow your mind
@@ -59,7 +59,7 @@ class MainWindow(BoxLayout):
         :param kwargs:
         :return:
         """
-        super(MainWindow,self).__init__()
+        super(MainScreen,self).__init__()
 
         # set the app and config for it
         self.app = kwargs.get('app')
@@ -76,6 +76,7 @@ class MainWindow(BoxLayout):
         # set up initial aphorism bg images
         self.bgs.append(self.bg_fetch_all())
         self.ids.bg.source = self.bg_random()
+        self.btn_random()
 
     def bg_fetch_all(self):
         """
@@ -134,8 +135,8 @@ class MainApp(App):
 
     def build(self):
         config = self.config
-        self.MainWindow = MainWindow(app = self)
-        return self.MainWindow
+        self.MainScreen = MainScreen(app = self)
+        return self.MainScreen
 
     def build_config(self, config):
         config.setdefaults('fonts', {
@@ -170,7 +171,7 @@ class MainApp(App):
         if config is self.config:
             token = (section, key)
             if token == ('display', 'bg_images_folder'):
-                self.MainWindow.bg_fetch_all()
+                self.MainScreen.bg_fetch_all()
 
     def on_start(self):
         """
