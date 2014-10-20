@@ -11,6 +11,7 @@ kivy.require('1.8.0')
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
+from kivy.core.window import Window
 
 from peewee import *
 import models
@@ -47,7 +48,7 @@ class MainApp(App):
     '''Main Program
     '''
     title = 'Aforgizmo Aphorisms'
-    #icon = 'custom-kivy-icon.png'
+    icon = 'assets/img/icon.png'
 
     def __init__(self):
         App.__init__(self)
