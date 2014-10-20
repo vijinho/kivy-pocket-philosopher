@@ -10,10 +10,8 @@ This app is written in Python using the Kivy library for cross-platform support 
 ## Setup
  * `$ pip install --editable .`
  * `python models.py` - setup database `data/aphorisms.db`
- * insert example aphorisms with `aforgizmo insert` then hit the RETURN/ENTER 
- key twice
  
-### Manual Database Setup
+### (Alternative) Manual Database Setup
 ```
 CREATE TABLE "aphorism" (
     "id" INTEGER NOT NULL PRIMARY KEY, 
@@ -24,6 +22,9 @@ CREATE TABLE "aphorism" (
     "created" DATETIME NOT NULL
 );
 ```
+
+ * Insert the example aphorisms from `data/aphorisms.json` with `aforgizmo insert` then hit the RETURN/ENTER 
+ key twice
  
 ## Command Line Usage
 Type `aforgizmo` or failing that:
@@ -60,6 +61,7 @@ Commands:
 ## See Also
  * https://travis-ci.org/vijinho/aforgizmo - Travis Build Test
  * https://github.com/jcalazan/random-quotes - A similar Kivy App 
+ 
 -- 
 (c) Copyright 2014 Vijay Mahrra 
 http://about.me/vijay.mahrra
