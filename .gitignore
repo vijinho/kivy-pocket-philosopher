@@ -60,6 +60,12 @@ target/
 *.tmp
 *.bak
 *.old
+*.swo
+*.swn
+*.un~
+bin/
+.buildozer
+*.ini
 
 # PyDev
 .project
