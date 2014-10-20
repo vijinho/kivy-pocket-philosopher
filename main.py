@@ -15,11 +15,11 @@ from kivy.properties import ObjectProperty
 from peewee import *
 import models
 
-class ScatterTextWidget(BoxLayout):
-    pass
-
 class MainWindow(BoxLayout):
     '''Main UI Widget
+    .. versionadded:: 1.0
+    .. note:: This new feature will likely blow your mind
+    .. warning:: Please take a seat before trying this feature
     '''
     quote_text = ObjectProperty()
 

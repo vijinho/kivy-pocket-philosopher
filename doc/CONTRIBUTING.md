@@ -10,8 +10,8 @@ them to do. If you have something that you would like to tell me, please don't
 hesitate. Screenshots and videos are also very welcome!
 I'm also interested in the problems you had when getting started. Please
 feel encouraged to report any obstacles you encountered such as missing
-documentation, misleading directions or similar.
-We are perfectionists, so even if it's just a typo, let me know.
+documentation, misleading directions or similar. Even if it's just a typo, 
+let me know.
 
 ##[Reporting an Issue](http://kivy.org/docs/contribute.html#reporting-an-issue)
 If you found anything wrong, a crash, segfault, missing documentation, invalid
@@ -28,7 +28,7 @@ associated with the change you made, which basically means eternal fame in our
 code history (you can opt-out if you don't want that).
 
 * [Coding style](http://kivy.org/docs/contribute.html#coding-style)
-* [Performances](http://kivy.org/docs/contribute.html#performances)
+* [Performance](http://kivy.org/docs/contribute.html#performance)
 * [Git & GitHub](http://kivy.org/docs/contribute.html#git-github)
 * [Code Workflow](http://kivy.org/docs/contribute.html#code-workflow)
 
