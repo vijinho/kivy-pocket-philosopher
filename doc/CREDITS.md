@@ -14,4 +14,5 @@
  * Travis for basic build tests - https://travis-ci.org
   
 # DESIGN, GRAPHICS, TYPOGRAPHY
- * Ubuntu - http://font.ubuntu.com/
+ * Ubuntu (Font) - http://font.ubuntu.com/
+ * Serif Affinity Designer (App Icon) - https://affinity.serif.com/
