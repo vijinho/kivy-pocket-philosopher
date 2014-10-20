@@ -1,6 +1,6 @@
-##[Contributing](https://github.com/vijinho/aforgizmo)
+#[Contributing](https://github.com/vijinho/aforgizmo)
 
-#Feedback
+##Feedback
 --------
 This is by far the easiest way to contribute something. If you're using
 code from my project for your own project, don't hesitate sharing. It doesn't 
@@ -13,7 +13,7 @@ feel encouraged to report any obstacles you encountered such as missing
 documentation, misleading directions or similar.
 We are perfectionists, so even if it's just a typo, let me know.
 
-#[Reporting an Issue](http://kivy.org/docs/contribute.html#reporting-an-issue)
+##[Reporting an Issue](http://kivy.org/docs/contribute.html#reporting-an-issue)
 If you found anything wrong, a crash, segfault, missing documentation, invalid
 spelling, weird example, please take 2 minutes to report the issue. following
 the guide lines mentioned [here](http://kivy.org/docs/contribute.html#reporting-an-issue)
@@ -38,9 +38,9 @@ contributions, just a bit more lax. I don't ask you to go through all the
 hassle just to correct a single typo. For more complex contributions, please
 consider following the suggested workflow though.
 
-* #[Docstrings](http://kivy.org/docs/contribute.html#docstrings)
+* [Docstrings](http://kivy.org/docs/contribute.html#docstrings)
 
-#Unit tests contributions
+##Unit tests contributions
 Use the same approach as the `Code Workflow` to [submit new tests](http://kivy.org/docs/contribute.html#unit-tests-contributions).
 
 #Credits
