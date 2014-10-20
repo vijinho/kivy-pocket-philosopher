@@ -2,21 +2,13 @@
 
 <MainWindow>:
     orientation: "vertical"
-    font_path: ''
-    author_font: ''
-    quote_font:  ''
-    quote_format: ''
-    quote_text: label_text
-    button_random: btn_random
-    button_settings: btn_settings
-    background_image: bg_image
 
     ScatterLayout:
         auto_bring_to_front: False
         Image:
-            id: bg_image
+            id: bg
         Label:
-            id: label_text
+            id: aphorism
             font_size: self.parent.height / 20
             markup: True
             text_size: self.size
@@ -26,7 +18,7 @@
         size_hint_y: 0.1
         Button:
             id: btn_random
-            on_press: root.button_random_press('random')
+            on_press: root.btn_random()
             font_size: self.parent.height / 3.5
             text: "Random Aphorism"
         Button:

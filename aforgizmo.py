@@ -67,7 +67,6 @@ def add(config, author, source, aphorism, hashtags):
                    fg = 'green'),
                    file = config.logfile)
 
-
 @cli.command()
 @click.option('-id',
               type     = int,
@@ -88,7 +87,6 @@ def show(config, id):
         click.secho('"%s"' % a.aphorism, fg = 'white', bold = True)
         click.secho(' -- %s' % a.author, fg = 'green')
         click.secho('(%s)'   % a.source, fg = 'yellow')
-
 
 @cli.command()
 @click.option('-id',
@@ -117,7 +115,6 @@ def get(config, id, output_format):
     else:
         click.echo(click.style("Output format '%s' not yet implemented." %
                                output_format, fg = 'red'), file = config.logfile)
-
 
 @cli.command()
 @click.option('-id',
@@ -148,7 +145,6 @@ def remove(config, id):
     else:
         click.echo(click.style('Deleted the aphorism.',fg = 'green'),
                    file = config.logfile)
-
 
 @cli.command()
 @pass_config
@@ -195,7 +191,6 @@ def insert(config, source_file, input_format):
         click.echo(click.style("Insert format '%s' not yet implemented." %
                                input_format, fg = 'red'), file = config.logfile)
 
-
 @cli.command()
 @click.option('-of', '--output-format',
               type    = click.Choice(['text', 'json', 'csv', 'html']),
@@ -214,7 +209,6 @@ def dump(config, output_format):
         click.echo(click.style("Dump format '%s' not yet implemented." %
                                output_format, fg = 'red'), file = config.logfile)
 
-
 @cli.command()
 @pass_config
 def list(config):
@@ -224,7 +218,6 @@ def list(config):
         click.secho('"%s"'   % a.aphorism, fg = 'white', bold = True)
         click.secho(' -- %s' % a.author,   fg = 'green')
         click.secho("(%s)\n" % a.source,   fg = 'yellow')
-
 
 @cli.command()
 @click.option('-t', '--hashtag',

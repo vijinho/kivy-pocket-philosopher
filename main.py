@@ -6,7 +6,6 @@ An App which saves, retrieves, edits and displays aphorisms
 
 This app is written in Python using the Kivy library for cross-platform support (Android, IOS, Windows, Linux, Mac OSX).  See http://kivy.org/docs/guide/packaging.html for instructions on packaging the application for the different platforms.
 '''
-import glob
 import os
 import random
 
@@ -14,13 +13,12 @@ import kivy
 kivy.require('1.8.0')
 from kivy.config import Config
 from kivy.utils import platform
-from kivy.core.window import Window
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty, ListProperty
 
 from peewee import *
-import models
+from models import Aphorism
 
 def is_desktop():
     """
@@ -39,8 +37,8 @@ if is_desktop():
 else:
     Config.set('graphics', 'fullscreen', True)
 
-# replace default pygame icon
 Config.set('kivy', 'window_icon', 'assets/img/icon.png')
+
 
 class MainWindow(BoxLayout):
     '''Main UI Widget
@@ -48,20 +46,16 @@ class MainWindow(BoxLayout):
     .. note:: This new feature will likely blow your mind
     .. warning:: Please take a seat before trying this feature
     '''
-    app = ObjectProperty(None)
+    app          = ObjectProperty(None)
     font_path    = ObjectProperty()
-    backgrounds = ListProperty([])
-    background_image = ObjectProperty()
-    button_random = ObjectProperty()
-    button_settings = ObjectProperty()
-    quote_text    = ObjectProperty()
-    quote_format  = ObjectProperty()
-    quote_font    = ObjectProperty()
-    author_font   = ObjectProperty()
+    quote_template = ObjectProperty()
+    quote_font   = ObjectProperty()
+    author_font  = ObjectProperty()
+    bgs          = ListProperty([])
 
     def __init__(self,**kwargs):
         """
-        Initialise app. Load in background images
+        Initialise app. Load in bg images
         :param kwargs:
         :return:
         """
@@ -72,48 +66,60 @@ class MainWindow(BoxLayout):
         config = self.app.config
 
         # set default values from main.ini file
-        self.quote_format = config.get('display', 'quote_format')
+        self.quote_template = config.get('display', 'quote_template')
 
         self.font_path = config.get('fonts', 'font_path')
         fp = self.font_path + '/';
         self.quote_font = fp + config.get('fonts', 'quote_font')
         self.author_font = fp + config.get('fonts', 'author_font')
 
-        # set up initial aphorism background images
-        self.backgrounds.append(self.get_bg_images())
-        self.background_image.source = self.get_rnd_bg_image()
+        # set up initial aphorism bg images
+        self.bgs.append(self.bg_fetch_all())
+        self.ids.bg.source = self.bg_random()
 
-
-    def get_bg_images(self):
+    def bg_fetch_all(self):
         """
-        Get a the list of background images
-        :return: list of the background images
+        Get a the list of bg images
+        :return: list of the bg images
         """
-        self.backgrounds = []
+        self.bgs = []
         for root, dirs, files in os.walk(self.app.config.get('display', 'bg_images_folder')):
             for file in files:
                 if file.endswith('.jpg'):
-                     self.backgrounds.append(os.path.join(root, file))
-        return self.backgrounds
+                     self.bgs.append(os.path.join(root, file))
+        return self.bgs
 
-
-    def get_rnd_bg_image(self):
+    def bg_random(self):
         """
-        Get a random background image
-        :return: path to random background image
+        Get a random bg image
+        :return: path to random bg image
         """
-        return random.choice(self.backgrounds)
+        return random.choice(self.bgs)
 
+    def get_aphorism_formatted(self, Aphorism):
+        """
+        Get the formatted display string for an aphorism quote
+        """
+        a = Aphorism
+        return self.quote_template.format(
+                            aphorism = a.aphorism,
+                            author = a.author,
+                            author_font = self.author_font,
+                            author_size = int(self.ids.aphorism.font_size * 0.75),
+                            quote_font = self.quote_font)
 
-    def button_random_press(self, *args):
-        self.background_image.source = self.get_rnd_bg_image()
-        for a in models.Aphorism.select().order_by(fn.Random()).limit(1):
-            self.quote_text.text = self.quote_format.format(
-                                        aphorism = a.aphorism,
-                                        author = a.author,
-                                        author_font = self.author_font,
-                                        author_size = int(self.ids.label_text.font_size * 0.75),
-                                        quote_font = self.quote_font)
+    def set_aphorism(self, Aphorism):
+        """
+        Set the current aphorism and save the current aphorism data in the class
+        """
+        self.ids.aphorism.text = self.get_aphorism_formatted(Aphorism)
+        self.aphorism = Aphorism
+        return self.aphorism
+
+    def btn_random(self):
+        self.ids.bg.source = self.bg_random()
+        for a in Aphorism.select().order_by(fn.Random()).limit(1):
+            self.set_aphorism(a)
 
 
 class MainApp(App):
@@ -131,7 +137,6 @@ class MainApp(App):
         self.MainWindow = MainWindow(app = self)
         return self.MainWindow
 
-
     def build_config(self, config):
         config.setdefaults('fonts', {
             'font_path': 'assets/fonts/ubuntu',
@@ -139,7 +144,7 @@ class MainApp(App):
             'author_font': 'Ubuntu-LI.ttf'
         })
         config.setdefaults('display', {
-            'quote_format': '"[color=#fff][b][font={quote_font}]{aphorism}[/font][/b][/color]"\n  [size={author_size}][color=#ddd][i][font={author_font}]  -- {author}[/font][/i][/color][/size]',
+            'quote_template': '"[color=#fff][b][font={quote_font}]{aphorism}[/font][/b][/color]"\n  [size={author_size}][color=#ddd][i][font={author_font}]  -- {author}[/font][/i][/color][/size]',
             'bg_images_folder': 'assets/img/bg'
         })
 
@@ -153,7 +158,7 @@ class MainApp(App):
             {
                 "type": "path",
                 "title": "Background Image Folder",
-                "desc": "The folder used for to get the background images.",
+                "desc": "The folder used for to get the bg images.",
                 "section": "display",
                 "key": "bg_images_folder"
             }
@@ -161,13 +166,11 @@ class MainApp(App):
         settings.add_json_panel('Aforgizmo Aphorisms Settings',
                                 self.config, data=jsondata)
 
-
     def on_config_change(self, config, section, key, value):
         if config is self.config:
             token = (section, key)
             if token == ('display', 'bg_images_folder'):
-                self.MainWindow.get_bg_images()
-
+                self.MainWindow.bg_fetch_all()
 
     def on_start(self):
         """
