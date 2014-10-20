@@ -15,35 +15,44 @@ from kivy.properties import ObjectProperty
 from peewee import *
 import models
 
+class ScatterTextWidget(BoxLayout):
+    pass
+
 class MainWindow(BoxLayout):
     '''Main UI Widget
     '''
     quote_text = ObjectProperty()
-    button_previous = ObjectProperty()
-    button_next = ObjectProperty()
-    button_random = ObjectProperty()
 
-    def aphorism_button_press(self, *args):
+    button_random = ObjectProperty()
+    quote_text    = ObjectProperty()
+    quote_format  = ObjectProperty()
+    quote_font    = ObjectProperty()
+    author_font   = ObjectProperty()
+    button_font   = ObjectProperty()
+
+    def button_random_press(self, *args):
         action = args[0]
-        if action == 'next':
-            pass
-        elif action == 'previous':
-            pass
-        elif action == 'random':
+        if action == 'random':
             for a in models.Aphorism.select().order_by(fn.Random()).limit(1):
-                self.quote_text.text = '"{0}" -- {1}\n({2})'.format(
-                                            a.aphorism, a.author, a.source)
+                self.quote_text.text = self.quote_format.format(
+                                                        aphorism = a.aphorism,
+                                                        author = a.author,
+                                                        author_font = self.author_font,
+                                                        author_size = int(self.ids.label_text.font_size * 0.75),
+                                                        quote_font = self.quote_font)
         else:
             pass
 
 class MainApp(App):
     '''Main Program
     '''
+    title = 'Aforgizmo Aphorisms'
+    #icon = 'custom-kivy-icon.png'
+
     def __init__(self):
         App.__init__(self)
 
     def build(self):
-        self.title = 'Aforgizmo Aphorisms'
         return MainWindow()
 
 if __name__ == '__main__':

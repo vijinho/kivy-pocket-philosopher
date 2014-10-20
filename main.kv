@@ -2,29 +2,26 @@
 
 <MainWindow>:
     orientation: "vertical"
-    quote_text: text_input
-    button_previous: btn_previous
-    button_next: btn_next
+    quote_text: label_text
+    quote_format: '"[color=#fff][b][font={quote_font}]{aphorism}[/font][/b][/color]"\n  [size={author_size}][color=#ddd][i][font={author_font}]  -- {author}[/font][/i][/color][/size]'
+    quote_font: 'data/fonts/ubuntu/Ubuntu-B.ttf'
+    author_font: 'data/fonts/ubuntu/Ubuntu-LI.ttf'
+    button_font: 'data/fonts/ubuntu/Ubuntu-M.ttf'
     button_random: btn_random
 
-    TextInput:
-        id: text_input
-        size_hint: (1,0.3)
+    Label:
+        id: label_text
+        font_size: self.parent.height / 15
+        markup: True
+        text_size: self.size
+        text: 'Press the Button!'
 
-    GridLayout:
-        cols: 3
-
-        Button:
-            id: btn_previous
-            text: "Previous Aphorism"
-            on_press: root.aphorism_button_press('previous')
-
-        Button:
-            id: btn_next
-            text: "Next Aphorism"
-            on_press: root.aphorism_button_press('next')
-
+    BoxLayout:
+        size_hint_y: 0.1
         Button:
             id: btn_random
+            on_press: root.button_random_press('random')
+            font_size: self.parent.height / 3
+            font_name: root.button_font
             text: "Random Aphorism"
-            on_press: root.aphorism_button_press('random')
+
