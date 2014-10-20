@@ -70,6 +70,7 @@ class MainWindow(BoxLayout):
         self.backgrounds.append(self.get_bg_images())
         self.background_image.source = self.get_rnd_bg_image()
 
+
     def get_bg_images(self):
         """
         Get a the list of background images
@@ -105,6 +106,7 @@ class MainWindow(BoxLayout):
 class MainApp(App):
     '''Main Program
     '''
+    use_kivy_settings = False
     title = 'Aforgizmo Aphorisms'
     icon = 'assets/img/icon.png'
 
@@ -112,7 +114,19 @@ class MainApp(App):
         App.__init__(self)
 
     def build(self):
+        config = self.config
         return MainWindow()
+
+    def build_config(self, config):
+        config.setdefaults('fonts', {
+            'default_font': 'assets/fonts/ubuntu/Ubuntu-M.ttf',
+            'quote_font': 'assets/fonts/ubuntu/Ubuntu-B.ttf',
+            'author_font': 'assets/fonts/ubuntu/Ubuntu-LI.ttf',
+            'button_font': 'assets/fonts/ubuntu/Ubuntu-M.ttf'
+        })
+        config.setdefaults('aphorisms', {
+            'quote_format': '"[color=#fff][b][font={quote_font}]{aphorism}[/font][/b][/color]"\n  [size={author_size}][color=#ddd][i][font={author_font}]  -- {author}[/font][/i][/color][/size]'
+        })
 
 if __name__ == '__main__':
     MainApp().run()
