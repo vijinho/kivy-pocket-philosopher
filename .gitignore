@@ -43,8 +43,6 @@ coverage.xml
 # Translations
 *.mo
 *.pot
-
-# Django stuff:
 *.log
 
 # Sphinx documentation
@@ -62,3 +60,14 @@ target/
 *.tmp
 *.bak
 *.old
+
+# PyDev
+.project
+.pydevproject
+
+# Virtualenv
+venv
+
+aforgizmo/
+data/aphorisms.db
+
