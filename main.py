@@ -9,12 +9,24 @@ This app is written in Python using the Kivy library for cross-platform support 
 import kivy
 kivy.require('1.8.0')
 from kivy.app import App
+from kivy.utils import platform
+from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
-from kivy.core.window import Window
 
 from peewee import *
 import models
+
+def is_desktop():
+    """
+    Detect if we are running on the desktop or not
+    :return: boolean True if running on a desktop platform or String platform
+    """
+    if platform in ('linux', 'windows', 'macosx'):
+        return True
+    else:
+        return p
+
 
 class MainWindow(BoxLayout):
     '''Main UI Widget
@@ -44,6 +56,7 @@ class MainWindow(BoxLayout):
         else:
             pass
 
+
 class MainApp(App):
     '''Main Program
     '''
@@ -55,6 +68,7 @@ class MainApp(App):
 
     def build(self):
         return MainWindow()
+
 
 if __name__ == '__main__':
     MainApp().run()
