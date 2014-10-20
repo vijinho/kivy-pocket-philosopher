@@ -48,13 +48,17 @@ class MainWindow(BoxLayout):
     .. note:: This new feature will likely blow your mind
     .. warning:: Please take a seat before trying this feature
     '''
+    app = ObjectProperty(None)
     quote_text = ObjectProperty()
     button_random = ObjectProperty()
     quote_text    = ObjectProperty()
     quote_format  = ObjectProperty()
+
+    font_name    = ObjectProperty()
+    button_font   = ObjectProperty()
     quote_font    = ObjectProperty()
     author_font   = ObjectProperty()
-    button_font   = ObjectProperty()
+
     backgrounds = ListProperty([])
     background_image = ObjectProperty()
 
@@ -67,9 +71,22 @@ class MainWindow(BoxLayout):
         :return:
         """
         super(MainWindow,self).__init__()
+
+        # set the app and config for it
+        self.app = kwargs.get('app')
+        config = self.app.config
+
+        # set default fonts from main.ini file
+        self.font_name = config.get('fonts', 'font_name')
+        self.button_font = config.get('fonts', 'button_font')
+        self.quote_font = config.get('fonts', 'quote_font')
+        self.author_font = config.get('fonts', 'author_font')
+
+        self.quote_format = config.get('display', 'quote_format')
+
+        # set up initial aphorism background images
         self.backgrounds.append(self.get_bg_images())
         self.background_image.source = self.get_rnd_bg_image()
-
 
     def get_bg_images(self):
         """
@@ -115,16 +132,17 @@ class MainApp(App):
 
     def build(self):
         config = self.config
-        return MainWindow()
+        self.MainWindow = MainWindow(app = self)
+        return self.MainWindow
 
     def build_config(self, config):
         config.setdefaults('fonts', {
-            'default_font': 'assets/fonts/ubuntu/Ubuntu-M.ttf',
+            'font_name': 'assets/fonts/ubuntu/Ubuntu-M.ttf',
+            'button_font': 'assets/fonts/ubuntu/Ubuntu-M.ttf',
             'quote_font': 'assets/fonts/ubuntu/Ubuntu-B.ttf',
-            'author_font': 'assets/fonts/ubuntu/Ubuntu-LI.ttf',
-            'button_font': 'assets/fonts/ubuntu/Ubuntu-M.ttf'
+            'author_font': 'assets/fonts/ubuntu/Ubuntu-LI.ttf'
         })
-        config.setdefaults('aphorisms', {
+        config.setdefaults('display', {
             'quote_format': '"[color=#fff][b][font={quote_font}]{aphorism}[/font][/b][/color]"\n  [size={author_size}][color=#ddd][i][font={author_font}]  -- {author}[/font][/i][/color][/size]'
         })
 
