@@ -9,13 +9,18 @@
     quote_format: '"[color=#fff][b][font={quote_font}]{aphorism}[/font][/b][/color]"\n  [size={author_size}][color=#ddd][i][font={author_font}]  -- {author}[/font][/i][/color][/size]'
     quote_text: label_text
     button_random: btn_random
+    background_image: bg_image
 
-    Label:
-        id: label_text
-        font_size: self.parent.height / 15
-        markup: True
-        text_size: self.size
-        text: 'Press the Button!'
+    ScatterLayout:
+        auto_bring_to_front: False
+        Image:
+            id: bg_image
+        Label:
+            id: label_text
+            font_size: self.parent.height / 15
+            markup: True
+            text_size: self.size
+            text: 'Press the Button!'
 
     BoxLayout:
         size_hint_y: 0.1
