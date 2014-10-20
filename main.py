@@ -8,6 +8,7 @@ This app is written in Python using the Kivy library for cross-platform support 
 '''
 import kivy
 kivy.require('1.8.0')
+from kivy.config import Config
 from kivy.app import App
 from kivy.utils import platform
 from kivy.uix.boxlayout import BoxLayout
@@ -26,6 +27,16 @@ def is_desktop():
     else:
         return p
 
+if is_desktop():
+    # simulate a mobile app screen size
+    Config.set('graphics', 'width', '480')
+    Config.set('graphics', 'height', '800')
+else:
+    Config.set('graphics', 'fullscreen', True)
+
+# replace default pygame icon
+Config.set('kivy', 'window_icon', 'assets/img/icon.png')
+
 class MainWindow(BoxLayout):
     '''Main UI Widget
     .. versionadded:: 1.0
@@ -33,7 +44,6 @@ class MainWindow(BoxLayout):
     .. warning:: Please take a seat before trying this feature
     '''
     quote_text = ObjectProperty()
-
     button_random = ObjectProperty()
     quote_text    = ObjectProperty()
     quote_format  = ObjectProperty()
