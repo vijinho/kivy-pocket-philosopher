@@ -76,12 +76,11 @@ class MainWindow(BoxLayout):
         self.app = kwargs.get('app')
         config = self.app.config
 
-        # set default fonts from main.ini file
+        # set default values from main.ini file
         self.font_name = config.get('fonts', 'font_name')
         self.button_font = config.get('fonts', 'button_font')
         self.quote_font = config.get('fonts', 'quote_font')
         self.author_font = config.get('fonts', 'author_font')
-
         self.quote_format = config.get('display', 'quote_format')
 
         # set up initial aphorism background images
@@ -93,7 +92,7 @@ class MainWindow(BoxLayout):
         Get a the list of background images
         :return: list of the background images
         """
-        for root, dirs, files in os.walk('assets/img/bg'):
+        for root, dirs, files in os.walk(self.app.config.get('display', 'bg_images_folder')):
             for file in files:
                 if file.endswith('.jpg'):
                      self.backgrounds.append(os.path.join(root, file))
@@ -143,7 +142,8 @@ class MainApp(App):
             'author_font': 'assets/fonts/ubuntu/Ubuntu-LI.ttf'
         })
         config.setdefaults('display', {
-            'quote_format': '"[color=#fff][b][font={quote_font}]{aphorism}[/font][/b][/color]"\n  [size={author_size}][color=#ddd][i][font={author_font}]  -- {author}[/font][/i][/color][/size]'
+            'quote_format': '"[color=#fff][b][font={quote_font}]{aphorism}[/font][/b][/color]"\n  [size={author_size}][color=#ddd][i][font={author_font}]  -- {author}[/font][/i][/color][/size]',
+            'bg_images_folder': 'assets/img/bg'
         })
 
 if __name__ == '__main__':
