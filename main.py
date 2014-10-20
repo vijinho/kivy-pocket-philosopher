@@ -10,7 +10,6 @@ import kivy
 kivy.require('1.8.0')
 from kivy.app import App
 from kivy.utils import platform
-from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 
@@ -26,7 +25,6 @@ def is_desktop():
         return True
     else:
         return p
-
 
 class MainWindow(BoxLayout):
     '''Main UI Widget
@@ -48,14 +46,13 @@ class MainWindow(BoxLayout):
         if action == 'random':
             for a in models.Aphorism.select().order_by(fn.Random()).limit(1):
                 self.quote_text.text = self.quote_format.format(
-                                                        aphorism = a.aphorism,
-                                                        author = a.author,
-                                                        author_font = self.author_font,
-                                                        author_size = int(self.ids.label_text.font_size * 0.75),
-                                                        quote_font = self.quote_font)
+                                            aphorism = a.aphorism,
+                                            author = a.author,
+                                            author_font = self.author_font,
+                                            author_size = int(self.ids.label_text.font_size * 0.75),
+                                            quote_font = self.quote_font)
         else:
             pass
-
 
 class MainApp(App):
     '''Main Program
