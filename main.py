@@ -120,10 +120,10 @@ class MainApp(App):
     '''Main Program
     '''
     use_kivy_settings = False
-    title = 'Aforgizmo Aphorisms'
-    icon = 'assets/img/icon.png'
 
     def __init__(self):
+        self.title = 'Aforgizmo Aphorisms'
+        self.icon = 'assets/img/icon.png'
         App.__init__(self)
 
     def build(self):
@@ -167,6 +167,37 @@ class MainApp(App):
             token = (section, key)
             if token == ('display', 'bg_images_folder'):
                 self.MainWindow.get_bg_images()
+
+
+    def on_start(self):
+        """
+        Fired when the application is being started (before the runTouchApp() call.
+        """
+        return True
+
+    def on_stop(self):
+        """
+        Fired when the application stops.
+        """
+        return True
+
+    def on_pause(self):
+        """ For phones/tablets (experimental feature)
+        Fired when the application is paused by the OS.
+        Warning
+        Both on_pause and on_stop must save important data because after
+        on_pause is called, on_resume may not be called at all.
+        """
+        return True
+
+    def on_resume(self):
+        """
+        Fired when the application is resumed from pause by the OS.
+        Beware: you have no guarantee that this event will be fired after the
+        on_pause event has been called.
+        """
+        pass
+
 
 if __name__ == '__main__':
     MainApp().run()
