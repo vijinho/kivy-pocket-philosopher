@@ -49,19 +49,14 @@ class MainWindow(BoxLayout):
     .. warning:: Please take a seat before trying this feature
     '''
     app = ObjectProperty(None)
-    quote_text = ObjectProperty()
+    font_path    = ObjectProperty()
+    backgrounds = ListProperty([])
+    background_image = ObjectProperty()
     button_random = ObjectProperty()
     quote_text    = ObjectProperty()
     quote_format  = ObjectProperty()
-
-    font_path    = ObjectProperty()
     quote_font    = ObjectProperty()
     author_font   = ObjectProperty()
-
-    backgrounds = ListProperty([])
-    background_image = ObjectProperty()
-
-    #background_image = ObjectProperty()
 
     def __init__(self,**kwargs):
         """
@@ -87,6 +82,7 @@ class MainWindow(BoxLayout):
         self.backgrounds.append(self.get_bg_images())
         self.background_image.source = self.get_rnd_bg_image()
 
+
     def get_bg_images(self):
         """
         Get a the list of background images
@@ -98,12 +94,14 @@ class MainWindow(BoxLayout):
                      self.backgrounds.append(os.path.join(root, file))
         return self.backgrounds
 
+
     def get_rnd_bg_image(self):
         """
         Get a random background image
         :return: path to random background image
         """
         return random.choice(self.backgrounds)
+
 
     def button_random_press(self, *args):
         action = args[0]
@@ -118,6 +116,7 @@ class MainWindow(BoxLayout):
                                             quote_font = self.quote_font)
         else:
             pass
+
 
 class MainApp(App):
     '''Main Program
@@ -134,6 +133,7 @@ class MainApp(App):
         self.MainWindow = MainWindow(app = self)
         return self.MainWindow
 
+
     def build_config(self, config):
         config.setdefaults('fonts', {
             'font_path': 'assets/fonts/ubuntu',
@@ -144,6 +144,7 @@ class MainApp(App):
             'quote_format': '"[color=#fff][b][font={quote_font}]{aphorism}[/font][/b][/color]"\n  [size={author_size}][color=#ddd][i][font={author_font}]  -- {author}[/font][/i][/color][/size]',
             'bg_images_folder': 'assets/img/bg'
         })
+
 
     def build_settings(self, settings):
         jsondata = """[
@@ -160,7 +161,15 @@ class MainApp(App):
             }
             ]"""
         settings.add_json_panel('Aforgizmo Aphorisms Settings',
-            self.config, data=jsondata)
+                                self.config, data=jsondata)
+
+
+    def on_config_change(self, config, section, key, value):
+        if config is self.config:
+            token = (section, key)
+            if token == ('display', 'bg_images_folder'):
+                images = self.MainWindow.get_bg_images()
+                self.MainWindow.backgrounds.item_strings = images
 
 if __name__ == '__main__':
     MainApp().run()
