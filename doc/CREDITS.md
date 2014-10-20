@@ -11,3 +11,6 @@
  * SQLite - http://www.sqlite.org/cli.html
  * Database ORM - https://github.com/coleifer/peewee
  * Kivy for the App - http://kivy.org/#home
+ 
+# DESIGN, GRAPHICS, TYPOGRAPHY
+ * Ubuntu - http://font.ubuntu.com/
