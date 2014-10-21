@@ -1,28 +1,29 @@
 #:kivy 1.8.0
 
 <MainScreen>:
-    orientation: "vertical"
-
-    ScatterLayout:
-        auto_bring_to_front: False
-        Image:
-            id: bg
-        Label:
-            id: aphorism
-            font_size: self.parent.height / 20
-            markup: True
-            text_size: self.size
-            text: 'Press the Button!'
-
     BoxLayout:
-        size_hint_y: 0.1
-        Button:
-            id: btn_random
-            on_press: root.btn_random()
-            font_size: self.parent.height / 3.5
-            text: "Random Aphorism"
-        Button:
-            id: btn_settings
-            on_press: app.open_settings()
-            font_size: self.parent.height / 3.5
-            text: "Settings"
+        orientation: "vertical"
+
+        ScatterLayout:
+            auto_bring_to_front: False
+            Image:
+                id: bg
+            Label:
+                id: aphorism
+                font_size: self.parent.height / 20
+                markup: True
+                text_size: self.size
+                text: 'Press the Button!'
+
+        BoxLayout:
+            size_hint_y: 0.1
+            Button:
+                id: btn_random
+                on_press: root.btn_random()
+                font_size: self.parent.height / 3.5
+                text: "Random Aphorism"
+            Button:
+                id: btn_settings
+                on_press: app.open_settings()
+                font_size: self.parent.height / 3.5
+                text: "Settings"

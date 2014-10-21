@@ -40,7 +40,9 @@ else:
 
 Config.set('kivy', 'window_icon', 'assets/img/icon.png')
 
-class MainScreen(BoxLayout):
+
+# Declare both screens
+class MainScreen(Screen):
     '''Main UI Widget
     .. versionadded:: 1.0
     .. note:: This new feature will likely blow your mind
@@ -53,15 +55,17 @@ class MainScreen(BoxLayout):
     author_font  = ObjectProperty()
     bgs          = ListProperty([])
 
-    def __init__(self,**kwargs):
+    def __init__(self, **kwargs):
         """
         Initialise app. Load in bg images
         :param kwargs:
         :return:
         """
-        super(MainScreen,self).__init__()
+        super(MainScreen, self).__init__()
 
-        # set the app and config for it
+        # set the screen manager, app and config for it
+        self.name = 'Main'
+        self.sm = kwargs.get('sm')
         self.app = kwargs.get('app')
         config = self.app.config
 
@@ -69,7 +73,7 @@ class MainScreen(BoxLayout):
         self.quote_template = config.get('display', 'quote_template')
 
         self.font_path = config.get('fonts', 'font_path')
-        fp = self.font_path + '/';
+        fp = self.font_path + '/'
         self.quote_font = fp + config.get('fonts', 'quote_font')
         self.author_font = fp + config.get('fonts', 'author_font')
 
@@ -122,7 +126,6 @@ class MainScreen(BoxLayout):
         for a in Aphorism.select().order_by(fn.Random()).limit(1):
             self.set_aphorism(a)
 
-
 class MainApp(App):
     '''Main Program
     '''
@@ -134,9 +137,11 @@ class MainApp(App):
         App.__init__(self)
 
     def build(self):
+        # Create the screen manager
         config = self.config
-        self.MainScreen = MainScreen(app = self)
-        return self.MainScreen
+        sm = ScreenManager()
+        sm.add_widget(MainScreen(app = self, name = 'Main'))
+        return sm
 
     def build_config(self, config):
         config.setdefaults('fonts', {
@@ -201,7 +206,6 @@ class MainApp(App):
         on_pause event has been called.
         """
         pass
-
 
 if __name__ == '__main__':
     MainApp().run()
