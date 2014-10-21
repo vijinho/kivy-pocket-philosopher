@@ -1,7 +1,7 @@
 #:kivy 1.8.0
 
 <DynButton@Button>:
-    font_size: self.parent.height / 3.5
+    font_size: self.height / 3.5
     markup: True
 
 <MainScreen>:
@@ -14,17 +14,16 @@
                 id: bg
                 width: root.width
                 height: root.height
-
             Scatter:
                 Label:
                     id: aphorism
                     width: self.parent.width
                     height: self.parent.height
-                    font_size: self.parent.height / 20
-                    markup: True
+                    font_size: ((self.parent.width / 10) + (self.parent.height / 15)) / 2
                     text_size: self.size
+                    markup: True
                     text: 'Press the Button!'
-
+                    size_hint_y: None
         BoxLayout:
             size_hint_y: 0.1
             DynButton:
