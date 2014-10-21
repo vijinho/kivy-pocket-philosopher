@@ -126,6 +126,14 @@ class MainScreen(Screen):
         for a in Aphorism.select().order_by(fn.Random()).limit(1):
             self.set_aphorism(a)
 
+    def SwitchScreen(self, s):
+        Trinitron.current = 'Test'
+
+class TestScreen(Screen):
+    def SwitchScreen(self, s):
+        Trinitron.current = 'Main'
+
+
 class MainApp(App):
     '''Main Program
     '''
@@ -139,9 +147,9 @@ class MainApp(App):
     def build(self):
         # Create the screen manager
         config = self.config
-        sm = ScreenManager()
-        sm.add_widget(MainScreen(app = self, name = 'Main'))
-        return sm
+        Trinitron.add_widget(MainScreen(app = self, name = 'Main'))
+        Trinitron.add_widget(TestScreen(app = self, name = 'Test'))
+        return Trinitron
 
     def build_config(self, config):
         config.setdefaults('fonts', {
@@ -208,4 +216,6 @@ class MainApp(App):
         pass
 
 if __name__ == '__main__':
+    # Setup the ScreenManager Instance
+    Trinitron = ScreenManager()
     MainApp().run()

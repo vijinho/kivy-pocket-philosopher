@@ -21,9 +21,18 @@
                 id: btn_random
                 on_press: root.btn_random()
                 font_size: self.parent.height / 3.5
-                text: "Random Aphorism"
+                text: "Random"
             Button:
                 id: btn_settings
                 on_press: app.open_settings()
                 font_size: self.parent.height / 3.5
                 text: "Settings"
+            Button:
+                text: 'Test'
+                on_press: root.SwitchScreen('Test')
+
+<TestScreen>:
+    BoxLayout:
+        Button:
+            text: 'Back'
+            on_press: root.SwitchScreen('Main')
