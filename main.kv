@@ -8,16 +8,22 @@
     BoxLayout:
         orientation: "vertical"
 
-        ScatterLayout:
-            auto_bring_to_front: False
-            Image:
-                id: bg
-            Label:
-                id: aphorism
-                font_size: self.parent.height / 20
-                markup: True
-                text_size: self.size
-                text: 'Press the Button!'
+        BoxLayout:
+            Scatter:
+                auto_bring_to_front: False
+                Image:
+                    id: bg
+                    width: root.width
+                    height: root.height
+            Scatter:
+                Label:
+                    id: aphorism
+                    width: self.parent.width
+                    height: self.parent.height
+                    font_size: self.parent.height / 20
+                    markup: True
+                    text_size: self.size
+                    text: 'Press the Button!'
 
         BoxLayout:
             size_hint_y: 0.1
