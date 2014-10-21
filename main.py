@@ -8,6 +8,7 @@ This app is written in Python using the Kivy library for cross-platform support 
 '''
 import os
 import random
+import imghdr
 
 import kivy
 kivy.require('1.8.0')
@@ -43,35 +44,29 @@ Config.set('kivy', 'window_icon', 'assets/img/icon.png')
 
 # Declare both screens
 class MainScreen(Screen):
-    '''Main UI Widget
+    '''Main UI Screen Widget
     .. versionadded:: 1.0
     .. note:: This new feature will likely blow your mind
     .. warning:: Please take a seat before trying this feature
     '''
-    app          = ObjectProperty(None)
-    font_path    = ObjectProperty()
+    app            = ObjectProperty(None)
+    font_path      = ObjectProperty()
     quote_template = ObjectProperty()
-    quote_font   = ObjectProperty()
-    author_font  = ObjectProperty()
-    bgs          = ListProperty([])
+    quote_font     = ObjectProperty()
+    author_font    = ObjectProperty()
+    bgs            = ListProperty([])
 
     def __init__(self, **kwargs):
-        """
-        Initialise app. Load in bg images
-        :param kwargs:
-        :return:
-        """
         super(MainScreen, self).__init__()
 
         # set the screen manager, app and config for it
         self.name = 'Main'
         self.sm = kwargs.get('sm')
         self.app = kwargs.get('app')
-        config = self.app.config
 
         # set default values from main.ini file
+        config = self.app.config
         self.quote_template = config.get('display', 'quote_template')
-
         self.font_path = config.get('fonts', 'font_path')
         fp = self.font_path + '/'
         self.quote_font = fp + config.get('fonts', 'quote_font')
@@ -84,20 +79,22 @@ class MainScreen(Screen):
 
     def bg_fetch_all(self):
         """
-        Get a the list of bg images
-        :return: list of the bg images
+        Get a the list of file paths to bg images
+        :return: list of the bg image path strings
         """
         self.bgs = []
         for root, dirs, files in os.walk(self.app.config.get('display', 'bg_images_folder')):
             for file in files:
                 if file.endswith('.jpg'):
-                     self.bgs.append(os.path.join(root, file))
+                     path = os.path.join(root, file)
+                     if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+                         self.bgs.append(path)
         return self.bgs
 
     def bg_random(self):
         """
-        Get a random bg image
-        :return: path to random bg image
+        Get a random bg image path string
+        :return: file path to random bg image
         """
         return random.choice(self.bgs)
 
@@ -107,31 +104,31 @@ class MainScreen(Screen):
         """
         a = Aphorism
         return self.quote_template.format(
-                            aphorism = a.aphorism,
-                            author = a.author,
+                            aphorism =  a.aphorism,
+                            author      = a.author,
                             author_font = self.author_font,
                             author_size = int(self.ids.aphorism.font_size * 0.75),
-                            quote_font = self.quote_font)
+                            quote_font  = self.quote_font)
 
-    def set_aphorism(self, Aphorism):
+    def set_aphorism(self, A):
         """
         Set the current aphorism and save the current aphorism data in the class
         """
-        self.ids.aphorism.text = self.get_aphorism_formatted(Aphorism)
-        self.aphorism = Aphorism
+        self.ids.aphorism.text = self.get_aphorism_formatted(A)
+        self.aphorism = A
         return self.aphorism
 
     def btn_random(self):
         self.ids.bg.source = self.bg_random()
-        for a in Aphorism.select().order_by(fn.Random()).limit(1):
-            self.set_aphorism(a)
+        for A in Aphorism.select().order_by(fn.Random()).limit(1):
+            self.set_aphorism(A)
 
-    def SwitchScreen(self, s):
-        Trinitron.current = 'Test'
+    def SwitchScreen(self, **kwargs):
+        ScreenSwitcher.current = 'Test'
 
 class TestScreen(Screen):
-    def SwitchScreen(self, s):
-        Trinitron.current = 'Main'
+    def SwitchScreen(self, **kwargs):
+        ScreenSwitcher.current = 'Main'
 
 
 class MainApp(App):
@@ -146,10 +143,9 @@ class MainApp(App):
 
     def build(self):
         # Create the screen manager
-        config = self.config
-        Trinitron.add_widget(MainScreen(app = self, name = 'Main'))
-        Trinitron.add_widget(TestScreen(app = self, name = 'Test'))
-        return Trinitron
+        ScreenSwitcher.add_widget(MainScreen(app = self, name = 'Main'))
+        ScreenSwitcher.add_widget(TestScreen(app = self, name = 'Test'))
+        return ScreenSwitcher
 
     def build_config(self, config):
         config.setdefaults('fonts', {
@@ -217,5 +213,5 @@ class MainApp(App):
 
 if __name__ == '__main__':
     # Setup the ScreenManager Instance
-    Trinitron = ScreenManager(transition = NoTransition())
+    ScreenSwitcher = ScreenManager(transition = NoTransition())
     MainApp().run()
