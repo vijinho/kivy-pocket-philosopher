@@ -17,7 +17,7 @@ kivy.require('1.8.0')
 from kivy.config import Config
 from kivy.utils import platform
 from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.actionbar import ActionBar
 from kivy.properties import ObjectProperty, ListProperty
@@ -236,5 +236,5 @@ class MainApp(App):
 
 if __name__ == '__main__':
     # Setup the ScreenManager Instance
-    ScreenSwitcher = ScreenManager(transition = NoTransition())
+    ScreenSwitcher = ScreenManager()
     MainApp().run()
