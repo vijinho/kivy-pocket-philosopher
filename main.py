@@ -132,7 +132,24 @@ class MainScreen(Screen):
     def SwitchScreen(self, **kwargs):
         ScreenSwitcher.current = kwargs.get('screen')
 
+
 class TestScreen(Screen):
+    ''' UI Screen Widget
+    .. versionadded:: 1.0
+    '''
+    app            = ObjectProperty(None)
+
+    def __init__(self, **kwargs):
+        super(TestScreen, self).__init__()
+
+        # set the screen manager, app and config for it
+        self.name = 'Test'
+        self.sm = kwargs.get('sm')
+        self.app = kwargs.get('app')
+
+        # set default values from main.ini file
+        config = self.app.config
+
     def SwitchScreen(self, **kwargs):
         ScreenSwitcher.current = kwargs.get('screen')
 

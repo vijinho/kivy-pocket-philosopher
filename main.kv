@@ -12,19 +12,21 @@
     font_size: self.height / 3.5
     markup: True
 
+<MainActionBar@ActionBar>
+    pos_hint: {'top':1}
+    ActionView:
+        use_separator: True
+        ActionPrevious:
+            title: 'Aforgizmo Aphorisms'
+            with_previous: False
+        ActionOverflow:
+        ActionButton:
+            id: btn_settings
+            on_press: app.open_settings()
+            text: "Settings"
+
 <MainScreen>:
-    ActionBar:
-        pos_hint: {'top':1}
-        ActionView:
-            use_separator: True
-            ActionPrevious:
-                title: 'Aforgizmo Aphorisms'
-                with_previous: False
-            ActionOverflow:
-            ActionButton:
-                id: btn_settings
-                on_press: app.open_settings()
-                text: "Settings"
+    MainActionBar:
     BoxLayout:
         orientation: "vertical"
 
@@ -59,7 +61,11 @@
                 text: 'Test'
 
 <TestScreen>:
+    MainActionBar:
     BoxLayout:
-        Button:
-            text: 'Back'
-            on_press: root.SwitchScreen(screen = 'Main')
+        BoxLayout:
+            size_hint_y: 0.1
+            DynButton:
+                id: 'Test'
+                text: 'Test'
+                on_press: root.SwitchScreen(screen = 'Main')
