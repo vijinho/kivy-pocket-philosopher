@@ -99,8 +99,7 @@ class MainScreen(Screen):
         bg = random.choice(self.bgs)
         # fix bug where the list and not a string is returned by bg_random
         if (isinstance(bg, kivy.properties.ObservableList)):
-            bg = random.choice(self.bgs)
-
+            return self.bg_random()
         return bg
 
     def get_aphorism_formatted(self, Aphorism):
