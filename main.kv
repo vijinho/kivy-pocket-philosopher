@@ -1,5 +1,9 @@
 #:kivy 1.8.0
 
+<DynButton@Button>:
+    font_size: self.parent.height / 3.5
+    markup: True
+
 <MainScreen>:
     BoxLayout:
         orientation: "vertical"
@@ -17,19 +21,16 @@
 
         BoxLayout:
             size_hint_y: 0.1
-            Button:
+            DynButton:
                 id: btn_random
                 on_press: root.btn_random()
-                font_size: self.parent.height / 3.5
                 text: "Random"
-            Button:
+            DynButton:
                 id: btn_settings
                 on_press: app.open_settings()
-                font_size: self.parent.height / 3.5
                 text: "Settings"
-            Button:
+            DynButton:
                 id: btn_test
-                font_size: self.parent.height / 3.5
                 on_press: root.SwitchScreen('Test')
                 text: 'Test'
 
