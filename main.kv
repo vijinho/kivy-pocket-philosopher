@@ -1,5 +1,13 @@
 #:kivy 1.8.0
 
+# DEBUG
+#                canvas.after:
+#                    Color:
+#                        rgba: 1, 0, 0, 0.5
+#                    Rectangle:
+#                        pos: self.pos
+#                        size: self.size
+
 <DynButton@Button>:
     font_size: self.height / 3.5
     markup: True
@@ -15,15 +23,18 @@
                 width: root.width
                 height: root.height
             Scatter:
+                center: self.parent.center
+                size_hint: None, None
+                size: aphorism.size
                 Label:
                     id: aphorism
-                    width: self.parent.width
-                    height: self.parent.height
-                    font_size: ((self.parent.width / 10) + (self.parent.height / 15)) / 2
-                    text_size: self.size
+                    font_size: 50
                     markup: True
                     text: 'Press the Button!'
+                    text_size: root.width, None
                     size_hint_y: None
+                    size: self.texture_size
+
         BoxLayout:
             size_hint_y: 0.1
             DynButton:
