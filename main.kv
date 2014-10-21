@@ -8,13 +8,13 @@
     BoxLayout:
         orientation: "vertical"
 
-        BoxLayout:
-            Scatter:
-                auto_bring_to_front: False
-                Image:
-                    id: bg
-                    width: root.width
-                    height: root.height
+        RelativeLayout:
+            auto_bring_to_front: False
+            Image:
+                id: bg
+                width: root.width
+                height: root.height
+
             Scatter:
                 Label:
                     id: aphorism
@@ -37,11 +37,11 @@
                 text: "Settings"
             DynButton:
                 id: btn_test
-                on_press: root.SwitchScreen('Test')
+                on_press: root.SwitchScreen(screen = 'Test')
                 text: 'Test'
 
 <TestScreen>:
     BoxLayout:
         Button:
             text: 'Back'
-            on_press: root.SwitchScreen('Main')
+            on_press: root.SwitchScreen(screen = 'Main')

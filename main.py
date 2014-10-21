@@ -128,11 +128,11 @@ class MainScreen(Screen):
             self.set_aphorism(A)
 
     def SwitchScreen(self, **kwargs):
-        ScreenSwitcher.current = 'Test'
+        ScreenSwitcher.current = kwargs.get('screen')
 
 class TestScreen(Screen):
     def SwitchScreen(self, **kwargs):
-        ScreenSwitcher.current = 'Main'
+        ScreenSwitcher.current = kwargs.get('screen')
 
 
 class MainApp(App):
