@@ -9,6 +9,8 @@ This app is written in Python using the Kivy library for cross-platform support 
 import os
 import random
 import imghdr
+from peewee import *
+from models import Aphorism
 
 import kivy
 kivy.require('1.8.0')
@@ -17,10 +19,9 @@ from kivy.utils import platform
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.actionbar import ActionBar
 from kivy.properties import ObjectProperty, ListProperty
 
-from peewee import *
-from models import Aphorism
 
 def is_desktop():
     """
@@ -76,6 +77,7 @@ class MainScreen(Screen):
         self.bgs.append(self.bg_fetch_all())
         self.ids.bg.source = self.bg_random()
         self.btn_random()
+
 
     def bg_fetch_all(self):
         """

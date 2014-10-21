@@ -13,6 +13,18 @@
     markup: True
 
 <MainScreen>:
+    ActionBar:
+        pos_hint: {'top':1}
+        ActionView:
+            use_separator: True
+            ActionPrevious:
+                title: 'Aforgizmo Aphorisms'
+                with_previous: False
+            ActionOverflow:
+            ActionButton:
+                id: btn_settings
+                on_press: app.open_settings()
+                text: "Settings"
     BoxLayout:
         orientation: "vertical"
 
@@ -41,10 +53,6 @@
                 id: btn_random
                 on_press: root.btn_random()
                 text: "Random"
-            DynButton:
-                id: btn_settings
-                on_press: app.open_settings()
-                text: "Settings"
             DynButton:
                 id: btn_test
                 on_press: root.SwitchScreen(screen = 'Test')
