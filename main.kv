@@ -28,8 +28,10 @@
                 font_size: self.parent.height / 3.5
                 text: "Settings"
             Button:
-                text: 'Test'
+                id: btn_test
+                font_size: self.parent.height / 3.5
                 on_press: root.SwitchScreen('Test')
+                text: 'Test'
 
 <TestScreen>:
     BoxLayout:
