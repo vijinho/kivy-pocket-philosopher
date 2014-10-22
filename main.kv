@@ -31,19 +31,19 @@
         ActionPrevious:
             with_previous: False
         ActionOverflow:
-        ActionButton:
-            text: "Help"
-            on_press: root.help_widget()
-        ActionButton:
-            id: btn_settings
-            on_press: app.open_settings()
-            text: "Settings"
-        ActionButton:
-            text: "About"
-            on_press: root.about_widget()
-        ActionButton:
-            on_press: app.stop()
-            text: "Exit"
+            ActionButton:
+                text: "Help"
+                on_press: root.help_widget()
+            ActionButton:
+                id: btn_settings
+                on_press: app.open_settings()
+                text: "Settings"
+            ActionButton:
+                text: "About"
+                on_press: root.about_widget()
+            ActionButton:
+                on_press: app.stop()
+                text: "Exit"
 
 <AphorismWidget@BoxLayout>:
     BoxLayout:
