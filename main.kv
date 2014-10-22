@@ -1,4 +1,5 @@
 #:kivy 1.8.0
+#:import get_random_color kivy.utils.get_random_color
 
 # DEBUG
 #                canvas.after:
@@ -37,19 +38,20 @@
         orientation: "vertical"
         MainActionBar:
         RelativeLayout:
-            auto_bring_to_front: False
             Image:
                 id: bg
                 width: root.width
                 height: root.height
                 keep_ratio: True
                 allow_stretch: True
+                auto_bring_to_front: False
             Scatter:
                 size_hint: None, None
                 size: aphorism.size
+                SpecialLabel:
                 Label:
                     id: aphorism
-                    font_size: root.height / 15
+                    font_size: root.height / 20
                     markup: True
                     text: 'Shall we?'
                     text_size: root.width, None
@@ -57,12 +59,12 @@
                     size: self.texture_size
                     canvas.before:
                         Color:
-                            rgba: 0, 0, 0, 0.75
+                            rgba: get_random_color(0.3)
                         Rectangle:
                             pos: self.pos
                             size: self.size
         BoxLayout:
-            size_hint_y: 0.1
+            size_hint_y: '0.1sp'
             DynButton:
                 id: btn_random
                 on_press: root.btn_random()
