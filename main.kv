@@ -46,25 +46,24 @@
             text: "Exit"
 
 <SearchForm>:
-    orientation: "vertical"
     BoxLayout:
         orientation: "vertical"
-        MainActionBar:
         BoxLayout:
-            orientation: "vertical"
-            size_hint_y: '0.1sp'
-            BoxLayout:
-                orientation: "horizontal"
-                Label:
-                    text: 'Hashtag:'
-                TextInput:
-                    id: search_input
-                    text: 'philosophy'
-                DynButton:
-                    text: 'Go!'
-                    on_press: root.btn_search(text = search_input.text)
-            ListView:
-                item_strings: root.search_results
+            size_hint_y: '0.05sp'
+            orientation: "horizontal"
+            Label:
+                size_hint_x: 25
+                text: 'Hashtag:'
+            TextInput:
+                size_hint_x: 60
+                id: search_input
+                text: 'philosophy'
+            DynButton:
+                size_hint_x: 15
+                text: 'Go!'
+                on_press: root.btn_search(text = search_input.text)
+        ListView:
+            item_strings: root.search_results
 
 <Main>:
     search_results: []
@@ -114,7 +113,11 @@
                             text: "Random"
             Screen:
                 name: 'Search'
-                SearchForm:
+                orientation: "vertical"
+                BoxLayout:
+                    orientation: "vertical"
+                    MainActionBar:
+                    SearchForm:
             Screen:
                 name: 'List'
                 BoxLayout:
