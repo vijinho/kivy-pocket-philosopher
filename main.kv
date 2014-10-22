@@ -113,9 +113,13 @@
                 text: 'Go to Screen 2'
                 on_press: _screen_manager.current = 'Test'
 
-<AboutPopup>:
-    size_hint: .65, .8
+<BasePopup@Popup>
+    size_hint: .75, .75
     auto_dismiss: False
+    BoxLayout:
+        orientation: "vertical"
+
+<AboutPopup@BasePopup>:
     title: 'About Aforgizmo'
     BoxLayout:
         orientation: "vertical"
@@ -126,13 +130,10 @@
             markup: True
             text: 'This app was written by [b]Vijay Mahrra[/b].\n\n[i]http://about.me/vijay.mahrra[/i]\n\nComments, issues and feedback to: [b]vijay.mahrra@gmail.com[/b]\n\n'
         Button:
-
             text: 'OK'
             on_press: root.dismiss()
 
-<HelpPopup>:
-    size_hint: .5, .5
-    auto_dismiss: False
+<HelpPopup@BasePopup>:
     title: 'Aforgizmo Help'
     BoxLayout:
         orientation: "vertical"
