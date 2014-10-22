@@ -42,6 +42,8 @@
                 id: bg
                 width: root.width
                 height: root.height
+                keep_ratio: True
+                allow_stretch: True
             Scatter:
                 center: self.parent.center
                 size_hint: None, None
@@ -54,7 +56,6 @@
                     text_size: root.width, None
                     size_hint_y: None
                     size: self.texture_size
-
         BoxLayout:
             size_hint_y: 0.1
             DynButton:

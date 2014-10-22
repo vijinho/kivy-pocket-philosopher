@@ -127,7 +127,6 @@ class MainScreen(Screen):
     def btn_random(self):
         if int(self.app.config.get('display', 'bg_enabled')) == 1:
             self.ids.bg.source = self.bg_random()
-            print self.app.config.get('display', 'bg_enabled')
         else:
             self.ids.bg.source = ''
 
@@ -140,13 +139,13 @@ class MainScreen(Screen):
             self.ids.bg.source = self.bg_random()
         else:
             self.bgs = []
-            self.ids.bg.source = ''
+            self.ids.bg.source = None
 
 class TestScreen(Screen):
     ''' UI Screen Widget
     .. versionadded:: 1.0
     '''
-    app            = ObjectProperty(None)
+    app = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super(TestScreen, self).__init__()
