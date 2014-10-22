@@ -191,7 +191,9 @@ class MainApp(App):
         config.setdefaults('display', {
             'bg_folder': 'assets/img/bg'
         })
-
+        config.setdefaults('display', {
+            'bg_enabled': 1
+        })
 
     def build_settings(self, settings):
         jsondata = """[
