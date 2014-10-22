@@ -211,9 +211,10 @@ class MainApp(App):
         if config is self.config:
             token = (section, key)
             if token == ('display', 'bg_folder'):
-                self.Main.bg_fetch_all()
+                self.background_refresh_list()
             elif token == ('display', 'bg_enabled'):
-                self.Main.bg_toggle(value)
+                print 'poop'
+#                self.Main.bg_toggle(value)
 
     def on_start(self):
         """
