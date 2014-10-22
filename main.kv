@@ -33,69 +33,85 @@
         ActionOverflow:
         ActionButton:
             text: "Help"
-            on_press: app.help_popup()
+            on_press: root.help_popup()
         ActionButton:
             id: btn_settings
             on_press: app.open_settings()
             text: "Settings"
         ActionButton:
             text: "About"
-            on_press: app.about_popup()
+            on_press: root.about_popup()
         ActionButton:
             on_press: app.stop()
             text: "Exit"
 
-<MainScreen>:
-    BoxLayout:
-        orientation: "vertical"
-        MainActionBar:
-        RelativeLayout:
-            Image:
-                id: bg
-                width: root.width
-                height: root.height
-                keep_ratio: True
-                allow_stretch: True
-                auto_bring_to_front: False
-            Scatter:
-                size_hint: None, None
-                size: aphorism.size
-                Label:
-                    id: aphorism
-                    font_size: root.height / 20
-                    markup: True
-                    text: 'Shall we?'
-                    text_size: root.width, None
-                    size_hint_y: None
-                    size: self.texture_size
-                    canvas.before:
-                        Color:
-                            #rgba: get_random_color(0.3)
-                            rgba: 0, 0, 0, 0.4
-                        Rectangle:
-                            pos: self.pos
-                            size: self.size
-        BoxLayout:
-            size_hint_y: '0.1sp'
-            DynButton:
-                id: btn_random
-                on_press: root.btn_random()
-                text: "Random"
-            DynButton:
-                id: btn_test
-                on_press: app.SwitchScreen(screen = 'Test')
-                text: 'Test'
 
-<TestScreen>:
-    BoxLayout:
-        orientation: "vertical"
-        MainActionBar:
+<Main>:
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        ScreenManager:
+            size_hint: 1, .9
+            id: _screen_manager
+            Screen:
+                name: 'Main'
+                BoxLayout:
+                    orientation: "vertical"
+                    MainActionBar:
+                    RelativeLayout:
+                        Image:
+                            id: bg
+                            width: root.width
+                            height: root.height
+                            keep_ratio: True
+                            allow_stretch: True
+                            auto_bring_to_front: False
+                        Scatter:
+                            size_hint: None, None
+                            size: aphorism.size
+                            Label:
+                                id: aphorism
+                                font_size: root.height / 20
+                                markup: True
+                                text: 'Shall we?'
+                                text_size: root.width, None
+                                size_hint_y: None
+                                size: self.texture_size
+                                canvas.before:
+                                    Color:
+                                        #rgba: get_random_color(0.3)
+                                        rgba: 0, 0, 0, 0.4
+                                    Rectangle:
+                                        pos: self.pos
+                                        size: self.size
+                    BoxLayout:
+                        size_hint_y: '0.1sp'
+                        DynButton:
+                            id: btn_random
+                            on_press: root.btn_random()
+                            text: "Random"
+            Screen:
+                name: 'Test'
+                BoxLayout:
+                    orientation: "vertical"
+                    MainActionBar:
+                    BoxLayout:
+                        size_hint_y: 0.1
+                        DynButton:
+                            id: 'Test'
+                            text: 'Test'
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'bottom'
         BoxLayout:
-            size_hint_y: 0.1
-            DynButton:
-                id: 'Test'
-                text: 'Test'
-                on_press: app.SwitchScreen(screen = 'Main')
+            orientation: 'horizontal'
+            size_hint: 1, .1
+            Button:
+                text: 'Go to Screen 1'
+                on_press: _screen_manager.current = 'Main'
+            Button:
+                text: 'Go to Screen 2'
+                on_press: _screen_manager.current = 'Test'
 
 <AboutPopup>:
     size_hint: .65, .8
@@ -130,5 +146,3 @@
         Button:
             text: 'OK'
             on_press: root.dismiss()
-
-

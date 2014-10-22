@@ -4,7 +4,7 @@
 
 # CONTRIBUTORS
 
-* 
+* Got many ideas from http://robertour.com/category/kivy
 
 # SOFTWARE PROJECTS
  * Command-line implemented using click - http://click.pocoo.org/3/quickstart/

@@ -18,7 +18,7 @@ from kivy.config import Config
 from kivy.utils import platform
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.popup import Popup
 from kivy.properties import ObjectProperty, ListProperty
@@ -44,8 +44,7 @@ else:
 Config.set('kivy', 'window_icon', 'assets/img/icon.png')
 
 
-# Declare both screens
-class MainScreen(Screen):
+class Main(FloatLayout):
     '''Main UI Screen Widget
     .. versionadded:: 1.0
     .. note:: This new feature will likely blow your mind
@@ -59,7 +58,7 @@ class MainScreen(Screen):
     bgs            = ListProperty([])
 
     def __init__(self, **kwargs):
-        super(MainScreen, self).__init__()
+        super(Main, self).__init__()
 
         # set the screen manager, app and config for it
         self.name = 'Main'
@@ -141,23 +140,6 @@ class MainScreen(Screen):
             self.bgs = []
             self.ids.bg.source = ''
 
-class TestScreen(Screen):
-    ''' UI Screen Widget
-    .. versionadded:: 1.0
-    '''
-    app = ObjectProperty(None)
-
-    def __init__(self, **kwargs):
-        super(TestScreen, self).__init__()
-
-        # set the screen manager, app and config for it
-        self.name = 'Test'
-        self.sm = kwargs.get('sm')
-        self.app = kwargs.get('app')
-
-        # set default values from main.ini file
-        config = self.app.config
-
 
 class MainApp(App):
     '''Main Program
@@ -170,15 +152,8 @@ class MainApp(App):
         App.__init__(self)
 
     def build(self):
-        # Create the screen manager
-        self.MainScreen = MainScreen(app = self, name = 'Main')
-        ScreenSwitcher.add_widget(self.MainScreen)
-        self.TestScreen = TestScreen(app = self, name = 'Test')
-        ScreenSwitcher.add_widget(self.TestScreen)
-        return ScreenSwitcher
-
-    def SwitchScreen(self, **kwargs):
-        ScreenSwitcher.current = kwargs.get('screen')
+        self.Main = Main(app = self, name = 'Main')
+        return self.Main
 
     def build_config(self, config):
         config.setdefaults('fonts', {
@@ -221,9 +196,9 @@ class MainApp(App):
         if config is self.config:
             token = (section, key)
             if token == ('display', 'bg_images_folder'):
-                self.MainScreen.bg_fetch_all()
+                self.Main.bg_fetch_all()
             elif token == ('display', 'bg_enabled'):
-                self.MainScreen.bg_toggle(value)
+                self.Main.bg_toggle(value)
 
     def on_start(self):
         """
@@ -254,6 +229,8 @@ class MainApp(App):
         """
         pass
 
+
+class MainActionBar(ActionBar):
     def about_popup(self):
         p = AboutPopup()
         p.open()
@@ -265,10 +242,6 @@ class MainApp(App):
         pass
 
 
-class MainActionBar(ActionBar):
-    pass
-
-
 class AboutPopup(Popup):
     pass
 
@@ -278,6 +251,4 @@ class HelpPopup(Popup):
 
 
 if __name__ == '__main__':
-    # Setup the ScreenManager Instance
-    ScreenSwitcher = ScreenManager()
     MainApp().run()
