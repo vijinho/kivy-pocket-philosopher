@@ -20,6 +20,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.actionbar import ActionBar
+from kivy.uix.popup import Popup
 from kivy.properties import ObjectProperty, ListProperty
 
 
@@ -77,7 +78,6 @@ class MainScreen(Screen):
         self.bgs.append(self.bg_fetch_all())
         self.ids.bg.source = self.bg_random()
         self.btn_random()
-
 
     def bg_fetch_all(self):
         """
@@ -160,7 +160,7 @@ class MainApp(App):
     use_kivy_settings = False
 
     def __init__(self):
-        self.title = 'Aforgizmo Aphorisms'
+        self.title = 'Aforgizmo'
         self.icon = 'assets/img/icon.png'
         App.__init__(self)
 
@@ -196,7 +196,7 @@ class MainApp(App):
                 "key": "bg_images_folder"
             }
             ]"""
-        settings.add_json_panel('Aforgizmo Aphorisms Settings',
+        settings.add_json_panel('Aforgizmo Settings',
                                 self.config, data=jsondata)
 
     def on_config_change(self, config, section, key, value):
@@ -233,6 +233,29 @@ class MainApp(App):
         on_pause event has been called.
         """
         pass
+
+    def about_popup(self):
+        p = AboutPopup()
+        p.open()
+        pass
+
+    def help_popup(self):
+        p = HelpPopup()
+        p.open()
+        pass
+
+
+class MainActionBar(ActionBar):
+    pass
+
+
+class AboutPopup(Popup):
+    pass
+
+
+class HelpPopup(Popup):
+    pass
+
 
 if __name__ == '__main__':
     # Setup the ScreenManager Instance

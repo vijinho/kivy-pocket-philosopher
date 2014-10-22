@@ -20,9 +20,15 @@
             with_previous: False
         ActionOverflow:
         ActionButton:
+            text: "Help"
+            on_press: app.help_popup()
+        ActionButton:
             id: btn_settings
             on_press: app.open_settings()
             text: "Settings"
+        ActionButton:
+            text: "About"
+            on_press: app.about_popup()
         ActionButton:
             on_press: app.stop()
             text: "Exit"
@@ -71,3 +77,39 @@
                 id: 'Test'
                 text: 'Test'
                 on_press: root.SwitchScreen(screen = 'Main')
+
+<AboutPopup>:
+    size_hint: .65, .8
+    auto_dismiss: False
+    title: 'About Aforgizmo'
+    BoxLayout:
+        orientation: "vertical"
+        padding: 2
+        spacing: 10
+        Label:
+            text_size: self.width, None
+            markup: True
+            text: 'This app was written by [b]Vijay Mahrra[/b].\n\n[i]http://about.me/vijay.mahrra[/i]\n\nComments, issues and feedback to: [b]vijay.mahrra@gmail.com[/b]\n\n'
+        Button:
+
+            text: 'OK'
+            on_press: root.dismiss()
+
+<HelpPopup>:
+    size_hint: .5, .5
+    auto_dismiss: False
+    title: 'Aforgizmo Help'
+    BoxLayout:
+        orientation: "vertical"
+        padding: 2
+        spacing: 10
+        Label:
+            size_hint_y: None
+            text_size: self.width, None
+            markup: True
+            text: 'No help available!'
+        Button:
+            text: 'OK'
+            on_press: root.dismiss()
+
+
