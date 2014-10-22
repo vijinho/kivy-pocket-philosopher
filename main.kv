@@ -33,10 +33,9 @@
             text: "Exit"
 
 <MainScreen>:
-    MainActionBar:
     BoxLayout:
         orientation: "vertical"
-
+        MainActionBar:
         RelativeLayout:
             auto_bring_to_front: False
             Image:
@@ -68,8 +67,9 @@
                 text: 'Test'
 
 <TestScreen>:
-    MainActionBar:
     BoxLayout:
+        orientation: "vertical"
+        MainActionBar:
         BoxLayout:
             size_hint_y: 0.1
             DynButton:
