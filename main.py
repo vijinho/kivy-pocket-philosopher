@@ -149,15 +149,24 @@ class SearchForm(BoxLayout):
         results = []
         for a in Aphorism.select().where(
             Aphorism.hashtags ** hashtag).order_by(Aphorism.author, Aphorism.source):
-            results.append(str(a.id))
-            results.append(a.ToOneLine())
+            #results.append(str(a.id))
+            #results.append(a.ToOneLine())
+            results.append([a.id, a.ToOneLine()])
+
         if len(results) > 0:
             self.search_results.item_strings = results
             del self.search_results.adapter.data[:]
             self.search_results.adapter.data.extend(results)
             self.search_results._trigger_reset_populate()
 
+    def args_converter(self, index, data_item):
+        id, quote = data_item
+        print id
+        print quote
+        return {'aphorism': (id, quote)}
+
 class SearchResultsButton(ListItemButton):
+    aphorism = ListProperty()
     pass
 
 

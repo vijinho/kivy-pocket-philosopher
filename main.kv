@@ -97,10 +97,16 @@
         ListView:
             id: search_results_list
             adapter:
-                ListAdapter(data = [], cls = main.SearchResultsButton)
+                ListAdapter(
+                data = [],
+                args_converter = root.args_converter,
+                cls = main.SearchResultsButton)
 
 <SearchResultsButton>:
-    on_press: app.root.aphorism_display_by_id(self.text)
+    text: "{}".format(self.aphorism[1])
+    height: '40dp'
+    size_hint_y: None
+    on_press: app.root.aphorism_display_by_id(self.aphorism[0])
 
 <Main>:
     search_results: []
@@ -120,7 +126,7 @@
                         orientation: "vertical"
                         AphorismWidget:
                     Button:
-                        size_hint_y: '0.1sp'
+                        size_hint_y: '0.05sp'
                         text: 'random'
                         on_press: root.aphorism_display_random()
             Screen:
@@ -168,7 +174,7 @@
         anchor_y: 'bottom'
         BoxLayout:
             orientation: 'horizontal'
-            size_hint: 1, .1
+            size_hint_y: '0.05sp'
             Button:
                 text: 'Main'
                 on_press: Screens.current = 'Main'
