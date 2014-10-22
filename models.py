@@ -46,7 +46,8 @@ class Aphorism(BaseModel):
 
     def ToOneLine(self):
         """Return a string of the object data as a one line string"""
-        return "{0} - {1}...".format(self.author, self.aphorism[0:25])
+        return "{0}: \"{1}\"".format(self.author, (self.aphorism[:20] + '..') if len(self.aphorism) > 20 else self.aphorism)
+
 
 def CreateTables():
     """Create database tables for Aphorisms in SQLite"""
