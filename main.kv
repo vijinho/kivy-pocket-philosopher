@@ -115,12 +115,12 @@
                 on_press: _screen_manager.current = 'Test'
 
 <BasePopup@Popup>
-    size_hint: .75, .75
     auto_dismiss: False
     BoxLayout:
         orientation: "vertical"
 
 <AboutPopup@BasePopup>:
+    size_hint: .75, .75
     title: 'About Aforgizmo'
     BoxLayout:
         orientation: "vertical"
@@ -135,6 +135,7 @@
             on_press: root.dismiss()
 
 <HelpPopup@BasePopup>:
+    size_hint: .75, .75
     title: 'Aforgizmo Help'
     BoxLayout:
         orientation: "vertical"
