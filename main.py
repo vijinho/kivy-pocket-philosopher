@@ -165,8 +165,10 @@ class MainApp(App):
 
     def build(self):
         # Create the screen manager
-        ScreenSwitcher.add_widget(MainScreen(app = self, name = 'Main'))
-        ScreenSwitcher.add_widget(TestScreen(app = self, name = 'Test'))
+        self.MainScreen = MainScreen(app = self, name = 'Main')
+        ScreenSwitcher.add_widget(self.MainScreen)
+        self.TestScreen = TestScreen(app = self, name = 'Test')
+        ScreenSwitcher.add_widget(self.TestScreen)
         return ScreenSwitcher
 
     def SwitchScreen(self, **kwargs):
@@ -214,6 +216,8 @@ class MainApp(App):
             token = (section, key)
             if token == ('display', 'bg_images_folder'):
                 self.MainScreen.bg_fetch_all()
+            elif token == ('display', 'bg_enabled'):
+                self.MainScreen.bg_toggle()
 
     def on_start(self):
         """
