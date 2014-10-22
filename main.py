@@ -113,7 +113,7 @@ class MainScreen(Screen):
                             aphorism =  a.aphorism,
                             author      = a.author,
                             author_font = self.author_font,
-                            author_size = int(self.ids.aphorism.font_size * 0.75),
+                            author_size = int(self.ids.aphorism.font_size),
                             quote_font  = self.quote_font)
 
     def set_aphorism(self, A):
