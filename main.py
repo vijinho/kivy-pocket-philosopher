@@ -17,7 +17,6 @@ kivy.require('1.8.0')
 from kivy.config import Config
 from kivy.utils import platform
 from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.popup import Popup
@@ -60,9 +59,7 @@ class Main(FloatLayout):
     def __init__(self, **kwargs):
         super(Main, self).__init__()
 
-        # set the screen manager, app and config for it
-        self.name = 'Main'
-        self.sm = kwargs.get('sm')
+        # set the app and config for it
         self.app = kwargs.get('app')
 
         # set default values from main.ini file
@@ -152,7 +149,7 @@ class MainApp(App):
         App.__init__(self)
 
     def build(self):
-        self.Main = Main(app = self, name = 'Main')
+        self.Main = Main(app = self)
         return self.Main
 
     def build_config(self, config):
