@@ -21,6 +21,7 @@ from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.popup import Popup
+from kivy.uix.listview import ListView
 from kivy.properties import ObjectProperty, ListProperty
 
 
@@ -56,8 +57,9 @@ class Main(FloatLayout):
     quote_template = ObjectProperty()
     quote_font     = ObjectProperty()
     author_font    = ObjectProperty()
-    bgs            = ListProperty([])
+    bgs            = ListProperty()
     pixel = 'assets/img/pixel.png'
+    search_results = ListProperty()
 
     def __init__(self, **kwargs):
         super(Main, self).__init__()
@@ -143,6 +145,17 @@ class Main(FloatLayout):
         else:
             self.bgs = []
             self.ids.bg.source = self.pixel
+
+    def btn_search(self, text):
+        print "Searching...\n"
+        hashtag = '%%{0}%%'.format(text)
+        results = self.search_results
+        for a in Aphorism.select().where(
+            Aphorism.hashtags ** hashtag).order_by(Aphorism.author, Aphorism.source):
+            results.append(a.aphorism)
+        if len(results) > 0:
+            pass
+#            self.search_results.item_strings([1, 2, 3])
 
 class MainApp(App):
     '''Main Program

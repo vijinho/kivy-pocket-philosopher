@@ -47,12 +47,13 @@
 
 
 <Main>:
+    search_results: []
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'top'
         ScreenManager:
             size_hint: 1, .9
-            id: _screen_manager
+            id: Screens
             Screen:
                 name: 'Main'
                 BoxLayout:
@@ -92,15 +93,58 @@
                             on_press: root.btn_random()
                             text: "Random"
             Screen:
-                name: 'Test'
+                name: 'Search'
                 BoxLayout:
                     orientation: "vertical"
                     MainActionBar:
                     BoxLayout:
-                        size_hint_y: 0.1
+                        orientation: "vertical"
+                        size_hint_y: '0.1sp'
+                        BoxLayout:
+                            orientation: "horizontal"
+                            Label:
+                                text: 'Hashtag:'
+                            TextInput:
+                                id: search_input
+                                text: 'philosophy'
+                            DynButton:
+                                text: 'Go!'
+                                on_press: root.btn_search(text = search_input.text)
+                        ListView:
+                            item_strings: root.search_results
+            Screen:
+                name: 'List'
+                BoxLayout:
+                    orientation: "vertical"
+                    MainActionBar:
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: '0.1sp'
+                        RelativeLayout:
+            Screen:
+                name: 'Add'
+                BoxLayout:
+                    orientation: "vertical"
+                    MainActionBar:
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: '0.1sp'
+                        RelativeLayout:
                         DynButton:
-                            id: 'Test'
-                            text: 'Test'
+                            id: 'Add'
+                            text: 'Add'
+            Screen:
+                name: 'Edit'
+                BoxLayout:
+                    orientation: "vertical"
+                    MainActionBar:
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: '0.1sp'
+                        RelativeLayout:
+                        DynButton:
+                            id: 'Edit'
+                            text: 'Edit'
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'bottom'
@@ -108,11 +152,20 @@
             orientation: 'horizontal'
             size_hint: 1, .1
             Button:
-                text: 'Go to Screen 1'
-                on_press: _screen_manager.current = 'Main'
+                text: 'Main'
+                on_press: Screens.current = 'Main'
             Button:
-                text: 'Go to Screen 2'
-                on_press: _screen_manager.current = 'Test'
+                text: 'Search'
+                on_press: Screens.current = 'Search'
+            Button:
+                text: 'List'
+                on_press: Screens.current = 'List'
+            Button:
+                text: 'Add'
+                on_press: Screens.current = 'Add'
+            Button:
+                text: 'Edit'
+                on_press: Screens.current = 'Edit'
 
 <BasePopup@Popup>
     auto_dismiss: False
