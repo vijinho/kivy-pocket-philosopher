@@ -30,6 +30,10 @@
         use_separator: True
         ActionPrevious:
             with_previous: False
+            on_press: app.Main.ids.Screens.current = 'Main'
+        ActionButton:
+            text: "Search"
+            on_press: app.Main.ids.Screens.current = 'Search'
         ActionOverflow:
             ActionButton:
                 text: "Help"
@@ -114,7 +118,7 @@
         anchor_x: 'center'
         anchor_y: 'top'
         ScreenManager:
-            size_hint: 1, .9
+            size_hint: 1, 1
             id: Screens
             Screen:
                 name: 'Main'
@@ -169,27 +173,6 @@
                         Button:
                             id: 'Edit'
                             text: 'Edit'
-    AnchorLayout:
-        anchor_x: 'center'
-        anchor_y: 'bottom'
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: '0.05sp'
-            Button:
-                text: 'Main'
-                on_press: Screens.current = 'Main'
-            Button:
-                text: 'Search'
-                on_press: Screens.current = 'Search'
-            Button:
-                text: 'List'
-                on_press: Screens.current = 'List'
-            Button:
-                text: 'Add'
-                on_press: Screens.current = 'Add'
-            Button:
-                text: 'Edit'
-                on_press: Screens.current = 'Edit'
 
 <AboutWidget>:
     auto_dismiss: False
