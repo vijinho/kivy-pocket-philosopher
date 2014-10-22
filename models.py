@@ -44,6 +44,10 @@ class Aphorism(BaseModel):
         """Return a representation of the object field data as JSON"""
         return json.dumps(self.AsHash(), indent = 4, sort_keys = True)
 
+    def ToOneLine(self):
+        """Return a string of the object data as a one line string"""
+        return "{0} - {1}...".format(self.author, self.aphorism[0:25])
+
 def CreateTables():
     """Create database tables for Aphorisms in SQLite"""
     try:
