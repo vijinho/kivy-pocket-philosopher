@@ -90,7 +90,7 @@ class Main(FloatLayout):
                     return False
                 else:
                     widget = self.aphorism_display(A)
-                    widget.set_background(self.background_get_random())
+                    widget.background_set_random()
 
                     self.ids.Screens.current = 'Main'
                     return A
@@ -116,9 +116,6 @@ class AphorismWidget(BoxLayout):
         self.set(A)
         return A
 
-    def background_get_random(self):
-        return app.background_get_random()
-
     def set(self, A, tpl = None):
         self.aphorism = A
         if tpl == None:
@@ -134,6 +131,12 @@ class AphorismWidget(BoxLayout):
             self.ids.background.source = path
         else:
             self.ids.background.source = self.pixel
+
+    def background_get_random(self):
+        return app.background_get_random()
+
+    def background_set_random(self):
+        self.set_background(self.background_get_random())
 
 class SearchForm(BoxLayout):
     """
