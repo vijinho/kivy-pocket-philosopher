@@ -46,6 +46,8 @@
             text: "Exit"
 
 <SearchForm>:
+    search_input: search_box
+    search_results: search_results_list
     BoxLayout:
         orientation: "vertical"
         BoxLayout:
@@ -56,15 +58,15 @@
                 text: 'Hashtag:'
             TextInput:
                 size_hint_x: 60
-                id: search_input
+                id: search_box
                 text: 'philosophy'
             DynButton:
                 size_hint_x: 15
                 text: 'Go!'
-                on_press: root.btn_search(text = search_input.text)
+                on_press: root.btn_search(text = search_box.text)
         ListView:
             id: search_results_list
-            item_strings: root.search_results
+            item_strings: []
 
 <Main>:
     search_results: []

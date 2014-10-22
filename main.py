@@ -147,16 +147,15 @@ class Main(FloatLayout):
             self.ids.bg.source = self.pixel
 
 class SearchForm(BoxLayout):
-    search_results = ListProperty()
     def btn_search(self, text):
         print "Searching...\n"
         hashtag = '%%{0}%%'.format(text)
-        results = self.search_results
+        results = []
         for a in Aphorism.select().where(
             Aphorism.hashtags ** hashtag).order_by(Aphorism.author, Aphorism.source):
             results.append(str(a.id))
         if len(results) > 0:
-            pass
+            self.search_results.item_strings = results
 
 class MainApp(App):
     '''Main Program
