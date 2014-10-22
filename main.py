@@ -157,10 +157,17 @@ class Main(FloatLayout):
         """
         Change the aphorism to the given id
         """
-        id = data.text
-        A = Aphorism.get(Aphorism.id == id)
-        self.set_aphorism(A)
-        self.ids.Screens.current = 'Main'
+        if hasattr(data, 'text'):
+            try:
+                id = int(data.text)
+            except:
+                return False
+            else:
+                if id:
+                    A = Aphorism.get(Aphorism.id == id)
+                    self.set_aphorism(A)
+                    self.ids.Screens.current = 'Main'
+                    return A
 
 class SearchForm(BoxLayout):
     """
