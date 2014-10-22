@@ -24,9 +24,6 @@
 #                    pos: self.pos
 #                    size: self.size
 
-<DynButton@Button>:
-    markup: True
-
 <MainActionBar@ActionBar>
     pos_hint: {'top':1}
     ActionView:
@@ -48,6 +45,36 @@
             on_press: app.stop()
             text: "Exit"
 
+<AphorismWidget@BoxLayout>:
+    BoxLayout:
+        orientation: "vertical"
+        RelativeLayout:
+            Image:
+                id: bg_img
+                width: root.width
+                height: root.height
+                keep_ratio: True
+                allow_stretch: True
+                auto_bring_to_front: False
+                source: root.pixel
+            Scatter:
+                size_hint: None, None
+                size: quote.size
+                Label:
+                    id: quote
+                    font_size: '20sp'
+                    markup: True
+                    text: ''
+                    text_size: root.width, None
+                    size_hint_y: None
+                    size: self.texture_size
+                    canvas.before:
+                        Color:
+                            rgba: get_random_color(0.3)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
 <SearchForm>:
     search_input: search_box
     search_results: search_results_list
@@ -63,17 +90,17 @@
                 size_hint_x: 60
                 id: search_box
                 text: 'philosophy'
-            DynButton:
+            Button:
                 size_hint_x: 15
                 text: 'Go!'
-                on_press: root.btn_search(text = search_box.text)
+                on_press: root.search_action(text = search_box.text)
         ListView:
             id: search_results_list
             adapter:
                 ListAdapter(data = [], cls = main.SearchResultsButton)
 
 <SearchResultsButton>:
-    on_press: app.root.change_aphorism(self)
+    on_press: app.root.aphorism_display_by_id(self.text)
 
 <Main>:
     search_results: []
@@ -88,39 +115,14 @@
                 BoxLayout:
                     orientation: "vertical"
                     MainActionBar:
-                    RelativeLayout:
-                        Image:
-                            id: bg
-                            width: root.width
-                            height: root.height
-                            keep_ratio: True
-                            allow_stretch: True
-                            auto_bring_to_front: False
-                            source: root.pixel
-                        Scatter:
-                            size_hint: None, None
-                            size: aphorism.size
-                            Label:
-                                id: aphorism
-                                font_size: root.height / 20
-                                markup: True
-                                text: 'Shall we?'
-                                text_size: root.width, None
-                                size_hint_y: None
-                                size: self.texture_size
-                                canvas.before:
-                                    Color:
-                                        #rgba: get_random_color(0.3)
-                                        rgba: 0, 0, 0, 0.4
-                                    Rectangle:
-                                        pos: self.pos
-                                        size: self.size
                     BoxLayout:
+                        id: aphorism_container
+                        orientation: "vertical"
+                        AphorismWidget:
+                    Button:
                         size_hint_y: '0.1sp'
-                        DynButton:
-                            id: btn_random
-                            on_press: root.btn_random()
-                            text: "Random"
+                        text: 'random'
+                        on_press: root.aphorism_display_random()
             Screen:
                 name: 'Search'
                 orientation: "vertical"
@@ -146,7 +148,7 @@
                         orientation: "vertical"
                         size_hint_y: '0.1sp'
                         RelativeLayout:
-                        DynButton:
+                        Button:
                             id: 'Add'
                             text: 'Add'
             Screen:
@@ -158,7 +160,7 @@
                         orientation: "vertical"
                         size_hint_y: '0.1sp'
                         RelativeLayout:
-                        DynButton:
+                        Button:
                             id: 'Edit'
                             text: 'Edit'
     AnchorLayout:

@@ -18,6 +18,7 @@ from kivy.config import Config
 from kivy.utils import platform
 from kivy.core.window import Window
 from kivy.app import App
+from kivy.factory import Factory
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.actionbar import ActionBar
@@ -55,11 +56,7 @@ class Main(FloatLayout):
     .. warning:: Please take a seat before trying this feature
     '''
     app            = ObjectProperty(None)
-    font_path      = ObjectProperty()
-    quote_template = ObjectProperty()
-    quote_font     = ObjectProperty()
-    author_font    = ObjectProperty()
-    bgs            = ListProperty()
+
     pixel = 'assets/img/pixel.png'
 
     def __init__(self, **kwargs):
@@ -68,112 +65,70 @@ class Main(FloatLayout):
         # set the app and config for it
         self.app = kwargs.get('app')
 
-        # set default values from main.ini file
-        config = self.app.config
-        self.quote_template = config.get('display', 'quote_template')
-        self.font_path = config.get('fonts', 'font_path')
-        fp = self.font_path + '/'
-        self.quote_font = fp + config.get('fonts', 'quote_font')
-        self.author_font = fp + config.get('fonts', 'author_font')
+    def aphorism_clear_widget(self):
+        container = self.ids.aphorism_container
+        container.clear_widgets()
+        return container
 
-        # set up initial aphorism bg images
-        if int(self.app.config.get('display', 'bg_enabled')) == 1:
-            self.bg_toggle(True)
+    def aphorism_display(self, A):
+        container = self.aphorism_clear_widget()
+        widget = Factory.AphorismWidget()
+        widget.set(A)
+        container.add_widget(widget)
+        return widget
+
+    def aphorism_display_by_id(self, id):
+        try:
+            id = int(id)
+        except:
+            return False
         else:
-            self.bg_toggle(False)
-
-        self.btn_random()
-
-
-    def bg_fetch_all(self):
-        """
-        Get a the list of file paths to bg images
-        :return: list of the bg image path strings
-        """
-        self.bgs = []
-        for root, dirs, files in os.walk(self.app.config.get('display', 'bg_images_folder')):
-            for file in files:
-                if file.endswith('.jpg'):
-                     path = os.path.join(root, file)
-                     if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
-                         self.bgs.append(path)
-        return self.bgs
-
-    def bg_random(self):
-        """
-        Get a random bg image path string
-        :return: file path to random bg image
-        """
-        bg = random.choice(self.bgs)
-        # fix bug where the list and not a string is returned by bg_random
-        if (isinstance(bg, kivy.properties.ObservableList)):
-            return self.bg_random()
-        return bg
-
-    def get_aphorism_formatted(self, Aphorism):
-        """
-        Get the formatted display string for an aphorism quote
-        """
-        a = Aphorism
-        return self.quote_template.format(
-                            aphorism =  a.aphorism,
-                            author      = a.author,
-                            author_font = self.author_font,
-                            author_size = int(self.ids.aphorism.font_size),
-                            quote_font  = self.quote_font)
-
-    def set_aphorism(self, A):
-        """
-        Set the current aphorism and save the current aphorism data in the class
-        """
-        self.ids.aphorism.text = self.get_aphorism_formatted(A)
-        self.aphorism = A
-        return self.aphorism
-
-    def btn_random(self):
-        """
-        Handle pressing the random aphorism button by choosing a random one
-        """
-        if int(self.app.config.get('display', 'bg_enabled')) == 1:
-            self.ids.bg.source = self.bg_random()
-        else:
-            self.ids.bg.source = self.pixel
-
-        for A in Aphorism.select().order_by(fn.Random()).limit(1):
-            self.set_aphorism(A)
-
-    def bg_toggle(self, enabled):
-        """
-        Set the background image on or off
-        """
-        if int(enabled) == 1:
-            self.bgs.append(self.bg_fetch_all())
-            self.ids.bg.source = self.bg_random()
-        else:
-            self.bgs = []
-            self.ids.bg.source = self.pixel
-
-    def change_aphorism(self, data):
-        """
-        Change the aphorism to the given id
-        """
-        if hasattr(data, 'text'):
-            try:
-                id = int(data.text)
-            except:
-                return False
-            else:
-                if id:
+            if id:
+                try:
                     A = Aphorism.get(Aphorism.id == id)
-                    self.set_aphorism(A)
+                except:
+                    return False
+                else:
+                    self.aphorism_display(A)
                     self.ids.Screens.current = 'Main'
                     return A
+
+    def aphorism_display_random(self):
+        container = self.aphorism_clear_widget()
+        widget = Factory.AphorismWidget()
+        A = widget.set_random()
+        container.add_widget(widget)
+        return A
+
+
+class AphorismWidget(BoxLayout):
+    pixel = 'assets/img/pixel.png'
+
+    def get_random(self):
+        for A in Aphorism.select().order_by(fn.Random()).limit(1):
+            return A
+
+    def set_random(self):
+        A = self.get_random()
+        self.set(A)
+        return A
+
+    def set(self, A, tpl = None):
+        self.aphorism = A
+        if tpl == None:
+            tpl = """
+            \"[b]{aphorism}[/b]\"\n  -- [i]{author}[/i]
+            """
+        formatted = tpl.format(aphorism =  A.aphorism, author = A.author)
+        self.ids.quote.text = formatted
+        return (tpl, formatted)
+
 
 class SearchForm(BoxLayout):
     """
     Search Form for Aphorisms
     """
-    def btn_search(self, text):
+    def search_action(self, text):
         hashtag = '%%{0}%%'.format(text)
         results = []
         for a in Aphorism.select().where(
@@ -206,13 +161,10 @@ class MainApp(App):
 
     def build_config(self, config):
         config.setdefaults('fonts', {
-            'font_path': 'assets/fonts/ubuntu',
-            'quote_font': 'Ubuntu-B.ttf',
-            'author_font': 'Ubuntu-LI.ttf'
+            'quote_font': 'assets/fonts/ubuntu/Ubuntu-B.ttf'
         })
         config.setdefaults('display', {
-            'quote_template': '"[color=#fff][b][font={quote_font}]{aphorism}[/font][/b][/color]"\n  [size={author_size}][color=#ddd][i][font={author_font}]  -- {author}[/font][/i][/color][/size]',
-            'bg_images_folder': 'assets/img/bg'
+            'bg_folder': 'assets/img/bg'
         })
 
 
@@ -235,7 +187,7 @@ class MainApp(App):
                 "title": "Background Image Folder",
                 "desc": "The folder used for to get the background images.",
                 "section": "display",
-                "key": "bg_images_folder"
+                "key": "bg_folder"
             }
             ]"""
         settings.add_json_panel('Aforgizmo Settings',
@@ -244,7 +196,7 @@ class MainApp(App):
     def on_config_change(self, config, section, key, value):
         if config is self.config:
             token = (section, key)
-            if token == ('display', 'bg_images_folder'):
+            if token == ('display', 'bg_folder'):
                 self.Main.bg_fetch_all()
             elif token == ('display', 'bg_enabled'):
                 self.Main.bg_toggle(value)
@@ -297,7 +249,6 @@ class AboutPopup(Popup):
 
 class HelpPopup(Popup):
     pass
-
 
 if __name__ == '__main__':
     MainApp().run()
