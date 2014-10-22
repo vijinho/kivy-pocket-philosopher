@@ -57,6 +57,7 @@ class Main(FloatLayout):
     quote_font     = ObjectProperty()
     author_font    = ObjectProperty()
     bgs            = ListProperty([])
+    pixel = 'assets/img/pixel.png'
 
     def __init__(self, **kwargs):
         super(Main, self).__init__()
@@ -75,7 +76,11 @@ class Main(FloatLayout):
         # set up initial aphorism bg images
         if int(self.app.config.get('display', 'bg_enabled')) == 1:
             self.bg_toggle(True)
-            self.btn_random()
+        else:
+            self.bg_toggle(False)
+
+        self.btn_random()
+
 
     def bg_fetch_all(self):
         """
@@ -126,7 +131,7 @@ class Main(FloatLayout):
         if int(self.app.config.get('display', 'bg_enabled')) == 1:
             self.ids.bg.source = self.bg_random()
         else:
-            self.ids.bg.source = ''
+            self.ids.bg.source = self.pixel
 
         for A in Aphorism.select().order_by(fn.Random()).limit(1):
             self.set_aphorism(A)
@@ -137,8 +142,7 @@ class Main(FloatLayout):
             self.ids.bg.source = self.bg_random()
         else:
             self.bgs = []
-            self.ids.bg.source = ''
-
+            self.ids.bg.source = self.pixel
 
 class MainApp(App):
     '''Main Program
