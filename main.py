@@ -22,7 +22,8 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.popup import Popup
-from kivy.uix.listview import ListView
+from kivy.uix.listview import ListView, ListItemButton
+from kivy.uix.label import Label
 from kivy.properties import ObjectProperty, ListProperty
 
 
@@ -130,6 +131,9 @@ class Main(FloatLayout):
         return self.aphorism
 
     def btn_random(self):
+        """
+        Handle pressing the random aphorism button by choosing a random one
+        """
         if int(self.app.config.get('display', 'bg_enabled')) == 1:
             self.ids.bg.source = self.bg_random()
         else:
@@ -139,6 +143,9 @@ class Main(FloatLayout):
             self.set_aphorism(A)
 
     def bg_toggle(self, enabled):
+        """
+        Set the background image on or off
+        """
         if int(enabled) == 1:
             self.bgs.append(self.bg_fetch_all())
             self.ids.bg.source = self.bg_random()
@@ -146,18 +153,35 @@ class Main(FloatLayout):
             self.bgs = []
             self.ids.bg.source = self.pixel
 
+    def change_aphorism(self, data):
+        """
+        Change the aphorism to the given id
+        """
+        id = data.text
+        A = Aphorism.get(Aphorism.id == id)
+        self.set_aphorism(A)
+        self.ids.Screens.current = 'Main'
+
 class SearchForm(BoxLayout):
+    """
+    Search Form for Aphorisms
+    """
     def btn_search(self, text):
         hashtag = '%%{0}%%'.format(text)
         results = []
         for a in Aphorism.select().where(
             Aphorism.hashtags ** hashtag).order_by(Aphorism.author, Aphorism.source):
-            results.append(a.ToOneLine())
+            results.append(str(a.id))
+            #results.append(a.ToOneLine())
         if len(results) > 0:
             self.search_results.item_strings = results
             del self.search_results.adapter.data[:]
             self.search_results.adapter.data.extend(results)
             self.search_results._trigger_reset_populate()
+
+class SearchResultsButton(ListItemButton):
+    pass
+
 
 class MainApp(App):
     '''Main Program

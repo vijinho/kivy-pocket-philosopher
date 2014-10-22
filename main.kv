@@ -1,4 +1,5 @@
 #:kivy 1.8.0
+#:import main main
 #:import get_random_color kivy.utils.get_random_color
 #:import ListItemButton kivy.uix.listview.ListItemButton
 #:import ListAdapter kivy.adapters.listadapter.ListAdapter
@@ -69,7 +70,10 @@
         ListView:
             id: search_results_list
             adapter:
-                ListAdapter(data = [], cls = ListItemButton)
+                ListAdapter(data = [], cls = main.SearchResultsButton)
+
+<SearchResultsButton>:
+    on_press: app.root.change_aphorism(self)
 
 <Main>:
     search_results: []
