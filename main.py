@@ -16,6 +16,7 @@ import kivy
 kivy.require('1.8.0')
 from kivy.config import Config
 from kivy.utils import platform
+from kivy.core.window import Window
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.actionbar import ActionBar
@@ -35,7 +36,8 @@ def is_desktop():
 
 if is_desktop():
     # simulate a mobile app screen size
-    Config.set('graphics', 'width', '480')
+    Window.size = (400, 800)
+    Config.set('graphics', 'width', '400')
     Config.set('graphics', 'height', '800')
 else:
     Config.set('graphics', 'fullscreen', True)
