@@ -89,7 +89,9 @@ class Main(FloatLayout):
                 except:
                     return False
                 else:
-                    self.aphorism_display(A)
+                    widget = self.aphorism_display(A)
+                    widget.set_background(self.background_get_random())
+
                     self.ids.Screens.current = 'Main'
                     return A
 
@@ -109,9 +111,13 @@ class AphorismWidget(BoxLayout):
             return A
 
     def set_random(self):
+        self.set_background(self.background_get_random())
         A = self.get_random()
         self.set(A)
         return A
+
+    def background_get_random(self):
+        return app.background_get_random()
 
     def set(self, A, tpl = None):
         self.aphorism = A
@@ -123,6 +129,11 @@ class AphorismWidget(BoxLayout):
         self.ids.quote.text = formatted
         return (tpl, formatted)
 
+    def set_background(self, path):
+        if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+            self.ids.background.source = path
+        else:
+            self.ids.background.source = self.pixel
 
 class SearchForm(BoxLayout):
     """
@@ -205,6 +216,7 @@ class MainApp(App):
         """
         Fired when the application is being started (before the runTouchApp() call.
         """
+        self.background_refresh_list()
         return True
 
     def on_stop(self):
@@ -230,6 +242,31 @@ class MainApp(App):
         """
         pass
 
+    def background_refresh_list(self):
+        """
+        Get a the list of file paths to bg images
+        :return: list of the bg image path strings
+        """
+        self.backgrounds = []
+        for root, dirs, files in os.walk(self.config.get('display', 'bg_folder')):
+            for file in files:
+                if file.endswith('.jpg'):
+                     path = os.path.join(root, file)
+                     if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+                         self.backgrounds.append(path)
+        return self.backgrounds
+
+    def background_get_random(self):
+        """
+        Get a random bg image path string
+        :return: file path to random bg image
+        """
+        background = random.choice(self.backgrounds)
+        # fix bug where the list and not a string is returned by bg_random
+        if (isinstance(background, kivy.properties.ObservableList)):
+            return self.backgrounds_random()
+        return background
+
 
 class MainActionBar(ActionBar):
     def about_popup(self):
@@ -251,4 +288,5 @@ class HelpPopup(Popup):
     pass
 
 if __name__ == '__main__':
-    MainApp().run()
+    app = MainApp()
+    app.run()
