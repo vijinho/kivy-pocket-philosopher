@@ -148,7 +148,6 @@ class Main(FloatLayout):
 
 class SearchForm(BoxLayout):
     def btn_search(self, text):
-        print "Searching...\n"
         hashtag = '%%{0}%%'.format(text)
         results = []
         for a in Aphorism.select().where(
@@ -156,6 +155,9 @@ class SearchForm(BoxLayout):
             results.append(a.ToOneLine())
         if len(results) > 0:
             self.search_results.item_strings = results
+            del self.search_results.adapter.data[:]
+            self.search_results.adapter.data.extend(results)
+            self.search_results._trigger_reset_populate()
 
 class MainApp(App):
     '''Main Program

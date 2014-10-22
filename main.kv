@@ -1,5 +1,7 @@
 #:kivy 1.8.0
 #:import get_random_color kivy.utils.get_random_color
+#:import ListItemButton kivy.uix.listview.ListItemButton
+#:import ListAdapter kivy.adapters.listadapter.ListAdapter
 
 # DEBUG WIDGETS
 #<Widget>:
@@ -66,7 +68,8 @@
                 on_press: root.btn_search(text = search_box.text)
         ListView:
             id: search_results_list
-            item_strings: []
+            adapter:
+                ListAdapter(data = [], cls = ListItemButton)
 
 <Main>:
     search_results: []
