@@ -64,7 +64,7 @@
                 text: "Random"
             DynButton:
                 id: btn_test
-                on_press: root.SwitchScreen(screen = 'Test')
+                on_press: app.SwitchScreen(screen = 'Test')
                 text: 'Test'
 
 <TestScreen>:
@@ -75,7 +75,7 @@
             DynButton:
                 id: 'Test'
                 text: 'Test'
-                on_press: root.SwitchScreen(screen = 'Main')
+                on_press: app.SwitchScreen(screen = 'Main')
 
 <AboutPopup>:
     size_hint: .65, .8
@@ -106,7 +106,7 @@
             size_hint_y: None
             text_size: self.width, None
             markup: True
-            text: 'No help available!'
+            text: 'No help available yet!'
         Button:
             text: 'OK'
             on_press: root.dismiss()

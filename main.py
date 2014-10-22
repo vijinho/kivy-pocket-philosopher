@@ -75,9 +75,10 @@ class MainScreen(Screen):
         self.author_font = fp + config.get('fonts', 'author_font')
 
         # set up initial aphorism bg images
-        self.bgs.append(self.bg_fetch_all())
-        self.ids.bg.source = self.bg_random()
-        self.btn_random()
+        if config.get('display', 'bg_enabled'):
+            self.bgs.append(self.bg_fetch_all())
+            self.ids.bg.source = self.bg_random()
+            self.btn_random()
 
     def bg_fetch_all(self):
         """
@@ -125,12 +126,13 @@ class MainScreen(Screen):
         return self.aphorism
 
     def btn_random(self):
-        self.ids.bg.source = self.bg_random()
+        if self.app.config.get('display', 'bg_enabled'):
+            self.ids.bg.source = self.bg_random()
         for A in Aphorism.select().order_by(fn.Random()).limit(1):
             self.set_aphorism(A)
 
-    def SwitchScreen(self, **kwargs):
-        ScreenSwitcher.current = kwargs.get('screen')
+    def bg_toggle(self):
+        print "poop"
 
 
 class TestScreen(Screen):
@@ -150,9 +152,6 @@ class TestScreen(Screen):
         # set default values from main.ini file
         config = self.app.config
 
-    def SwitchScreen(self, **kwargs):
-        ScreenSwitcher.current = kwargs.get('screen')
-
 
 class MainApp(App):
     '''Main Program
@@ -169,6 +168,9 @@ class MainApp(App):
         ScreenSwitcher.add_widget(MainScreen(app = self, name = 'Main'))
         ScreenSwitcher.add_widget(TestScreen(app = self, name = 'Test'))
         return ScreenSwitcher
+
+    def SwitchScreen(self, **kwargs):
+        ScreenSwitcher.current = kwargs.get('screen')
 
     def build_config(self, config):
         config.setdefaults('fonts', {
@@ -189,9 +191,17 @@ class MainApp(App):
                 "title": "Display Settings"
             },
             {
+                "type": "bool",
+                "title": "Show Background Images?",
+                "desc": "Show a random background image behind each aphorism?",
+                "section": "display",
+                "key": "bg_enabled",
+                "true": "auto"
+            },
+            {
                 "type": "path",
                 "title": "Background Image Folder",
-                "desc": "The folder used for to get the bg images.",
+                "desc": "The folder used for to get the background images.",
                 "section": "display",
                 "key": "bg_images_folder"
             }
