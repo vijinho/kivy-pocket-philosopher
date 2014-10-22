@@ -278,23 +278,22 @@ class MainApp(App):
 
 
 class MainActionBar(ActionBar):
-    def about_popup(self):
-        p = AboutPopup()
+    def about_widget(self):
+        p = AboutWidget()
         p.open()
         pass
 
-    def help_popup(self):
-        p = HelpPopup()
+    def help_widget(self):
+        p = HelpWidget()
         p.open()
         pass
 
-
-class AboutPopup(Popup):
+class AboutWidget(Popup):
     pass
 
-
-class HelpPopup(Popup):
+class HelpWidget(Popup):
     pass
+
 
 if __name__ == '__main__':
     app = MainApp()
