@@ -90,7 +90,8 @@ class Main(FloatLayout):
                     return False
                 else:
                     widget = self.aphorism_display(A)
-                    widget.background_set_random()
+                    if int(app.config.get('display', 'bg_enabled')) == 1:
+                        widget.background_set_random()
 
                     self.ids.Screens.current = 'Main'
                     return A
