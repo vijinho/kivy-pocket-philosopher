@@ -33,7 +33,7 @@
             on_press: app.Main.ids.Screens.current = 'Main'
         ActionButton:
             text: "Search"
-            on_press: app.Main.ids.Screens.current = 'Search'
+            on_press: app.Main.ids.Screens.current = 'Search'; app.Main.ids.SearchForm.ids.search_box.focus = True
         ActionOverflow:
             ActionButton:
                 text: "Help"
@@ -79,6 +79,12 @@
                             pos: self.pos
                             size: self.size
 
+<SearchInputWidget@TextInput>:
+    focus: True
+    size_hint_x: 60
+    multiline: False
+    text: ''
+
 <SearchForm>:
     search_input: search_box
     search_results: search_results_list
@@ -90,11 +96,10 @@
             Label:
                 size_hint_x: 25
                 text: 'Hashtag:'
-            TextInput:
-                size_hint_x: 60
+            SearchInputWidget:
                 id: search_box
-                text: ''
             Button:
+                id: search_submit
                 size_hint_x: 15
                 text: 'Go!'
                 on_press: root.search_action(text = search_box.text)
@@ -140,6 +145,7 @@
                     orientation: "vertical"
                     MainActionBar:
                     SearchForm:
+                        id: SearchForm
             Screen:
                 name: 'List'
                 BoxLayout:

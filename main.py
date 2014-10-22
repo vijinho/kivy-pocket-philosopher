@@ -25,6 +25,7 @@ from kivy.uix.actionbar import ActionBar
 from kivy.uix.popup import Popup
 from kivy.uix.listview import ListView, ListItemButton
 from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
 from kivy.properties import ObjectProperty, ListProperty
 
 
@@ -140,6 +141,11 @@ class AphorismWidget(BoxLayout):
     def background_set_random(self):
         self.set_background(self.background_get_random())
 
+
+class SearchInputWidget(TextInput):
+    def on_text_validate(self):
+        pass
+
 class SearchForm(BoxLayout):
     """
     Search Form for Aphorisms
@@ -161,8 +167,6 @@ class SearchForm(BoxLayout):
 
     def args_converter(self, index, data_item):
         id, quote = data_item
-        print id
-        print quote
         return {'aphorism': (id, quote)}
 
 class SearchResultsButton(ListItemButton):
