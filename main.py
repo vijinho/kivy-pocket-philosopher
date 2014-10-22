@@ -152,10 +152,9 @@ class Main(FloatLayout):
         results = self.search_results
         for a in Aphorism.select().where(
             Aphorism.hashtags ** hashtag).order_by(Aphorism.author, Aphorism.source):
-            results.append(a.aphorism)
+            results.append(str(a.id))
         if len(results) > 0:
             pass
-#            self.search_results.item_strings([1, 2, 3])
 
 class MainApp(App):
     '''Main Program
