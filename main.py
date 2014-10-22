@@ -75,9 +75,8 @@ class MainScreen(Screen):
         self.author_font = fp + config.get('fonts', 'author_font')
 
         # set up initial aphorism bg images
-        if config.get('display', 'bg_enabled'):
-            self.bgs.append(self.bg_fetch_all())
-            self.ids.bg.source = self.bg_random()
+        if int(self.app.config.get('display', 'bg_enabled')) == 1:
+            self.bg_toggle(True)
             self.btn_random()
 
     def bg_fetch_all(self):
@@ -126,14 +125,22 @@ class MainScreen(Screen):
         return self.aphorism
 
     def btn_random(self):
-        if self.app.config.get('display', 'bg_enabled'):
+        if int(self.app.config.get('display', 'bg_enabled')) == 1:
             self.ids.bg.source = self.bg_random()
+            print self.app.config.get('display', 'bg_enabled')
+        else:
+            self.ids.bg.source = ''
+
         for A in Aphorism.select().order_by(fn.Random()).limit(1):
             self.set_aphorism(A)
 
-    def bg_toggle(self):
-        print "poop"
-
+    def bg_toggle(self, enabled):
+        if int(enabled) == 1:
+            self.bgs.append(self.bg_fetch_all())
+            self.ids.bg.source = self.bg_random()
+        else:
+            self.bgs = []
+            self.ids.bg.source = ''
 
 class TestScreen(Screen):
     ''' UI Screen Widget
@@ -217,7 +224,7 @@ class MainApp(App):
             if token == ('display', 'bg_images_folder'):
                 self.MainScreen.bg_fetch_all()
             elif token == ('display', 'bg_enabled'):
-                self.MainScreen.bg_toggle()
+                self.MainScreen.bg_toggle(value)
 
     def on_start(self):
         """
