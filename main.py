@@ -139,7 +139,7 @@ class MainScreen(Screen):
             self.ids.bg.source = self.bg_random()
         else:
             self.bgs = []
-            self.ids.bg.source = None
+            self.ids.bg.source = ''
 
 class TestScreen(Screen):
     ''' UI Screen Widget
