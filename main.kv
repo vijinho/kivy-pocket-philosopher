@@ -45,17 +45,22 @@
                 keep_ratio: True
                 allow_stretch: True
             Scatter:
-                center: self.parent.center
                 size_hint: None, None
                 size: aphorism.size
                 Label:
                     id: aphorism
                     font_size: root.height / 15
                     markup: True
-                    text: 'Press the Button!'
+                    text: 'Shall we?'
                     text_size: root.width, None
                     size_hint_y: None
                     size: self.texture_size
+                    canvas.before:
+                        Color:
+                            rgba: 0, 0, 0, 0.75
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
         BoxLayout:
             size_hint_y: 0.1
             DynButton:
