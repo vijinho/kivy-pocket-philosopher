@@ -111,7 +111,8 @@ class AphorismWidget(BoxLayout):
             return A
 
     def set_random(self):
-        self.set_background(self.background_get_random())
+        if int(app.config.get('display', 'bg_enabled')) == 1:
+            self.set_background(self.background_get_random())
         A = self.get_random()
         self.set(A)
         return A
@@ -213,8 +214,7 @@ class MainApp(App):
             if token == ('display', 'bg_folder'):
                 self.background_refresh_list()
             elif token == ('display', 'bg_enabled'):
-                print 'poop'
-#                self.Main.bg_toggle(value)
+                pass
 
     def on_start(self):
         """
@@ -252,12 +252,16 @@ class MainApp(App):
         :return: list of the bg image path strings
         """
         self.backgrounds = []
-        for root, dirs, files in os.walk(self.config.get('display', 'bg_folder')):
-            for file in files:
-                if file.endswith('.jpg'):
-                     path = os.path.join(root, file)
-                     if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
-                         self.backgrounds.append(path)
+        try:
+            for root, dirs, files in os.walk(self.config.get('display', 'bg_folder')):
+                for file in files:
+                    if file.endswith('.jpg'):
+                         path = os.path.join(root, file)
+                         if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+                             self.backgrounds.append(path)
+        except:
+            pass
+
         return self.backgrounds
 
     def background_get_random(self):
