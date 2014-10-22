@@ -19,6 +19,7 @@ from kivy.utils import platform
 from kivy.core.window import Window
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.popup import Popup
 from kivy.uix.listview import ListView
@@ -59,7 +60,6 @@ class Main(FloatLayout):
     author_font    = ObjectProperty()
     bgs            = ListProperty()
     pixel = 'assets/img/pixel.png'
-    search_results = ListProperty()
 
     def __init__(self, **kwargs):
         super(Main, self).__init__()
@@ -146,6 +146,8 @@ class Main(FloatLayout):
             self.bgs = []
             self.ids.bg.source = self.pixel
 
+class SearchForm(BoxLayout):
+    search_results = ListProperty()
     def btn_search(self, text):
         print "Searching...\n"
         hashtag = '%%{0}%%'.format(text)
