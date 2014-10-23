@@ -79,4 +79,4 @@ See Also
 -  https://travis-ci.org/vijinho/aforgizmo - Travis Build Test
 -  https://github.com/jcalazan/random-quotes - A similar Kivy App
 
--- (c) Copyright 2014 Vijay Mahrra http://about.me/vijay.mahrra
+(c) Copyright 2014 Vijay Mahrra http://about.me/vijay.mahrra

@@ -23,4 +23,4 @@ DESIGN, GRAPHICS, TYPOGRAPHY
 
 -  Ubuntu (Font) - http://font.ubuntu.com/
 -  Serif Affinity Designer (App Icon) - https://affinity.serif.com/
-
+-  Android-based icons - https://developer.android.com/design/downloads/
