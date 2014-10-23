@@ -24,6 +24,12 @@
 #                    pos: self.pos
 #                    size: self.size
 
+<MyButton@Button>:
+    halign: 'left'
+    font_size: '16sp'
+    font_name: 'assets/fonts/ubuntu/Ubuntu-M.ttf'
+    markup: True
+
 <MainActionBar@ActionBar>
     pos_hint: {'top':1}
     ActionView:
@@ -31,6 +37,9 @@
         ActionPrevious:
             with_previous: False
             on_press: app.Main.ids.Screens.current = 'Main'
+#        ActionButton:
+#            text: "Copy"
+#            icon: 'assets/img/icons/copy.png'
         ActionButton:
             text: "Search"
             icon: 'assets/img/icons/search.png'
@@ -71,15 +80,17 @@
                 size: quote.size
                 Label:
                     id: quote
-                    font_size: '20sp'
+                    font_name: 'assets/fonts/ubuntu/Ubuntu-B.ttf'
+                    font_size: '28sp'
+                    valign: 'middle'
                     markup: True
                     text: ''
                     text_size: root.width, None
-                    size_hint_y: None
                     size: self.texture_size
+                    padding: ('20dp', '20dp')
                     canvas.before:
                         Color:
-                            rgba: get_random_color(0.3)
+                            rgba: get_random_color(0.4)
                         Rectangle:
                             pos: self.pos
                             size: self.size
@@ -95,21 +106,22 @@
     BoxLayout:
         orientation: "vertical"
         BoxLayout:
-            size_hint_y: '0.05dp'
             orientation: "horizontal"
+            size_hint_y: None
+            size: (self.parent.width, '36dp')
             Image:
-                size_hint_x: 10
-                width: root.width
+                size_hint_x: None
+                width: '32dp'
                 height: root.height
                 keep_ratio: True
                 allow_stretch: True
                 source: 'assets/img/icons/search.png'
             SearchInputWidget:
                 id: search_box
-                size_hint_x: 70
-            Button:
+            MyButton:
+                size_hint_x: None
+                width: '64dp'
                 id: search_submit
-                size_hint_x: 20
                 text: 'Go!'
                 on_press: root.search_action(text = search_box.text)
         ListView:
@@ -122,9 +134,13 @@
 
 <SearchResultsButton>:
     text: "{}".format(self.aphorism[1])
-    height: '40dp'
-    size_hint_y: None
     on_press: app.root.aphorism_display_by_id(self.aphorism[0])
+    halign: 'left'
+    size_hint_y: None
+    height: '45dp'
+    font_size: '16sp'
+    font_name: 'assets/fonts/ubuntu/Ubuntu-M.ttf'
+    markup: True
 
 <Main>:
     search_results: []
@@ -139,13 +155,16 @@
                 BoxLayout:
                     orientation: "vertical"
                     MainActionBar:
+                        size_hint_y: None
                     BoxLayout:
                         id: aphorism_container
                         orientation: "vertical"
                         AphorismWidget:
-                    Button:
-                        size_hint_y: '0.05dp'
-                        text: 'random'
+                    MyButton:
+                        size_hint_y: None
+                        height: '64dp'
+                        font_size: '20sp'
+                        text: 'Random'
                         on_press: root.aphorism_display_random()
             Screen:
                 name: 'Search'
@@ -162,7 +181,6 @@
                     MainActionBar:
                     BoxLayout:
                         orientation: "vertical"
-                        size_hint_y: '0.1dp'
                         RelativeLayout:
             Screen:
                 name: 'Add'
@@ -171,9 +189,8 @@
                     MainActionBar:
                     BoxLayout:
                         orientation: "vertical"
-                        size_hint_y: '0.1dp'
                         RelativeLayout:
-                        Button:
+                        MyButton:
                             id: 'Add'
                             text: 'Add'
             Screen:
@@ -183,15 +200,14 @@
                     MainActionBar:
                     BoxLayout:
                         orientation: "vertical"
-                        size_hint_y: '0.1dp'
                         RelativeLayout:
-                        Button:
+                        MyButton:
                             id: 'Edit'
                             text: 'Edit'
 
 <AboutWidget>:
     auto_dismiss: False
-    size_hint: 0.8, 0.6
+    size_hint: 0.9, 0.9
     title: 'About Aforgizmo'
     BoxLayout:
         orientation: "vertical"
@@ -199,14 +215,14 @@
         spacing: 10
         RstDocument:
             source: 'docs/ABOUT.rst'
-        Button:
-            size_hint_y: '0.1dp'
+        MyButton:
+            size_hint_y: None
             text: 'OK'
             on_press: root.dismiss()
 
 <HelpWidget>:
     auto_dismiss: False
-    size_hint: 0.8, 0.8
+    size_hint: 0.9, 0.9
     title: 'Aforgizmo Help'
     BoxLayout:
         orientation: "vertical"
@@ -214,7 +230,7 @@
         spacing: 10
         RstDocument:
             source: 'docs/HELP.rst'
-        Button:
-            size_hint_y: '0.1dp'
+        MyButton:
+            size_hint_y: None
             text: 'OK'
             on_press: root.dismiss()
