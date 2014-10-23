@@ -149,6 +149,9 @@ class SearchInputWidget(TextInput):
         s = re.sub(self.pat, '', substring.lower())
         return super(SearchInputWidget, self).insert_text(s, from_undo=from_undo)
 
+    def on_text_validate(self):
+        app.Main.ids.SearchForm.search_action(text = self.text)
+
 class SearchForm(BoxLayout):
     """
     Search Form for Aphorisms
