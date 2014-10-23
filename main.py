@@ -147,12 +147,11 @@ class SearchInputWidget(TextInput):
     pat = re.compile('[^A-Za-z0-9_]')
     def insert_text(self, substring, from_undo=False):
         s = re.sub(self.pat, '', substring.lower())
-        super(SearchInputWidget, self).insert_text(s, from_undo=from_undo)
-        self.on_text_validate()
-        return
+        return self.on_text_validate()
 
     def on_text_validate(self):
         app.Main.ids.SearchForm.search_action(text = self.text)
+        return super(SearchInputWidget, self).insert_text(s, from_undo=from_undo)
 
 class SearchForm(BoxLayout):
     """
