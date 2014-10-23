@@ -10,6 +10,7 @@ This app is written in Python using the Kivy library for cross-platform support 
 ## Setup
  * `$ pip install --editable .`
  * `python models.py` - setup database `data/aphorisms.db`
+ * `nosetests` - run 'nose' tests in tests/
  
 ### (Alternative) Manual Database Setup
 ```
