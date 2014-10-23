@@ -147,30 +147,27 @@ class SearchInputWidget(TextInput):
     pat = re.compile('[^A-Za-z0-9_]')
     def insert_text(self, substring, from_undo=False):
         s = re.sub(self.pat, '', substring.lower())
-        return self.on_text_validate()
+        self.on_text_validate()
+        return super(SearchInputWidget, self).insert_text(s, from_undo=from_undo)
 
     def on_text_validate(self):
         app.Main.ids.SearchForm.search_action(text = self.text)
-        return super(SearchInputWidget, self).insert_text(s, from_undo=from_undo)
 
 class SearchForm(BoxLayout):
     """
     Search Form for Aphorisms
     """
     def search_action(self, text):
-        hashtag = '%%{0}%%'.format(text)
         results = []
-        for a in Aphorism.select().where(
-            Aphorism.hashtags ** hashtag).order_by(Aphorism.author, Aphorism.source):
-            #results.append(str(a.id))
-            #results.append(a.ToOneLine())
-            results.append([a.id, a.ToOneLine()])
-
-        if len(results) > 0:
-            self.search_results.item_strings = results
-            del self.search_results.adapter.data[:]
-            self.search_results.adapter.data.extend(results)
-            self.search_results._trigger_reset_populate()
+        if len(str(text)) > 0:
+            search = '%%{0}%%'.format(text)
+            for a in Aphorism.select().where(
+                Aphorism.aphorism ** search).order_by(Aphorism.author, Aphorism.source):
+                results.append([a.id, a.ToOneLine()])
+        self.search_results.item_strings = results
+        del self.search_results.adapter.data[:]
+        self.search_results.adapter.data.extend(results)
+        self.search_results._trigger_reset_populate()
 
     def args_converter(self, index, data_item):
         id, quote = data_item
