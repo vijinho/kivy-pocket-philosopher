@@ -35,18 +35,22 @@
             text: "Search"
             icon: 'assets/img/icons/search.png'
             on_press: app.Main.ids.Screens.current = 'Search'; app.Main.ids.SearchForm.ids.search_box.focus = True
+        ActionButton:
+            id: btn_settings
+            text: "Settings"
+            icon: 'assets/img/icons/settings.png'
+            on_press: app.open_settings()
         ActionOverflow:
             ActionButton:
                 text: "Help"
+                icon: 'assets/img/icons/help.png'
                 on_press: root.help_widget()
             ActionButton:
-                id: btn_settings
-                on_press: app.open_settings()
-                text: "Settings"
-            ActionButton:
                 text: "About"
+                icon: 'assets/img/icons/about.png'
                 on_press: root.about_widget()
             ActionButton:
+                icon: 'assets/img/icons/quit.png'
                 on_press: app.stop()
                 text: "Exit"
 
