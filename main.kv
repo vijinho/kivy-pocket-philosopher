@@ -93,15 +93,19 @@
         BoxLayout:
             size_hint_y: '0.05dp'
             orientation: "horizontal"
-            Label:
-                size_hint_x: 25
-                text: 'Word:'
+            Image:
+                size_hint_x: 10
+                width: root.width
+                height: root.height
+                keep_ratio: True
+                allow_stretch: True
+                source: 'assets/img/icons/search.png'
             SearchInputWidget:
                 id: search_box
-                size_hint_x: 60
+                size_hint_x: 70
             Button:
                 id: search_submit
-                size_hint_x: 15
+                size_hint_x: 20
                 text: 'Go!'
                 on_press: root.search_action(text = search_box.text)
         ListView:
