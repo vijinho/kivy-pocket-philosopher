@@ -1,5 +1,5 @@
-Aforgizmo Aphorisms
-===================
+Pocket Philosopher
+==================
 
 | An App which saves, retrieves, edits and displays aphorisms.
 | This app is written in Python using the Kivy library for

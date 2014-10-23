@@ -1,6 +1,6 @@
 '''
-Aforgizmo Database Models
-=========================
+Pocket Philosopher Database Models
+===================================
 
 Models to handle aphorism data
 '''

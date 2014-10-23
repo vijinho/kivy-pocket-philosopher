@@ -1,5 +1,5 @@
-Aforgizmo Aphorisms
-===================
+Pocket Philosopher
+==================
 Version 1
 
 Author & Copyright

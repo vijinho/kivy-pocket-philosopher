@@ -125,9 +125,7 @@ class AphorismWidget(BoxLayout):
     def set(self, A, tpl = None):
         self.aphorism = A
         if tpl == None:
-            tpl = """
-            \"[b]{aphorism}[/b]\"\n  -- [i]{author}[/i]
-            """
+            tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]"""
         formatted = tpl.format(aphorism =  A.aphorism, author = A.author)
         self.ids.quote.text = formatted
         return (tpl, formatted)
@@ -188,7 +186,7 @@ class MainApp(App):
     use_kivy_settings = False
 
     def __init__(self):
-        self.title = 'Aforgizmo'
+        self.title = 'Pocket Philosopher'
         self.icon = 'assets/img/icon.png'
         App.__init__(self)
 
@@ -229,7 +227,7 @@ class MainApp(App):
                 "key": "bg_folder"
             }
             ]"""
-        settings.add_json_panel('Aforgizmo Settings',
+        settings.add_json_panel('Pocket Philosopher Settings',
                                 self.config, data=jsondata)
 
     def on_config_change(self, config, section, key, value):

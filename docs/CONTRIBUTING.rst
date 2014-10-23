@@ -22,7 +22,7 @@ If you found anything wrong, a crash, segfault, missing documentation,
 invalid spelling, weird example, please take 2 minutes to report the
 issue. following the guide lines mentioned
 `here <http://kivy.org/docs/contribute.html#reporting-an-issue>`__ at
-`Aforgizmo Issues <https://github.com/vijinho/aforgizmo/issues>`__
+`Pocket Philosopher Issues <https://github.com/vijinho/aforgizmo/issues>`__
 
 `Code Contributions <http://kivy.org/docs/contribute.html#code-contributions>`__
 --------------------------------------------------------------------------------

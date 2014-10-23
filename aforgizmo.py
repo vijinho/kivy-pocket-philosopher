@@ -1,6 +1,6 @@
 '''
-Aforgizmo CLI
-==============
+Pocket Philosopher CLI
+======================
 
 An App which saves, retrieves, edits and displays aphorisms
 '''

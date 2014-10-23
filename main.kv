@@ -37,9 +37,10 @@
         ActionPrevious:
             with_previous: False
             on_press: app.Main.ids.Screens.current = 'Main'
-#        ActionButton:
-#            text: "Copy"
-#            icon: 'assets/img/icons/copy.png'
+        ActionButton:
+            text: "New"
+            icon: 'assets/img/icons/new.png'
+            on_press: app.Main.ids.Screens.current = 'New'; app.Main.ids.SearchForm.ids.search_box.focus = True
         ActionButton:
             text: "Search"
             icon: 'assets/img/icons/search.png'
@@ -81,7 +82,7 @@
                 Label:
                     id: quote
                     font_name: 'assets/fonts/ubuntu/Ubuntu-B.ttf'
-                    font_size: '28sp'
+                    font_size: '30sp'
                     valign: 'middle'
                     markup: True
                     text: ''
@@ -183,7 +184,7 @@
                         orientation: "vertical"
                         RelativeLayout:
             Screen:
-                name: 'Add'
+                name: 'New'
                 BoxLayout:
                     orientation: "vertical"
                     MainActionBar:
@@ -191,8 +192,8 @@
                         orientation: "vertical"
                         RelativeLayout:
                         MyButton:
-                            id: 'Add'
-                            text: 'Add'
+                            id: 'New'
+                            text: 'new'
             Screen:
                 name: 'Edit'
                 BoxLayout:
@@ -208,7 +209,7 @@
 <AboutWidget>:
     auto_dismiss: False
     size_hint: 0.9, 0.9
-    title: 'About Aforgizmo'
+    title: 'About Pocket Philosopher'
     BoxLayout:
         orientation: "vertical"
         padding: 2
@@ -223,7 +224,7 @@
 <HelpWidget>:
     auto_dismiss: False
     size_hint: 0.9, 0.9
-    title: 'Aforgizmo Help'
+    title: 'Pocket Philosopher Help'
     BoxLayout:
         orientation: "vertical"
         padding: 2

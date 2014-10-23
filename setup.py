@@ -6,7 +6,7 @@ except ImportError:
 setup(
     version='1.0',
     name='aforgizmo',
-    description='Aforgizmo Aphorisms',
+    description='Pocket Philosopher (Aforgizmo Aphorisms)',
     author='Vijay Mahrra',
     url='https://github.com/vijinho/aforgizmo',
     download_url='https://github.com/vijinho/aforgizmo',
