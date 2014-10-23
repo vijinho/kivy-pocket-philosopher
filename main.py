@@ -300,12 +300,10 @@ class MainActionBar(ActionBar):
     def about_widget(self):
         p = AboutWidget()
         p.open()
-        pass
 
     def help_widget(self):
         p = HelpWidget()
         p.open()
-        pass
 
 class AboutWidget(Popup):
     pass

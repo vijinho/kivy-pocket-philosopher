@@ -90,7 +90,7 @@
     BoxLayout:
         orientation: "vertical"
         BoxLayout:
-            size_hint_y: '0.05sp'
+            size_hint_y: '0.05dp'
             orientation: "horizontal"
             Label:
                 size_hint_x: 25
@@ -135,7 +135,7 @@
                         orientation: "vertical"
                         AphorismWidget:
                     Button:
-                        size_hint_y: '0.05sp'
+                        size_hint_y: '0.05dp'
                         text: 'random'
                         on_press: root.aphorism_display_random()
             Screen:
@@ -153,7 +153,7 @@
                     MainActionBar:
                     BoxLayout:
                         orientation: "vertical"
-                        size_hint_y: '0.1sp'
+                        size_hint_y: '0.1dp'
                         RelativeLayout:
             Screen:
                 name: 'Add'
@@ -162,7 +162,7 @@
                     MainActionBar:
                     BoxLayout:
                         orientation: "vertical"
-                        size_hint_y: '0.1sp'
+                        size_hint_y: '0.1dp'
                         RelativeLayout:
                         Button:
                             id: 'Add'
@@ -174,7 +174,7 @@
                     MainActionBar:
                     BoxLayout:
                         orientation: "vertical"
-                        size_hint_y: '0.1sp'
+                        size_hint_y: '0.1dp'
                         RelativeLayout:
                         Button:
                             id: 'Edit'
@@ -182,33 +182,30 @@
 
 <AboutWidget>:
     auto_dismiss: False
-    size_hint: .75, .75
+    size_hint: 0.8, 0.6
     title: 'About Aforgizmo'
     BoxLayout:
         orientation: "vertical"
         padding: 2
         spacing: 10
-        Label:
-            text_size: self.width, None
-            markup: True
-            text: 'This app was written by [b]Vijay Mahrra[/b].\n\n[i]http://about.me/vijay.mahrra[/i]\n\nComments, issues and feedback to: [b]vijay.mahrra@gmail.com[/b]\n\n'
+        RstDocument:
+            source: 'docs/ABOUT.rst'
         Button:
+            size_hint_y: '0.1dp'
             text: 'OK'
             on_press: root.dismiss()
 
 <HelpWidget>:
     auto_dismiss: False
-    size_hint: .75, .75
+    size_hint: 0.8, 0.8
     title: 'Aforgizmo Help'
     BoxLayout:
         orientation: "vertical"
         padding: 2
         spacing: 10
-        Label:
-            size_hint_y: None
-            text_size: self.width, None
-            markup: True
-            text: 'No help available yet!'
+        RstDocument:
+            source: 'docs/HELP.rst'
         Button:
+            size_hint_y: '0.1dp'
             text: 'OK'
             on_press: root.dismiss()
