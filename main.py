@@ -9,6 +9,7 @@ This app is written in Python using the Kivy library for cross-platform support 
 import os
 import random
 import imghdr
+import re
 from peewee import *
 from models import Aphorism
 
@@ -143,8 +144,10 @@ class AphorismWidget(BoxLayout):
 
 
 class SearchInputWidget(TextInput):
-    def on_text_validate(self):
-        pass
+    pat = re.compile('[^A-Za-z0-9_]')
+    def insert_text(self, substring, from_undo=False):
+        s = re.sub(self.pat, '', substring.lower())
+        return super(SearchInputWidget, self).insert_text(s, from_undo=from_undo)
 
 class SearchForm(BoxLayout):
     """
