@@ -37,6 +37,13 @@ Setup
 -  Insert the example aphorisms from ``data/aphorisms.json`` with
    ``aforgizmo insert`` then hit the RETURN/ENTER key twice
 
+Running the App
+---------------
+
+-  On Mac OS X: ``kivy main.py`` - On other platforms it may 'just work'
+   with ``python main.py``
+-  Alternatively, execute ``run.sh 800x600`` to run in an 800x600 pixel window or just ``run.sh``
+
 Command Line Usage
 ------------------
 
@@ -66,13 +73,6 @@ Type ``aforgizmo`` or failing that:
 
 -  ``aforgizmo COMMAND --help``
 -  ``sqlite3 data/aphorisms.db`` see http://www.sqlite.org/cli.html
-
-Running the Kivy App
---------------------
-
--  On Mac OS X: ``kivy main.py`` - On other platforms it may 'just work'
-   with ``python main.py``
--  Alternatively, execute ``run.sh 800x600`` to run in an 800x600 pixel window or just ``run.sh``
 
 See Also
 --------
