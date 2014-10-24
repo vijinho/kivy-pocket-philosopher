@@ -44,10 +44,12 @@ def is_desktop():
 
 # resize main window
 if is_desktop():
+    width = 400
+    height = 800
     # simulate a mobile app screen size
-    Window.size = (400, 800)
-    Config.set('graphics', 'width', '400')
-    Config.set('graphics', 'height', '800')
+    Window.size = (width, height)
+    Config.set('graphics', 'width', width)
+    Config.set('graphics', 'height', height)
 else:
     Config.set('graphics', 'fullscreen', True)
 
