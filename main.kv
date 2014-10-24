@@ -76,6 +76,12 @@
                 allow_stretch: True
                 auto_bring_to_front: False
                 source: root.pixel
+                canvas.before:
+                    Color:
+                        rgba: [.4, .4, .4, .3]
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
             Scatter:
                 size_hint: None, None
                 size: quote.size
@@ -91,7 +97,7 @@
                     padding: ('20dp', '20dp')
                     canvas.before:
                         Color:
-                            rgba: get_random_color(0.4)
+                            rgba: get_random_color(0.5)
                         Rectangle:
                             pos: self.pos
                             size: self.size
