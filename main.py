@@ -146,10 +146,10 @@ class FormNew(Popup):
         }
 
         if len(data['author']) == 0:
-            data['author'] = '(Anonymous)'
+            data['author'] = app.config.get('editor', 'default_author')
 
         if len(data['source']) == 0:
-            data['source'] = '(Unknown)'
+            data['source'] = app.config.get('editor', 'default_source')
 
         try:
             a = Aphorism(
@@ -245,16 +245,22 @@ class MainApp(App):
         config.setdefaults('display', {
             'bg_enabled': 1
         })
+        config.setdefaults('editor', {
+            'default_author': '(Anonymous)'
+        })
+        config.setdefaults('editor', {
+            'default_source': '(Unknown)'
+        })
 
     def build_settings(self, settings):
         jsondata = """[
             {
                 "type": "title",
-                "title": "Display Settings"
+                "title": "Background Image Settings"
             },
             {
                 "type": "bool",
-                "title": "Show Background Images?",
+                "title": "Show Images?",
                 "desc": "Show a random background image behind each aphorism?",
                 "section": "display",
                 "key": "bg_enabled",
@@ -262,10 +268,28 @@ class MainApp(App):
             },
             {
                 "type": "path",
-                "title": "Background Image Folder",
-                "desc": "The folder used for to get the background images.",
+                "title": "Image Folder",
+                "desc": "The top-level folder used to find the background images.",
                 "section": "display",
                 "key": "bg_folder"
+            },
+            {
+                "type": "title",
+                "title": "Editor Settings"
+            },
+            {
+                "type": "string",
+                "title": "Default Author",
+                "desc": "What text should appear for the author's name when not entered?",
+                "section": "editor",
+                "key": "default_author"
+            },
+            {
+                "type": "string",
+                "title": "Default Source",
+                "desc": "What text should appear for the source of the aphorism when not entered?",
+                "section": "editor",
+                "key": "default_source"
             }
             ]"""
         settings.add_json_panel('Pocket Philosopher Settings',
