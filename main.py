@@ -151,13 +151,13 @@ class WidgetInputSearch(TextInput):
         return super(WidgetInputSearch, self).insert_text(s, from_undo=from_undo)
 
     def on_text_validate(self):
-        app.Main.ids.WidgetFormSearch.action_search(text = self.text)
+        app.Main.ids.WidgetFormSearch.search(text = self.text)
 
 class WidgetFormSearch(BoxLayout):
     """
     Search Form for Aphorisms
     """
-    def action_search(self, text):
+    def search(self, text):
         results = []
         if len(str(text)) > 0:
             search = '%%{0}%%'.format(text)
@@ -173,7 +173,7 @@ class WidgetFormSearch(BoxLayout):
         id, quote = data_item
         return {'aphorism': (id, quote)}
 
-class SearchResultsButton(ListItemButton):
+class ButtonSearchResults(ListItemButton):
    aphorism = ListProperty()
    pass
 

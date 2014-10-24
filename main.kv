@@ -153,16 +153,16 @@
                 size_hint_x: None
                 width: '64dp'
                 text: 'Go!'
-                on_press: root.action_search(text = search_box.text)
+                on_press: root.search(text = search_box.text)
         ListView:
             id: search_results_list
             adapter:
                 ListAdapter(
                 data = [],
                 args_converter = root.args_converter,
-                cls = main.SearchResultsButton)
+                cls = main.ButtonSearchResults)
 
-<SearchResultsButton@MyButton>:
+<ButtonSearchResults@MyButton>:
     size_hint_y: None
     height: '64dp'
     halign: 'left'
