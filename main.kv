@@ -141,8 +141,7 @@
 
 <FormTextArea@FormTextInput>:
     multiline: True
-
-<WidgetInputTags@FormTextArea>:
+    max_chars: 512
 
 <FormNew@Popup>:
     size_hint: 0.8, 0.8
@@ -169,11 +168,14 @@
                     text: 'Aphorism:'
                 FormTextArea:
                     id: aphorism
+                    max_chars: 4096
                     size_hint_y: 0.8
                 FormLabel:
-                    text: 'Tags:'
-                WidgetInputTags:
+                    text: 'Tags: (Space-separated, use: a-z 0-9 _)'
+                FormTextArea:
                     id: tags
+                    valid_chars: 'a-z0-9_\s'
+                    max_chars: 1024
                     size_hint_y: 0.2
                     size: (self.parent.width, '72dp')
         BoxLayout:

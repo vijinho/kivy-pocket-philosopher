@@ -117,11 +117,24 @@ class ButtonSearchResults(ListItemButton):
    pass
 
 
-class WidgetInputTags(TextInput):
-    pat = re.compile('[^A-Za-z0-9_\s]')
+class FormTextInput(TextInput):
+    max_chars = 255
+    valid_chars = ''
     def insert_text(self, substring, from_undo=False):
-        s = re.sub(self.pat, '', substring.lower())
-        return super(WidgetInputTags, self).insert_text(s, from_undo=from_undo)
+        if len(self.valid_chars) > 0:
+            valid_chars = '[^' + self.valid_chars + ']'
+            pat = re.compile(valid_chars)
+            s = re.sub(valid_chars, '', substring)
+        else:
+            s = substring
+        super(FormTextInput, self).insert_text(s, from_undo=from_undo)
+        self.validate(self.max_chars)
+
+    def validate(self, max_chars):
+        if int(max_chars) <= 0:
+            max_chars = self.max_chars
+        s = self.text
+        self.text = (s[:max_chars]) if len(s) > max_chars else s
 
 class FormNew(Popup):
     def new(self):
