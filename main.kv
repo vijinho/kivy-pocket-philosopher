@@ -67,7 +67,7 @@
             text: 'OK'
             on_press: root.dismiss()
 
-<MainActionBar@ActionBar>
+<ActionBarMain@ActionBar>
     pos_hint: {'top':1}
     ActionView:
         use_separator: True
@@ -101,7 +101,7 @@
                 text: "Exit"
                 on_press: app.stop()
 
-<AphorismWidget@BoxLayout>:
+<WidgetAphorism@BoxLayout>:
     BoxLayout:
         orientation: "vertical"
         RelativeLayout:
@@ -188,7 +188,7 @@
 <FormTextArea@FormTextInput>:
     multiline: True
 
-<NewFormWidget@Popup>:
+<FormNew@Popup>:
     size_hint: 0.8, 0.8
     auto_dismiss: False
     title: 'Add New Aphorism'
@@ -225,12 +225,12 @@
                 id: submit_new_aphorism
                 size_hint_x: 0.7
                 text: 'Add New Aphorism'
-                on_press: root.action_new()
+                on_press: root.new()
             MyButton:
                 id: submit_new_aphorism
                 size_hint_x: 0.3
                 text: 'Cancel'
-                on_press: root.action_cancel()
+                on_press: root.cancel()
 
 <Main>:
     search_results: []
@@ -244,12 +244,12 @@
                 name: 'Main'
                 BoxLayout:
                     orientation: "vertical"
-                    MainActionBar:
+                    ActionBarMain:
                         size_hint_y: None
                     BoxLayout:
                         id: aphorism_container
                         orientation: "vertical"
-                        AphorismWidget:
+                        WidgetAphorism:
                     MyButton:
                         size_hint_y: None
                         height: '64dp'
@@ -261,14 +261,14 @@
                 orientation: "vertical"
                 BoxLayout:
                     orientation: "vertical"
-                    MainActionBar:
+                    ActionBarMain:
                     WidgetFormSearch:
                         id: WidgetFormSearch
             Screen:
                 name: 'List'
                 BoxLayout:
                     orientation: "vertical"
-                    MainActionBar:
+                    ActionBarMain:
                     BoxLayout:
                         orientation: "vertical"
                         RelativeLayout:

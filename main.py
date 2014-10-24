@@ -76,7 +76,7 @@ class Main(FloatLayout):
 
     def aphorism_display(self, A):
         container = self.aphorism_clear_widget()
-        widget = Factory.AphorismWidget()
+        widget = Factory.WidgetAphorism()
         widget.set(A)
         container.add_widget(widget)
         return widget
@@ -102,13 +102,13 @@ class Main(FloatLayout):
 
     def aphorism_random_display(self):
         container = self.aphorism_clear_widget()
-        widget = Factory.AphorismWidget()
+        widget = Factory.WidgetAphorism()
         A = widget.random_set()
         container.add_widget(widget)
         return A
 
 
-class AphorismWidget(BoxLayout):
+class WidgetAphorism(BoxLayout):
     pixel = 'assets/img/pixel.png'
 
     def random_get(self):
@@ -293,7 +293,7 @@ class MainApp(App):
         return background
 
 
-class MainActionBar(ActionBar):
+class ActionBarMain(ActionBar):
     def about(self):
         p = WidgetAbout()
         p.open()
@@ -303,7 +303,7 @@ class MainActionBar(ActionBar):
         p.open()
 
     def new(self):
-        m = NewFormWidget()
+        m = FormNew()
         m.open()
 
 class WidgetAbout(Popup):
@@ -312,14 +312,14 @@ class WidgetAbout(Popup):
 class WidgetHelp(Popup):
     pass
 
-class NewFormWidget(Popup):
+class FormNew(Popup):
     """
     New Aphorism Form
     """
-    def action_new(self):
+    def new(self):
         print "Add New!"
 
-    def action_cancel(self):
+    def cancel(self):
         self.dismiss()
         print "Cancel New!"
 
