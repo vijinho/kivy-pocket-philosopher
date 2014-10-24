@@ -21,6 +21,6 @@ SOFTWARE PROJECTS
 DESIGN, GRAPHICS, TYPOGRAPHY
 ============================
 
--  Ubuntu (Font) - http://font.ubuntu.com/
+-  Roboto Slab (Font) by Christian Robertson - http://www.google.com/fonts/specimen/Roboto+Slab
 -  Serif Affinity Designer (App Icon) - https://affinity.serif.com/
 -  Android-based icons - https://developer.android.com/design/downloads/

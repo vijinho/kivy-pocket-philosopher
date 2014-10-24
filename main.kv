@@ -27,7 +27,7 @@
 <MyButton@Button>:
     halign: 'left'
     font_size: '16sp'
-    font_name: 'assets/fonts/ubuntu/Ubuntu-M.ttf'
+    font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
     markup: True
 
 <MainActionBar@ActionBar>
@@ -38,13 +38,13 @@
             with_previous: False
             on_press: app.Main.ids.Screens.current = 'Main'
         ActionButton:
-            text: "New"
-            icon: 'assets/img/icons/new.png'
-            on_press: root.aphorism_new_widget()
-        ActionButton:
             text: "Search"
             icon: 'assets/img/icons/search.png'
             on_press: app.Main.ids.Screens.current = 'Search'; app.Main.ids.SearchForm.ids.search_box.focus = True
+        ActionButton:
+            text: "New"
+            icon: 'assets/img/icons/new.png'
+            on_press: root.aphorism_new_widget()
         ActionButton:
             id: btn_settings
             text: "Settings"
@@ -81,7 +81,7 @@
                 size: quote.size
                 Label:
                     id: quote
-                    font_name: 'assets/fonts/ubuntu/Ubuntu-B.ttf'
+                    font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
                     font_size: '30sp'
                     valign: 'middle'
                     markup: True
@@ -146,7 +146,7 @@
 
 <NewFormWidget@Popup>:
     auto_dismiss: False
-    size_hint: 0.9, 0.9
+    size_hint: 0.8, 0.8
     title: 'Add New Aphorism'
     BoxLayout:
         orientation: "vertical"
