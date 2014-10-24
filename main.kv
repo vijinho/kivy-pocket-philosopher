@@ -138,10 +138,11 @@
     size_hint_y: None
     size: (self.parent.width, '36dp')
     multiline: False
-    focus: True
 
 <FormTextArea@FormTextInput>:
     multiline: True
+
+<WidgetInputTags@FormTextArea>:
 
 <FormNew@Popup>:
     size_hint: 0.8, 0.8
@@ -157,6 +158,7 @@
                 text: 'Author:'
             FormTextInput:
                 id: author
+                focus: True
             FormLabel:
                 text: 'Source:'
             FormTextInput:
@@ -170,7 +172,7 @@
                     size_hint_y: 0.8
                 FormLabel:
                     text: 'Tags:'
-                FormTextArea:
+                WidgetInputTags:
                     id: tags
                     size_hint_y: 0.2
                     size: (self.parent.width, '72dp')
