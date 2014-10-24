@@ -149,7 +149,7 @@ class FormNew(Popup):
             data['author'] = '(Anonymous)'
 
         if len(data['source']) == 0:
-            data['author'] = '(Unknown)'
+            data['source'] = '(Unknown)'
 
         try:
             a = Aphorism(
