@@ -295,21 +295,21 @@ class MainApp(App):
 
 class MainActionBar(ActionBar):
     def about(self):
-        p = AboutWidget()
+        p = WidgetAbout()
         p.open()
 
     def help(self):
-        p = HelpWidget()
+        p = WidgetHelp()
         p.open()
 
     def new(self):
         m = NewFormWidget()
         m.open()
 
-class AboutWidget(Popup):
+class WidgetAbout(Popup):
     pass
 
-class HelpWidget(Popup):
+class WidgetHelp(Popup):
     pass
 
 class NewFormWidget(Popup):
