@@ -145,6 +145,9 @@ class AphorismWidget(BoxLayout):
 class MyButton(Button):
     pass
 
+class MyImage(Image):
+    pass
+
 class SearchInputWidget(TextInput):
     pat = re.compile('[^A-Za-z0-9_]')
     def insert_text(self, substring, from_undo=False):

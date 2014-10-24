@@ -30,6 +30,19 @@
     font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
     markup: True
 
+<MyImage>:
+    pos: self.pos
+    size: self.size
+    auto_bring_to_front: False
+    source: 'assets/img/pixel.png'
+    keep_ratio: True
+    allow_stretch: True
+    canvas.before:
+        Color:
+            rgba: [.4, .4, .4, .3]
+        Rectangle:
+            texture: self.texture
+
 <MainActionBar@ActionBar>
     pos_hint: {'top':1}
     ActionView:
@@ -68,20 +81,10 @@
     BoxLayout:
         orientation: "vertical"
         RelativeLayout:
-            Image:
+            MyImage:
                 id: background
-                width: root.width
-                height: root.height
-                keep_ratio: True
-                allow_stretch: True
-                auto_bring_to_front: False
-                source: root.pixel
-                canvas.before:
-                    Color:
-                        rgba: [.4, .4, .4, .3]
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
+#                width: root.width
+#                height: root.height
             Scatter:
                 size_hint: None, None
                 size: quote.size
