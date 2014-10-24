@@ -307,12 +307,26 @@ class MainActionBar(ActionBar):
         p = HelpWidget()
         p.open()
 
+    def aphorism_new_widget(self):
+        m = NewFormWidget()
+        m.open()
+
 class AboutWidget(Popup):
     pass
 
 class HelpWidget(Popup):
     pass
 
+class NewFormWidget(Popup):
+    """
+    New Aphorism Form
+    """
+    def action_new(self):
+        print "Add New!"
+
+    def action_cancel(self):
+        self.dismiss()
+        print "Cancel New!"
 
 if __name__ == '__main__':
     app = MainApp()

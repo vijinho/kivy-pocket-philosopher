@@ -40,7 +40,7 @@
         ActionButton:
             text: "New"
             icon: 'assets/img/icons/new.png'
-            on_press: app.Main.ids.Screens.current = 'New'; app.Main.ids.SearchForm.ids.search_box.focus = True
+            on_press: root.aphorism_new_widget()
         ActionButton:
             text: "Search"
             icon: 'assets/img/icons/search.png'
@@ -143,6 +143,89 @@
     font_name: 'assets/fonts/ubuntu/Ubuntu-M.ttf'
     markup: True
 
+
+<NewFormWidget@Popup>:
+    auto_dismiss: False
+    size_hint: 0.9, 0.9
+    title: 'Add New Aphorism'
+    BoxLayout:
+        orientation: "vertical"
+        padding: 3
+        BoxLayout:
+            id: new_form
+            orientation: "vertical"
+            Label:
+                halign: 'left'
+                valign: 'middle'
+                markup: False
+                text_size: self.parent.width, None
+                size_hint_y: None
+                size: (self.parent.width, '36dp')
+                text: 'Author:'
+            TextInput:
+                id: new_author
+                size_hint_y: None
+                size: (self.parent.width, '36dp')
+                focus: True
+                multiline: False
+                text: ''
+            Label:
+                halign: 'left'
+                valign: 'middle'
+                markup: False
+                text_size: self.parent.width, None
+                size_hint_y: None
+                size: (self.parent.width, '36dp')
+                text: 'Source:'
+            TextInput:
+                id: new_source
+                size_hint_y: None
+                size: (self.parent.width, '36dp')
+                multiline: False
+                text: ''
+            BoxLayout:
+                orientation: "vertical"
+                Label:
+                    halign: 'left'
+                    valign: 'middle'
+                    markup: False
+                    text_size: self.parent.width, None
+                    size_hint_y: None
+                    size: (self.parent.width, '36dp')
+                    text: 'Aphorism:'
+                TextInput:
+                    size_hint_y: 0.8
+                    id: new_aphorism
+                    multiline: True
+                    text: ''
+                Label:
+                    halign: 'left'
+                    valign: 'middle'
+                    markup: False
+                    text_size: self.parent.width, None
+                    size_hint_y: None
+                    size: (self.parent.width, '36dp')
+                    text: 'Tags:'
+                TextInput:
+                    size_hint_y: 0.2
+                    id: new_tags
+                    multiline: True
+                    text: ''
+                    size_hint_y: None
+                    size: (self.parent.width, '72dp')
+        BoxLayout:
+            size_hint_y: 0.1
+            MyButton:
+                size_hint_x: 0.7
+                id: submit_new_aphorism
+                text: 'Add New Aphorism'
+                on_press: root.action_new()
+            MyButton:
+                size_hint_x: 0.3
+                id: submit_new_aphorism
+                text: 'Cancel'
+                on_press: root.action_cancel()
+
 <Main>:
     search_results: []
     AnchorLayout:
@@ -183,28 +266,6 @@
                     BoxLayout:
                         orientation: "vertical"
                         RelativeLayout:
-            Screen:
-                name: 'New'
-                BoxLayout:
-                    orientation: "vertical"
-                    MainActionBar:
-                    BoxLayout:
-                        orientation: "vertical"
-                        RelativeLayout:
-                        MyButton:
-                            id: 'New'
-                            text: 'new'
-            Screen:
-                name: 'Edit'
-                BoxLayout:
-                    orientation: "vertical"
-                    MainActionBar:
-                    BoxLayout:
-                        orientation: "vertical"
-                        RelativeLayout:
-                        MyButton:
-                            id: 'Edit'
-                            text: 'Edit'
 
 <AboutWidget>:
     auto_dismiss: False
