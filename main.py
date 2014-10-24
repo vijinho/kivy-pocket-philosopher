@@ -32,29 +32,7 @@ from kivy.uix.listview import ListView, ListItemButton
 from peewee import *
 from models import Aphorism
 
-def is_desktop():
-    """
-    Detect if we are running on the desktop or not
-    :return: boolean True if running on a desktop platform or String platform
-    """
-    if platform in ('linux', 'windows', 'macosx'):
-        return True
-    else:
-        return p
-
-# resize main window
-if is_desktop():
-    width = 400
-    height = 800
-    # simulate a mobile app screen size
-    Window.size = (width, height)
-    Config.set('graphics', 'width', width)
-    Config.set('graphics', 'height', height)
-else:
-    Config.set('graphics', 'fullscreen', True)
-
 Config.set('kivy', 'window_icon', 'assets/img/icon.png')
-
 
 class ActionBarMain(ActionBar):
     def about(self):
