@@ -119,9 +119,12 @@
 
 <ButtonSearchResults@MyButton>:
     size_hint_y: None
-    height: '64dp'
+    size: self.texture_size
+    padding_y: 10
     halign: 'left'
-    font_size: '16sp'
+    valign: 'middle'
+    font_size: '18sp'
+    text_size: root.width, None
     text: "{}".format(self.aphorism[1])
     markup: False
     on_press: app.root.aphorism_display_by_id(self.aphorism[0])

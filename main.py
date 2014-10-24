@@ -106,7 +106,7 @@ class FormSearch(BoxLayout):
             search = '%%{0}%%'.format(text)
             for a in Aphorism.select().where(
                 Aphorism.aphorism ** search).order_by(Aphorism.author, Aphorism.source):
-                results.append([a.id, a.ToOneLine()])
+                results.append([a.id, a.ToOneLine(30)])
         self.search_results.item_strings = results
         del self.search_results.adapter.data[:]
         self.search_results.adapter.data.extend(results)

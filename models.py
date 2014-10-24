@@ -44,9 +44,9 @@ class Aphorism(BaseModel):
         """Return a representation of the object field data as JSON"""
         return json.dumps(self.AsHash(), indent = 4, sort_keys = True)
 
-    def ToOneLine(self):
+    def ToOneLine(self, length = 80):
         """Return a string of the object data as a one line string"""
-        return "{0}: \"{1}\"".format(self.author, (self.aphorism[:20] + '..') if len(self.aphorism) > 20 else self.aphorism)
+        return "{0}: \"{1}\"".format(self.author, (self.aphorism[:length] + '..') if len(self.aphorism) > length else self.aphorism)
 
 
 def CreateTables():
