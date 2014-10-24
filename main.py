@@ -121,7 +121,6 @@ class WidgetInputTags(TextInput):
     pat = re.compile('[^A-Za-z0-9_\s]')
     def insert_text(self, substring, from_undo=False):
         s = re.sub(self.pat, '', substring.lower())
-        self.on_text_validate()
         return super(WidgetInputTags, self).insert_text(s, from_undo=from_undo)
 
 class FormNew(Popup):
