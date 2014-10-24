@@ -151,18 +151,19 @@ class FormNew(Popup):
         if len(data['source']) == 0:
             data['source'] = app.config.get('editor', 'default_source')
 
-        try:
-            a = Aphorism(
-                aphorism = data['aphorism'],
-                author   = data['author'],
-                source   = data['source'],
-                hashtags = data['tags'])
-            a.save()
-        except Exception:
-            print "Fail!"
-        else:
-            app.root.aphorism_display_by_id(a.id)
-            self.dismiss()
+        if len(data['aphorism']) > 0:
+            try:
+                a = Aphorism(
+                    aphorism = data['aphorism'],
+                    author   = data['author'],
+                    source   = data['source'],
+                    hashtags = data['tags'])
+                a.save()
+            except Exception:
+                print "Fail!"
+            else:
+                app.root.aphorism_display_by_id(a.id)
+                self.dismiss()
 
     def cancel(self):
         self.dismiss()
