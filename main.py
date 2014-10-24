@@ -198,9 +198,6 @@ class MainApp(App):
         return self.Main
 
     def build_config(self, config):
-        config.setdefaults('fonts', {
-            'quote_font': 'assets/fonts/ubuntu/Ubuntu-B.ttf'
-        })
         config.setdefaults('display', {
             'bg_folder': 'assets/img/bg'
         })

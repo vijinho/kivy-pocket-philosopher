@@ -142,16 +142,14 @@
                 args_converter = root.args_converter,
                 cls = main.SearchResultsButton)
 
-<SearchResultsButton>:
+<SearchResultsButton@MyButton>:
     text: "{}".format(self.aphorism[1])
     on_press: app.root.aphorism_display_by_id(self.aphorism[0])
     halign: 'left'
-    size_hint_y: None
-    height: '45dp'
     font_size: '16sp'
-    font_name: 'assets/fonts/ubuntu/Ubuntu-M.ttf'
-    markup: True
-
+    markup: False
+    size_hint_y: None
+    height: '64dp'
 
 <NewFormWidget@Popup>:
     auto_dismiss: False
