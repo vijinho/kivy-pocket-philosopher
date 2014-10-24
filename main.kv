@@ -43,27 +43,29 @@
         Rectangle:
             texture: self.texture
 
-<MyPopupWidget>:
-    auto_dismiss: False
+<AboutWidget>:
     size_hint: 0.9, 0.9
+    title: 'About'
     BoxLayout:
+        orientation: "vertical"
         RstDocument:
+            source: 'docs/ABOUT.rst'
         MyButton:
             size_hint_y: None
             text: 'OK'
             on_press: root.dismiss()
 
-<AboutWidget@MyPopupWidget>:
-    title: 'About'
-    BoxLayout:
-        RstDocument:
-            source: 'docs/ABOUT.rst'
-
-<HelpWidget@MyPopupWidget>:
+<HelpWidget>:
+    size_hint: 0.9, 0.9
     title: 'Help'
     BoxLayout:
+        orientation: "vertical"
         RstDocument:
             source: 'docs/HELP.rst'
+        MyButton:
+            size_hint_y: None
+            text: 'OK'
+            on_press: root.dismiss()
 
 <MainActionBar@ActionBar>
     pos_hint: {'top':1}
