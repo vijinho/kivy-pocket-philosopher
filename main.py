@@ -151,13 +151,13 @@ class SearchInputWidget(TextInput):
         return super(SearchInputWidget, self).insert_text(s, from_undo=from_undo)
 
     def on_text_validate(self):
-        app.Main.ids.SearchForm.search_action(text = self.text)
+        app.Main.ids.SearchForm.action_search(text = self.text)
 
 class SearchForm(BoxLayout):
     """
     Search Form for Aphorisms
     """
-    def search_action(self, text):
+    def action_search(self, text):
         results = []
         if len(str(text)) > 0:
             search = '%%{0}%%'.format(text)
