@@ -27,8 +27,8 @@ from kivy.uix.popup import Popup
 from kivy.uix.listview import ListView, ListItemButton
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
-from kivy.uix.image import Image
-from kivy.uix.button import Button
+#from kivy.uix.image import Image
+#from kivy.uix.button import Button
 from kivy.properties import ObjectProperty, ListProperty
 
 
@@ -142,11 +142,6 @@ class AphorismWidget(BoxLayout):
     def background_set_random(self):
         self.set_background(self.background_get_random())
 
-class MyButton(Button):
-    pass
-
-class MyImage(Image):
-    pass
 
 class SearchInputWidget(TextInput):
     pat = re.compile('[^A-Za-z0-9_]')
@@ -179,8 +174,8 @@ class SearchForm(BoxLayout):
         return {'aphorism': (id, quote)}
 
 class SearchResultsButton(ListItemButton):
-    aphorism = ListProperty()
-    pass
+   aphorism = ListProperty()
+   pass
 
 
 class MainApp(App):

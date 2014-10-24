@@ -30,7 +30,7 @@
     font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
     markup: True
 
-<MyImage>:
+<MyImage@Image>:
     pos: self.pos
     size: self.size
     auto_bring_to_front: False
@@ -42,6 +42,28 @@
             rgba: [.4, .4, .4, .3]
         Rectangle:
             texture: self.texture
+
+<MyPopupWidget>:
+    auto_dismiss: False
+    size_hint: 0.9, 0.9
+    BoxLayout:
+        RstDocument:
+        MyButton:
+            size_hint_y: None
+            text: 'OK'
+            on_press: root.dismiss()
+
+<AboutWidget@MyPopupWidget>:
+    title: 'About'
+    BoxLayout:
+        RstDocument:
+            source: 'docs/ABOUT.rst'
+
+<HelpWidget@MyPopupWidget>:
+    title: 'Help'
+    BoxLayout:
+        RstDocument:
+            source: 'docs/HELP.rst'
 
 <MainActionBar@ActionBar>
     pos_hint: {'top':1}
@@ -74,8 +96,8 @@
                 on_press: root.about_widget()
             ActionButton:
                 icon: 'assets/img/icons/quit.png'
-                on_press: app.stop()
                 text: "Exit"
+                on_press: app.stop()
 
 <AphorismWidget@BoxLayout>:
     BoxLayout:
@@ -90,14 +112,13 @@
                 size: quote.size
                 Label:
                     id: quote
-                    font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
-                    font_size: '30sp'
-                    valign: 'middle'
-                    markup: True
-                    text: ''
                     text_size: root.width, None
                     size: self.texture_size
                     padding: ('20dp', '20dp')
+                    valign: 'middle'
+                    font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
+                    font_size: '30sp'
+                    markup: True
                     canvas.before:
                         Color:
                             rgba: get_random_color(0.5)
@@ -108,7 +129,6 @@
 <SearchInputWidget>:
     focus: True
     multiline: False
-    text: ''
 
 <SearchForm>:
     search_input: search_box
@@ -129,9 +149,9 @@
             SearchInputWidget:
                 id: search_box
             MyButton:
+                id: search_submit
                 size_hint_x: None
                 width: '64dp'
-                id: search_submit
                 text: 'Go!'
                 on_press: root.search_action(text = search_box.text)
         ListView:
@@ -143,17 +163,34 @@
                 cls = main.SearchResultsButton)
 
 <SearchResultsButton@MyButton>:
-    text: "{}".format(self.aphorism[1])
-    on_press: app.root.aphorism_display_by_id(self.aphorism[0])
-    halign: 'left'
-    font_size: '16sp'
-    markup: False
     size_hint_y: None
     height: '64dp'
+    halign: 'left'
+    font_size: '16sp'
+    text: "{}".format(self.aphorism[1])
+    markup: False
+    on_press: app.root.aphorism_display_by_id(self.aphorism[0])
+
+<FormLabel@Label>
+    size_hint_y: None
+    size: (self.parent.width, '36dp')
+    text_size: self.parent.width, None
+    halign: 'left'
+    valign: 'middle'
+    markup: False
+
+<FormTextInput@TextInput>
+    size_hint_y: None
+    size: (self.parent.width, '36dp')
+    multiline: False
+    focus: True
+
+<FormTextArea@FormTextInput>:
+    multiline: True
 
 <NewFormWidget@Popup>:
-    auto_dismiss: False
     size_hint: 0.8, 0.8
+    auto_dismiss: False
     title: 'Add New Aphorism'
     BoxLayout:
         orientation: "vertical"
@@ -161,75 +198,37 @@
         BoxLayout:
             id: new_form
             orientation: "vertical"
-            Label:
-                halign: 'left'
-                valign: 'middle'
-                markup: False
-                text_size: self.parent.width, None
-                size_hint_y: None
-                size: (self.parent.width, '36dp')
+            FormLabel:
                 text: 'Author:'
-            TextInput:
+            FormTextInput:
                 id: new_author
-                size_hint_y: None
-                size: (self.parent.width, '36dp')
-                focus: True
-                multiline: False
-                text: ''
-            Label:
-                halign: 'left'
-                valign: 'middle'
-                markup: False
-                text_size: self.parent.width, None
-                size_hint_y: None
-                size: (self.parent.width, '36dp')
+            FormLabel:
                 text: 'Source:'
-            TextInput:
+            FormTextInput:
                 id: new_source
-                size_hint_y: None
-                size: (self.parent.width, '36dp')
-                multiline: False
-                text: ''
             BoxLayout:
                 orientation: "vertical"
-                Label:
-                    halign: 'left'
-                    valign: 'middle'
-                    markup: False
-                    text_size: self.parent.width, None
-                    size_hint_y: None
-                    size: (self.parent.width, '36dp')
+                FormLabel:
                     text: 'Aphorism:'
-                TextInput:
-                    size_hint_y: 0.8
+                FormTextArea:
                     id: new_aphorism
-                    multiline: True
-                    text: ''
-                Label:
-                    halign: 'left'
-                    valign: 'middle'
-                    markup: False
-                    text_size: self.parent.width, None
-                    size_hint_y: None
-                    size: (self.parent.width, '36dp')
+                    size_hint_y: 0.8
+                FormLabel:
                     text: 'Tags:'
-                TextInput:
-                    size_hint_y: 0.2
+                FormTextArea:
                     id: new_tags
-                    multiline: True
-                    text: ''
-                    size_hint_y: None
+                    size_hint_y: 0.2
                     size: (self.parent.width, '72dp')
         BoxLayout:
             size_hint_y: 0.1
             MyButton:
-                size_hint_x: 0.7
                 id: submit_new_aphorism
+                size_hint_x: 0.7
                 text: 'Add New Aphorism'
                 on_press: root.action_new()
             MyButton:
-                size_hint_x: 0.3
                 id: submit_new_aphorism
+                size_hint_x: 0.3
                 text: 'Cancel'
                 on_press: root.action_cancel()
 
@@ -273,33 +272,3 @@
                     BoxLayout:
                         orientation: "vertical"
                         RelativeLayout:
-
-<AboutWidget>:
-    auto_dismiss: False
-    size_hint: 0.9, 0.9
-    title: 'About Pocket Philosopher'
-    BoxLayout:
-        orientation: "vertical"
-        padding: 2
-        spacing: 10
-        RstDocument:
-            source: 'docs/ABOUT.rst'
-        MyButton:
-            size_hint_y: None
-            text: 'OK'
-            on_press: root.dismiss()
-
-<HelpWidget>:
-    auto_dismiss: False
-    size_hint: 0.9, 0.9
-    title: 'Pocket Philosopher Help'
-    BoxLayout:
-        orientation: "vertical"
-        padding: 2
-        spacing: 10
-        RstDocument:
-            source: 'docs/HELP.rst'
-        MyButton:
-            size_hint_y: None
-            text: 'OK'
-            on_press: root.dismiss()
