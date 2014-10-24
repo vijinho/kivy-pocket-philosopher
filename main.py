@@ -143,12 +143,12 @@ class AphorismWidget(BoxLayout):
         self.background_set(self.background_random_get())
 
 
-class SearchInputWidget(TextInput):
+class WidgetSearchInput(TextInput):
     pat = re.compile('[^A-Za-z0-9_]')
     def insert_text(self, substring, from_undo=False):
         s = re.sub(self.pat, '', substring.lower())
         self.on_text_validate()
-        return super(SearchInputWidget, self).insert_text(s, from_undo=from_undo)
+        return super(WidgetSearchInput, self).insert_text(s, from_undo=from_undo)
 
     def on_text_validate(self):
         app.Main.ids.SearchForm.action_search(text = self.text)
