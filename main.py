@@ -11,6 +11,7 @@ import os
 import random
 import imghdr
 import re
+import json
 
 # kivy imports
 import kivy
@@ -66,11 +67,14 @@ class WidgetAphorism(BoxLayout):
 
     def set(self, A, tpl = None):
         self.aphorism = A
-        if tpl == None:
-            tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]"""
-        formatted = tpl.format(aphorism =  A.aphorism, author = A.author)
-        self.ids.quote.text = formatted
-        return (tpl, formatted)
+        if isinstance(A, Aphorism):
+            if tpl == None:
+                tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]"""
+            formatted = tpl.format(aphorism =  A.aphorism, author = A.author)
+            self.ids.quote.text = formatted
+            return (tpl, formatted)
+        else:
+            return A
 
     def background_set(self, path):
         if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
@@ -167,8 +171,8 @@ class FormNew(Popup):
                     source   = data['source'],
                     hashtags = data['tags'])
                 a.save()
-            except Exception:
-                print "Fail!"
+            except Exception as e:
+                raise(e)
             else:
                 app.root.aphorism_display_by_id(a.id)
                 self.dismiss()
@@ -242,7 +246,25 @@ class MainApp(App):
     def __init__(self):
         self.title = 'Pocket Philosopher'
         self.icon = 'assets/img/icon.png'
+        self.setup_database()
         App.__init__(self)
+
+    def setup_database(self):
+        try:
+            for a in Aphorism.select().limit(1):
+                pass
+        except Exception:
+            Aphorism.create_table()
+
+        if 'a' not in locals():
+            try:
+                source_file = 'data/aphorisms.json';
+                with open(source_file) as json_file:
+                    json_data = json.load(json_file)
+                Aphorism.insert_many(json_data).execute()
+                return self.random_get()
+            except Exception as e:
+                return e
 
     def build(self):
         self.Main = Main(app = self)

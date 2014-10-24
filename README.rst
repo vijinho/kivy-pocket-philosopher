@@ -17,32 +17,27 @@ Setup
 -----
 
 -  ``$ pip install --editable .``
--  ``python models.py`` - setup database ``data/aphorisms.db``
 -  ``nosetests`` - run 'nose' tests in tests/
 
-(Alternative) Manual Database Setup
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Manual Database Setup
+~~~~~~~~~~~~~~~~~~~~~
+If you wish to setup the database manually instead of automatically when the
+application runs:
 
+Run ``python models.py`` - setup database ``data/aphorisms.db`` or
 ::
 
     CREATE TABLE "aphorism" (
-        "id" INTEGER NOT NULL PRIMARY KEY, 
-        "author" VARCHAR(255) NOT NULL, 
-        "source" VARCHAR(255) NOT NULL, 
-        "aphorism" TEXT NOT NULL, 
-        "hashtags" TEXT NOT NULL, 
+        "id" INTEGER NOT NULL PRIMARY KEY,
+        "author" VARCHAR(255) NOT NULL,
+        "source" VARCHAR(255) NOT NULL,
+        "aphorism" TEXT NOT NULL,
+        "hashtags" TEXT NOT NULL,
         "created" DATETIME NOT NULL
     );
 
 -  Insert the example aphorisms from ``data/aphorisms.json`` with
    ``aforgizmo insert`` then hit the RETURN/ENTER key twice
-
-Running the App
----------------
-
--  On Mac OS X: ``kivy main.py`` - On other platforms it may 'just work'
-   with ``python main.py``
--  Alternatively, execute ``run.sh 800x600`` to run in an 800x600 pixel window or just ``run.sh``
 
 Command Line Usage
 ------------------
@@ -73,6 +68,13 @@ Type ``aforgizmo`` or failing that:
 
 -  ``aforgizmo COMMAND --help``
 -  ``sqlite3 data/aphorisms.db`` see http://www.sqlite.org/cli.html
+
+Running the Kivy App
+--------------------
+
+-  On Mac OS X: ``kivy main.py`` - On other platforms it may 'just work'
+   with ``python main.py``
+-  Alternatively, run .
 
 See Also
 --------
