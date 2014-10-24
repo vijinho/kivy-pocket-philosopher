@@ -145,12 +145,20 @@ class FormNew(Popup):
             'tags'    : self.ids.tags.text
         }
 
+        # set required fields if empty
         if len(data['author']) == 0:
             data['author'] = app.config.get('editor', 'default_author')
+            if len(data['author']) == 0:
+                data['author'] = '(Anonymous)'
+            self.ids.author.text = data['author']
 
         if len(data['source']) == 0:
             data['source'] = app.config.get('editor', 'default_source')
+            if len(data['source']) == 0:
+                data['source'] = '(Unknown)'
+            self.ids.source.text = data['source']
 
+        # add aphorism is required fields valid
         if len(data['aphorism']) > 0:
             try:
                 a = Aphorism(
@@ -164,10 +172,11 @@ class FormNew(Popup):
             else:
                 app.root.aphorism_display_by_id(a.id)
                 self.dismiss()
+        else:
+            self.ids.aphorism.focus = True
 
     def cancel(self):
         self.dismiss()
-        print "Cancel New!"
 
 
 class Main(BoxLayout):
