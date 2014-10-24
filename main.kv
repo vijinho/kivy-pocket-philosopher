@@ -151,38 +151,37 @@
         orientation: "vertical"
         padding: 3
         BoxLayout:
-            id: new_form
+            id: form
             orientation: "vertical"
             FormLabel:
                 text: 'Author:'
             FormTextInput:
-                id: new_author
+                id: author
             FormLabel:
                 text: 'Source:'
             FormTextInput:
-                id: new_source
+                id: source
             BoxLayout:
                 orientation: "vertical"
                 FormLabel:
                     text: 'Aphorism:'
                 FormTextArea:
-                    id: new_aphorism
+                    id: aphorism
                     size_hint_y: 0.8
                 FormLabel:
                     text: 'Tags:'
                 FormTextArea:
-                    id: new_tags
+                    id: tags
                     size_hint_y: 0.2
                     size: (self.parent.width, '72dp')
         BoxLayout:
             size_hint_y: 0.1
             MyButton:
-                id: submit_new_aphorism
+                id: submit
                 size_hint_x: 0.7
                 text: 'Add New Aphorism'
                 on_press: root.new()
             MyButton:
-                id: submit_new_aphorism
                 size_hint_x: 0.3
                 text: 'Cancel'
                 on_press: root.cancel()

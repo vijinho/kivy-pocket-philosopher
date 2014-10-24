@@ -119,7 +119,24 @@ class ButtonSearchResults(ListItemButton):
 
 class FormNew(Popup):
     def new(self):
-        print "Add New!"
+        data = {
+            'source'  : self.ids.source.text,
+            'author'  : self.ids.author.text,
+            'aphorism': self.ids.aphorism.text,
+            'tags'    : self.ids.tags.text
+        }
+        try:
+            a = Aphorism(
+                author   = data['author'],
+                source   = data['source'],
+                aphorism = data['aphorism'],
+                hashtags = data['tags'])
+            a.save()
+        except Exception:
+            print "Fail!"
+        else:
+            app.root.aphorism_display_by_id(a.id)
+            self.dismiss()
 
     def cancel(self):
         self.dismiss()
