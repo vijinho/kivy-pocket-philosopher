@@ -139,17 +139,23 @@ class FormTextInput(TextInput):
 class FormNew(Popup):
     def new(self):
         data = {
-            'source'  : self.ids.source.text,
-            'author'  : self.ids.author.text,
             'aphorism': self.ids.aphorism.text,
+            'author'  : self.ids.author.text,
+            'source'  : self.ids.source.text,
             'tags'    : self.ids.tags.text
         }
 
+        if len(data['author']) == 0:
+            data['author'] = '(Anonymous)'
+
+        if len(data['source']) == 0:
+            data['author'] = '(Unknown)'
+
         try:
             a = Aphorism(
+                aphorism = data['aphorism'],
                 author   = data['author'],
                 source   = data['source'],
-                aphorism = data['aphorism'],
                 hashtags = data['tags'])
             a.save()
         except Exception:

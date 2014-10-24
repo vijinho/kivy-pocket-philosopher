@@ -32,12 +32,12 @@ def cli(config, verbose, logfile):
 @click.option('-a', '--author',
               prompt   = 'Who are you quoting?',
               help     = 'The author of the aphorism.',
-              default  = 'Anonymous',
+              default  = '(Anonymous)',
               required = True)
 @click.option('-s', '--source',
               prompt   = 'Where did you source the text?',
               help     = 'The source of the aphorism text.',
-              default  = 'Unknown',
+              default  = '(Unknown)',
               required = False)
 @click.option('-text', '--aphorism',
               prompt   = 'Write the aphorism',

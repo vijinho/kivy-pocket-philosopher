@@ -154,6 +154,12 @@
             id: form
             orientation: "vertical"
             FormLabel:
+                text: 'Aphorism:'
+            FormTextArea:
+                id: aphorism
+                max_chars: 4096
+                size_hint_y: 0.8
+            FormLabel:
                 text: 'Author:'
             FormTextInput:
                 id: author
@@ -162,22 +168,14 @@
                 text: 'Source:'
             FormTextInput:
                 id: source
-            BoxLayout:
-                orientation: "vertical"
-                FormLabel:
-                    text: 'Aphorism:'
-                FormTextArea:
-                    id: aphorism
-                    max_chars: 4096
-                    size_hint_y: 0.8
-                FormLabel:
-                    text: 'Tags: (Space-separated, use: a-z 0-9 _)'
-                FormTextArea:
-                    id: tags
-                    valid_chars: 'a-z0-9_\s'
-                    max_chars: 1024
-                    size_hint_y: 0.2
-                    size: (self.parent.width, '72dp')
+            FormLabel:
+                text: 'Tags: (Space-separated, use: a-z 0-9 _)'
+            FormTextArea:
+                id: tags
+                valid_chars: 'a-z0-9_\s'
+                max_chars: 1024
+                size_hint_y: 0.2
+                size: (self.parent.width, '72dp')
         BoxLayout:
             size_hint_y: 0.1
             MyButton:
