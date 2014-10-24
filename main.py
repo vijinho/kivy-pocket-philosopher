@@ -294,15 +294,15 @@ class MainApp(App):
 
 
 class MainActionBar(ActionBar):
-    def about_widget(self):
+    def about(self):
         p = AboutWidget()
         p.open()
 
-    def help_widget(self):
+    def help(self):
         p = HelpWidget()
         p.open()
 
-    def aphorism_new_widget(self):
+    def new(self):
         m = NewFormWidget()
         m.open()
 
