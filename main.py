@@ -95,15 +95,15 @@ class Main(FloatLayout):
                 else:
                     widget = self.aphorism_display(A)
                     if int(app.config.get('display', 'bg_enabled')) == 1:
-                        widget.background_set_random()
+                        widget.background_random_set()
 
                     self.ids.Screens.current = 'Main'
                     return A
 
-    def aphorism_display_random(self):
+    def aphorism_random_display(self):
         container = self.aphorism_clear_widget()
         widget = Factory.AphorismWidget()
-        A = widget.set_random()
+        A = widget.random_set()
         container.add_widget(widget)
         return A
 
@@ -111,14 +111,14 @@ class Main(FloatLayout):
 class AphorismWidget(BoxLayout):
     pixel = 'assets/img/pixel.png'
 
-    def get_random(self):
+    def random_get(self):
         for A in Aphorism.select().order_by(fn.Random()).limit(1):
             return A
 
-    def set_random(self):
+    def random_set(self):
         if int(app.config.get('display', 'bg_enabled')) == 1:
-            self.set_background(self.background_get_random())
-        A = self.get_random()
+            self.background_set(self.background_random_get())
+        A = self.random_get()
         self.set(A)
         return A
 
@@ -130,17 +130,17 @@ class AphorismWidget(BoxLayout):
         self.ids.quote.text = formatted
         return (tpl, formatted)
 
-    def set_background(self, path):
+    def background_set(self, path):
         if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
             self.ids.background.source = path
         else:
             self.ids.background.source = self.pixel
 
-    def background_get_random(self):
-        return app.background_get_random()
+    def background_random_get(self):
+        return app.background_random_get()
 
-    def background_set_random(self):
-        self.set_background(self.background_get_random())
+    def background_random_set(self):
+        self.background_set(self.background_random_get())
 
 
 class SearchInputWidget(TextInput):
@@ -281,7 +281,7 @@ class MainApp(App):
 
         return self.backgrounds
 
-    def background_get_random(self):
+    def background_random_get(self):
         """
         Get a random bg image path string
         :return: file path to random bg image

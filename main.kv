@@ -107,8 +107,6 @@
         RelativeLayout:
             MyImage:
                 id: background
-#                width: root.width
-#                height: root.height
             Scatter:
                 size_hint: None, None
                 size: quote.size
@@ -257,7 +255,7 @@
                         height: '64dp'
                         font_size: '20sp'
                         text: 'Random'
-                        on_press: root.aphorism_display_random()
+                        on_press: root.aphorism_random_display()
             Screen:
                 name: 'Search'
                 orientation: "vertical"
