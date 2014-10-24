@@ -6,31 +6,31 @@ An App which saves, retrieves, edits and displays aphorisms
 
 This app is written in Python using the Kivy library for cross-platform support (Android, IOS, Windows, Linux, Mac OSX).  See http://kivy.org/docs/guide/packaging.html for instructions on packaging the application for the different platforms.
 '''
+# python core/system imports
 import os
 import random
 import imghdr
 import re
-from peewee import *
-from models import Aphorism
 
+# kivy imports
 import kivy
 kivy.require('1.8.0')
 from kivy.config import Config
 from kivy.utils import platform
 from kivy.core.window import Window
 from kivy.app import App
+from kivy.properties import ObjectProperty, ListProperty
 from kivy.factory import Factory
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
 from kivy.uix.actionbar import ActionBar
 from kivy.uix.popup import Popup
-from kivy.uix.listview import ListView, ListItemButton
-from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
-#from kivy.uix.image import Image
-#from kivy.uix.button import Button
-from kivy.properties import ObjectProperty, ListProperty
+from kivy.uix.listview import ListView, ListItemButton
 
+# application imports
+from peewee import *
+from models import Aphorism
 
 def is_desktop():
     """
@@ -42,6 +42,7 @@ def is_desktop():
     else:
         return p
 
+# resize main window
 if is_desktop():
     # simulate a mobile app screen size
     Window.size = (400, 800)
@@ -53,11 +54,103 @@ else:
 Config.set('kivy', 'window_icon', 'assets/img/icon.png')
 
 
-class Main(FloatLayout):
+class ActionBarMain(ActionBar):
+    def about(self):
+        WidgetAbout().open()
+
+    def help(self):
+        WidgetHelp().open()
+
+    def new(self):
+        FormNew().open()
+
+class WidgetAbout(Popup):
+    pass
+
+class WidgetHelp(Popup):
+    pass
+
+class WidgetAphorism(BoxLayout):
+    pixel = 'assets/img/pixel.png'
+
+    def random_get(self):
+        for A in Aphorism.select().order_by(fn.Random()).limit(1):
+            return A
+
+    def random_set(self):
+        if int(app.config.get('display', 'bg_enabled')) == 1:
+            self.background_set(self.background_random_get())
+        A = self.random_get()
+        self.set(A)
+        return A
+
+    def set(self, A, tpl = None):
+        self.aphorism = A
+        if tpl == None:
+            tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]"""
+        formatted = tpl.format(aphorism =  A.aphorism, author = A.author)
+        self.ids.quote.text = formatted
+        return (tpl, formatted)
+
+    def background_set(self, path):
+        if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+            self.ids.background.source = path
+        else:
+            self.ids.background.source = self.pixel
+
+    def background_random_get(self):
+        return app.background_random_get()
+
+    def background_random_set(self):
+        self.background_set(self.background_random_get())
+
+
+class WidgetInputSearch(TextInput):
+    pat = re.compile('[^A-Za-z0-9_]')
+    def insert_text(self, substring, from_undo=False):
+        s = re.sub(self.pat, '', substring.lower())
+        self.on_text_validate()
+        return super(WidgetInputSearch, self).insert_text(s, from_undo=from_undo)
+
+    def on_text_validate(self):
+        app.Main.ids.FormSearch.search(text = self.text)
+
+class FormSearch(BoxLayout):
+    def search(self, text):
+        results = []
+        if len(str(text)) > 0:
+            search = '%%{0}%%'.format(text)
+            for a in Aphorism.select().where(
+                Aphorism.aphorism ** search).order_by(Aphorism.author, Aphorism.source):
+                results.append([a.id, a.ToOneLine()])
+        self.search_results.item_strings = results
+        del self.search_results.adapter.data[:]
+        self.search_results.adapter.data.extend(results)
+        self.search_results._trigger_reset_populate()
+
+    def args_converter(self, index, data_item):
+        id, quote = data_item
+        return {'aphorism': (id, quote)}
+
+class ButtonSearchResults(ListItemButton):
+   aphorism = ListProperty()
+   pass
+
+
+class FormNew(Popup):
+    def new(self):
+        print "Add New!"
+
+    def cancel(self):
+        self.dismiss()
+        print "Cancel New!"
+
+
+class Main(BoxLayout):
     '''Main UI Screen Widget
     .. versionadded:: 1.0
-    .. note:: This new feature will likely blow your mind
-    .. warning:: Please take a seat before trying this feature
+    .. note:: This is the king of the app widgets
+    .. warning:: Handle with care!
     '''
     app            = ObjectProperty(None)
 
@@ -106,76 +199,6 @@ class Main(FloatLayout):
         A = widget.random_set()
         container.add_widget(widget)
         return A
-
-
-class WidgetAphorism(BoxLayout):
-    pixel = 'assets/img/pixel.png'
-
-    def random_get(self):
-        for A in Aphorism.select().order_by(fn.Random()).limit(1):
-            return A
-
-    def random_set(self):
-        if int(app.config.get('display', 'bg_enabled')) == 1:
-            self.background_set(self.background_random_get())
-        A = self.random_get()
-        self.set(A)
-        return A
-
-    def set(self, A, tpl = None):
-        self.aphorism = A
-        if tpl == None:
-            tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]"""
-        formatted = tpl.format(aphorism =  A.aphorism, author = A.author)
-        self.ids.quote.text = formatted
-        return (tpl, formatted)
-
-    def background_set(self, path):
-        if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
-            self.ids.background.source = path
-        else:
-            self.ids.background.source = self.pixel
-
-    def background_random_get(self):
-        return app.background_random_get()
-
-    def background_random_set(self):
-        self.background_set(self.background_random_get())
-
-
-class WidgetInputSearch(TextInput):
-    pat = re.compile('[^A-Za-z0-9_]')
-    def insert_text(self, substring, from_undo=False):
-        s = re.sub(self.pat, '', substring.lower())
-        self.on_text_validate()
-        return super(WidgetInputSearch, self).insert_text(s, from_undo=from_undo)
-
-    def on_text_validate(self):
-        app.Main.ids.WidgetFormSearch.search(text = self.text)
-
-class WidgetFormSearch(BoxLayout):
-    """
-    Search Form for Aphorisms
-    """
-    def search(self, text):
-        results = []
-        if len(str(text)) > 0:
-            search = '%%{0}%%'.format(text)
-            for a in Aphorism.select().where(
-                Aphorism.aphorism ** search).order_by(Aphorism.author, Aphorism.source):
-                results.append([a.id, a.ToOneLine()])
-        self.search_results.item_strings = results
-        del self.search_results.adapter.data[:]
-        self.search_results.adapter.data.extend(results)
-        self.search_results._trigger_reset_populate()
-
-    def args_converter(self, index, data_item):
-        id, quote = data_item
-        return {'aphorism': (id, quote)}
-
-class ButtonSearchResults(ListItemButton):
-   aphorism = ListProperty()
-   pass
 
 
 class MainApp(App):
@@ -261,6 +284,7 @@ class MainApp(App):
         Beware: you have no guarantee that this event will be fired after the
         on_pause event has been called.
         """
+        self.background_refresh_list()
         pass
 
     def background_refresh_list(self):
@@ -292,36 +316,6 @@ class MainApp(App):
             return self.backgrounds_random()
         return background
 
-
-class ActionBarMain(ActionBar):
-    def about(self):
-        p = WidgetAbout()
-        p.open()
-
-    def help(self):
-        p = WidgetHelp()
-        p.open()
-
-    def new(self):
-        m = FormNew()
-        m.open()
-
-class WidgetAbout(Popup):
-    pass
-
-class WidgetHelp(Popup):
-    pass
-
-class FormNew(Popup):
-    """
-    New Aphorism Form
-    """
-    def new(self):
-        print "Add New!"
-
-    def cancel(self):
-        self.dismiss()
-        print "Cancel New!"
 
 if __name__ == '__main__':
     app = MainApp()

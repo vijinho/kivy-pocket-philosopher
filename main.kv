@@ -4,26 +4,6 @@
 #:import ListItemButton kivy.uix.listview.ListItemButton
 #:import ListAdapter kivy.adapters.listadapter.ListAdapter
 
-# DEBUG WIDGETS
-#<Widget>:
-#    canvas.after:
-#        Line:
-#            rectangle: self.x+1, self.y+1, self.width-1, self.height-1
-#            dash_offset: 5
-#            dash_length: 3
-
-# DEBUG A WIDGET
-#            canvas.after:
-#                Color:
-#                    rgba: 1, 0, 0, 0.5
-#                Line:
-#                    rectangle: self.x+1, self.y+1, self.width-1, self.height-1
-#                Color:
-#                    rgba: 0, 0, 1, 0.3
-#                Rectangle:
-#                    pos: self.pos
-#                    size: self.size
-
 <MyButton@Button>:
     halign: 'left'
     font_size: '16sp'
@@ -77,7 +57,7 @@
         ActionButton:
             text: "Search"
             icon: 'assets/img/icons/search.png'
-            on_press: app.Main.ids.Screens.current = 'Search'; app.Main.ids.WidgetFormSearch.ids.search_box.focus = True
+            on_press: app.Main.ids.Screens.current = 'Search'; app.Main.ids.FormSearch.ids.search_box.focus = True
         ActionButton:
             text: "New"
             icon: 'assets/img/icons/new.png'
@@ -101,36 +81,11 @@
                 text: "Exit"
                 on_press: app.stop()
 
-<WidgetAphorism@BoxLayout>:
-    BoxLayout:
-        orientation: "vertical"
-        RelativeLayout:
-            MyImage:
-                id: background
-            Scatter:
-                size_hint: None, None
-                size: quote.size
-                Label:
-                    id: quote
-                    text_size: root.width, None
-                    size: self.texture_size
-                    padding: ('20dp', '20dp')
-                    valign: 'middle'
-                    font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
-                    font_size: '30sp'
-                    markup: True
-                    canvas.before:
-                        Color:
-                            rgba: get_random_color(0.5)
-                        Rectangle:
-                            pos: self.pos
-                            size: self.size
-
 <WidgetInputSearch>:
     focus: True
     multiline: False
 
-<WidgetFormSearch>:
+<FormSearch>:
     search_input: search_box
     search_results: search_results_list
     BoxLayout:
@@ -232,6 +187,31 @@
                 text: 'Cancel'
                 on_press: root.cancel()
 
+<WidgetAphorism@BoxLayout>:
+    BoxLayout:
+        orientation: "vertical"
+        RelativeLayout:
+            MyImage:
+                id: background
+            Scatter:
+                size_hint: None, None
+                size: quote.size
+                Label:
+                    id: quote
+                    text_size: root.width, None
+                    size: self.texture_size
+                    padding: ('20dp', '20dp')
+                    valign: 'middle'
+                    font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
+                    font_size: '30sp'
+                    markup: True
+                    canvas.before:
+                        Color:
+                            rgba: get_random_color(0.5)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
 <Main>:
     search_results: []
     AnchorLayout:
@@ -262,8 +242,8 @@
                 BoxLayout:
                     orientation: "vertical"
                     ActionBarMain:
-                    WidgetFormSearch:
-                        id: WidgetFormSearch
+                    FormSearch:
+                        id: FormSearch
             Screen:
                 name: 'List'
                 BoxLayout:
@@ -272,3 +252,24 @@
                     BoxLayout:
                         orientation: "vertical"
                         RelativeLayout:
+
+# DEBUG ALL WIDGETS
+#<Widget>:
+#    canvas.after:
+#        Line:
+#            rectangle: self.x+1, self.y+1, self.width-1, self.height-1
+#            dash_offset: 5
+#            dash_length: 3
+
+# DEBUG A WIDGET
+#            canvas.after:
+#                Color:
+#                    rgba: 1, 0, 0, 0.5
+#                Line:
+#                    rectangle: self.x+1, self.y+1, self.width-1, self.height-1
+#                Color:
+#                    rgba: 0, 0, 1, 0.3
+#                Rectangle:
+#                    pos: self.pos
+#                    size: self.size
+
