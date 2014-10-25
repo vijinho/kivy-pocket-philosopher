@@ -5,6 +5,7 @@ New Features
 ------------
 -  Remote Import of Aphorisms
 -  Remote Import of Images
+-  Floating circle icons for edit/delete on the aphorism display page
 
 Missing Functionality
 ---------------------
