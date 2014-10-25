@@ -59,8 +59,8 @@
             icon: 'assets/img/icons/search.png'
             on_press: app.Main.ids.Screens.current = 'Search'; app.Main.ids.FormSearch.ids.search_box.focus = True
         ActionButton:
-            text: "List"
-            icon: 'assets/img/icons/list.png'
+            text: "Edit"
+            icon: 'assets/img/icons/edit.png'
             on_press: app.Main.ids.Screens.current = 'List'; app.Main.ids.FormList.list()
         ActionButton:
             text: "New"
@@ -142,13 +142,25 @@
             ListAdapter(
             data = [],
             args_converter = root.args_converter,
-            cls = main.ButtonSearchResults)
+            cls = main.ButtonListResults)
     MyButton:
         size_hint_y: None
         height: '64dp'
         font_size: '20sp'
         text: 'Refresh Listing'
         on_press: root.list()
+
+<ButtonListResults@MyButton>:
+    size_hint_y: None
+    size: self.texture_size
+    padding_y: 10
+    halign: 'left'
+    valign: 'middle'
+    font_size: '18sp'
+    text_size: root.width, None
+    text: "{}".format(self.aphorism[1])
+    markup: False
+    on_press: app.root.aphorism_edit_by_id(self.aphorism[0])
 
 <FormLabel@Label>
     size_hint_y: None
@@ -205,8 +217,53 @@
             MyButton:
                 id: submit
                 size_hint_x: 0.7
-                text: 'Add New Aphorism'
+                text: 'Add Aphorism'
                 on_press: root.new()
+            MyButton:
+                size_hint_x: 0.3
+                text: 'Cancel'
+                on_press: root.cancel()
+
+<FormEdit@Popup>:
+    size_hint: 0.8, 0.8
+    auto_dismiss: False
+    title: 'Edit Aphorism'
+    BoxLayout:
+        orientation: "vertical"
+        padding: 3
+        BoxLayout:
+            id: form
+            orientation: "vertical"
+            FormLabel:
+                text: 'Aphorism:'
+            FormTextArea:
+                id: aphorism
+                max_chars: 4096
+                size_hint_y: 0.8
+            FormLabel:
+                text: 'Author:'
+            FormTextInput:
+                id: author
+                focus: True
+            FormLabel:
+                text: 'Source:'
+            FormTextInput:
+                id: source
+            FormLabel:
+                text: 'Tags: (Space-separated, use: a-z 0-9 _)'
+            FormTextArea:
+                id: tags
+                valid_chars: 'a-z0-9_\s'
+                max_chars: 1024
+                size_hint_y: 0.2
+                size: (self.parent.width, '72dp')
+        BoxLayout:
+            size_hint_y: 0.1
+            MyButton:
+                id: submit
+                size_hint_x: 0.7
+                text: 'Update Aphorism'
+                on_press: root.edit_action()
             MyButton:
                 size_hint_x: 0.3
                 text: 'Cancel'

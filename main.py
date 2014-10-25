@@ -20,7 +20,7 @@ from kivy.config import Config
 from kivy.utils import platform
 from kivy.core.window import Window
 from kivy.app import App
-from kivy.properties import ObjectProperty, ListProperty
+from kivy.properties import ObjectProperty, ListProperty, NumericProperty
 from kivy.factory import Factory
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
@@ -134,6 +134,9 @@ class FormList(BoxLayout):
         id, quote = data_item
         return {'aphorism': (id, quote)}
 
+class ButtonListResults(ListItemButton):
+   aphorism = ListProperty()
+
 class FormTextInput(TextInput):
     max_chars = 255
     valid_chars = ''
@@ -195,6 +198,60 @@ class FormNew(Popup):
     def cancel(self):
         self.dismiss()
 
+class FormEdit(Popup):
+    aphorism_id = NumericProperty()
+
+    def edit(self, A):
+        if isinstance(A, Aphorism):
+            self.aphorism_id = A.id
+            self.ids.aphorism.text = A.aphorism
+            self.ids.author.text = A.author
+            self.ids.source.text = A.source
+            self.ids.tags.text = A.hashtags
+            self.open()
+
+    def edit_action(self):
+        data = {
+            'id': int(self.aphorism_id),
+            'aphorism': self.ids.aphorism.text,
+            'author'  : self.ids.author.text,
+            'source'  : self.ids.source.text,
+            'tags'    : self.ids.tags.text
+        }
+
+        # set required fields if empty
+        if len(data['author']) == 0:
+            data['author'] = app.config.get('editor', 'default_author')
+            if len(data['author']) == 0:
+                data['author'] = '(Anonymous)'
+            self.ids.author.text = data['author']
+
+        if len(data['source']) == 0:
+            data['source'] = app.config.get('editor', 'default_source')
+            if len(data['source']) == 0:
+                data['source'] = '(Unknown)'
+            self.ids.source.text = data['source']
+
+        # add aphorism is required fields valid
+        if data['id'] > 0 and len(data['aphorism']) > 0:
+            try:
+                a = Aphorism(
+                    id       = data['id'],
+                    aphorism = data['aphorism'],
+                    author   = data['author'],
+                    source   = data['source'],
+                    hashtags = data['tags'])
+                a.save()
+            except Exception as e:
+                raise(e)
+            else:
+                app.root.aphorism_display_by_id(a.id)
+                self.dismiss()
+        else:
+            self.ids.aphorism.focus = True
+
+    def cancel(self):
+        self.dismiss()
 
 class Main(BoxLayout):
     '''Main UI Screen Widget
@@ -222,7 +279,7 @@ class Main(BoxLayout):
         container.add_widget(widget)
         return widget
 
-    def aphorism_display_by_id(self, id):
+    def aphorism_get_by_id(self, id):
         try:
             id = int(id)
         except:
@@ -234,12 +291,32 @@ class Main(BoxLayout):
                 except:
                     return False
                 else:
-                    widget = self.aphorism_display(A)
-                    if int(app.config.get('display', 'bg_enabled')) == 1:
-                        widget.background_random_set()
-
-                    self.ids.Screens.current = 'Main'
                     return A
+
+    def aphorism_display_by_id(self, id):
+        try:
+            A = self.aphorism_get_by_id(id)
+        except:
+            return False
+        else:
+            widget = self.aphorism_display(A)
+            if int(app.config.get('display', 'bg_enabled')) == 1:
+                widget.background_random_set()
+
+        self.ids.Screens.current = 'Main'
+        return A
+
+    def aphorism_edit_by_id(self, id):
+        try:
+            A = self.aphorism_get_by_id(id)
+        except:
+            return False
+        else:
+            self.aphorism_display(A)
+            widget = Factory.FormEdit()
+            widget.edit(A)
+            return widget
+        return A
 
     def aphorism_random_display(self):
         container = self.aphorism_clear_widget()
