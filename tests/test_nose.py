@@ -1,4 +1,5 @@
 from nose.tools import *
+#from .context import sample
 
 import aforgizmo
 

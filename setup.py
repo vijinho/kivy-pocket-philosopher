@@ -8,6 +8,7 @@ setup(
     name='aforgizmo',
     description='Pocket Philosopher (Aforgizmo Aphorisms)',
     author='Vijay Mahrra',
+    license='GPL3.0',
     url='https://github.com/vijinho/aforgizmo',
     download_url='https://github.com/vijinho/aforgizmo',
     py_modules=['aforgizmo'],
