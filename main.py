@@ -19,6 +19,7 @@ kivy.require('1.8.0')
 from kivy.config import Config
 from kivy.utils import platform
 from kivy.core.window import Window
+from kivy.core.clipboard import Clipboard
 from kivy.app import App
 from kivy.properties import ObjectProperty, ListProperty, NumericProperty
 from kivy.factory import Factory
@@ -266,6 +267,9 @@ class Main(BoxLayout):
     def __init__(self, **kwargs):
         super(Main, self).__init__()
         self.app = kwargs.get('app')
+
+    def aphorism_copy(self):
+        pass
 
     def aphorism_clear_widget(self):
         container = self.ids.aphorism_container

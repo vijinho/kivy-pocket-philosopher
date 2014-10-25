@@ -54,6 +54,10 @@
         ActionPrevious:
             with_previous: False
             on_press: app.Main.ids.Screens.current = 'Main'
+        #ActionButton:
+        #    text: "Copy"
+        #    icon: 'assets/img/icons/copy.png'
+        #    on_press: app.Main.aphorism_copy()
         ActionButton:
             text: "Search"
             icon: 'assets/img/icons/search.png'
@@ -330,6 +334,22 @@
                 BoxLayout:
                     orientation: "vertical"
                     ActionBarMain:
+                    FormLabel:
+                        size_hint_y: None
+                        size: self.texture_size
+                        text_size: root.width, None
+                        padding_y: 10
+                        halign: 'left'
+                        valign: 'middle'
+                        font_size: '18sp'
+                        font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
+                        text: 'Click on an aphorism to edit it:'
+                        canvas.before:
+                            Color:
+                                rgba: [.5, .5, .5, .5]
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
                     FormList:
                         id: FormList
 # DEBUG ALL WIDGETS
