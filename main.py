@@ -195,8 +195,6 @@ class Main(BoxLayout):
 
     def __init__(self, **kwargs):
         super(Main, self).__init__()
-
-        # set the app and config for it
         self.app = kwargs.get('app')
 
     def aphorism_clear_widget(self):
