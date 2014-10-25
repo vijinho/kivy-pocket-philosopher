@@ -3,6 +3,7 @@
 #:import get_random_color kivy.utils.get_random_color
 #:import ListItemButton kivy.uix.listview.ListItemButton
 #:import ListAdapter kivy.adapters.listadapter.ListAdapter
+#:import SimpleListAdapter kivy.adapters.simplelistadapter.SimpleListAdapter
 
 <MyButton@Button>:
     halign: 'left'
@@ -121,7 +122,7 @@
         ListView:
             id: search_results_list
             adapter:
-                ListAdapter(
+                SimpleListAdapter(
                 data = [],
                 args_converter = root.args_converter,
                 cls = main.ButtonSearchResults)
@@ -136,7 +137,7 @@
     text_size: root.width, None
     text: "{}".format(self.aphorism[1])
     markup: False
-    on_press: app.root.aphorism_display_by_id(self.aphorism[0])
+    on_press: app.root.aphorism_display_by_id(self.aphorism[0]); app.root.select_list_id = self.aphorism[0]
 
 <FormList>:
     orientation: "vertical"
@@ -146,14 +147,28 @@
         adapter:
             ListAdapter(
             data = [],
+            selection_mode = 'single',
             args_converter = root.args_converter,
             cls = main.ButtonListResults)
-    MyButton:
-        size_hint_y: None
-        height: '64dp'
-        font_size: '20sp'
-        text: 'Refresh Listing'
-        on_press: root.list()
+        BoxLayout:
+            MyButton:
+                size_hint_y: None
+                height: '64dp'
+                font_size: '20sp'
+                text: 'Refresh'
+                on_press: root.list(); app.root.select_list_id = None
+            MyButton:
+                size_hint_y: None
+                height: '64dp'
+                font_size: '20sp'
+                text: 'Edit'
+                on_press: root.edit()
+            MyButton:
+                size_hint_y: None
+                height: '64dp'
+                font_size: '20sp'
+                text: 'Delete'
+                on_press: root.delete()
 
 <ButtonListResults@ListItemButton>:
     size_hint_y: None
@@ -164,8 +179,8 @@
     font_size: '18sp'
     text_size: root.width, None
     text: "{}".format(self.aphorism[1])
+    on_press: root.pressed(self.aphorism[0]); app.root.select_list_id = self.aphorism[0]
     markup: False
-    on_press: app.root.aphorism_edit_by_id(self.aphorism[0])
 
 <FormLabel@Label>
     size_hint_y: None
@@ -274,6 +289,42 @@
                 text: 'Cancel'
                 on_press: root.cancel()
 
+<WidgetDeleteLabel@Label>:
+    size_hint_y: None
+    size: self.texture_size
+    text_size: root.width, None
+    padding_y: 10
+    halign: 'left'
+    valign: 'middle'
+    font_size: '18sp'
+    markup: True
+
+<FormDelete@Popup>:
+    size_hint: 0.8, 0.8
+    auto_dismiss: True
+    title: 'Delete Aphorism'
+    BoxLayout:
+        orientation: "vertical"
+        padding: 3
+        AnchorLayout:
+            id: form
+            anchor_x: 'center'
+            anchor_y: 'top'
+            orientation: "vertical"
+            WidgetDeleteLabel:
+                id: aphorism_text
+        BoxLayout:
+            size_hint_y: 0.1
+            MyButton:
+                id: submit
+                size_hint_x: 0.7
+                text: 'Delete Aphorism'
+                on_press: root.delete_action()
+            MyButton:
+                size_hint_x: 0.3
+                text: 'Cancel'
+                on_press: root.cancel()
+
 <WidgetAphorism@BoxLayout>:
     BoxLayout:
         orientation: "vertical"
@@ -344,7 +395,7 @@
                         valign: 'middle'
                         font_size: '18sp'
                         font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
-                        text: 'Click on an aphorism to edit it:'
+                        text: 'All Aphorisms:'
                         canvas.before:
                             Color:
                                 rgba: [.5, .5, .5, .5]

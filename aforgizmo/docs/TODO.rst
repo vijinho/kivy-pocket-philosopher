@@ -28,4 +28,3 @@ Improvements
 
 Bugs
 ----
--  Make the listing buttons not stay selected when clicked on

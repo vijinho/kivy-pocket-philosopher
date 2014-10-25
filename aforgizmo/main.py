@@ -123,6 +123,7 @@ class ButtonSearchResults(ListItemButton):
    aphorism = ListProperty()
 
 class FormList(BoxLayout):
+    results = ObjectProperty()
     def list(self):
         results = []
         for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
@@ -136,8 +137,21 @@ class FormList(BoxLayout):
         id, quote = data_item
         return {'aphorism': (id, quote)}
 
+    def edit(self):
+        id = app.root.select_list_id
+        if id > 0:
+            app.root.aphorism_edit_by_id(id)
+
+    def delete(self):
+        id = app.root.select_list_id
+        if id > 0:
+            app.root.aphorism_delete_by_id(id)
+
 class ButtonListResults(ListItemButton):
-   aphorism = ListProperty()
+    selected_id = NumericProperty()
+    aphorism = ListProperty()
+    def pressed(self, id):
+        self.selected_id = id
 
 class FormTextInput(TextInput):
     max_chars = 255
@@ -248,9 +262,39 @@ class FormEdit(Popup):
                 raise(e)
             else:
                 app.root.aphorism_display_by_id(a.id)
-                self.dismiss()
+                self.cancel()
         else:
             self.ids.aphorism.focus = True
+
+    def cancel(self):
+        self.dismiss()
+
+
+class FormDelete(Popup):
+    aphorism_id = NumericProperty()
+
+    def delete(self, A):
+        if isinstance(A, Aphorism):
+            self.aphorism_id = A.id
+            tpl = "\"[b]{aphorism}[/b]\"\n\t  -- [i]{author}[/i]\n\n[b]source[/b]\n\ntags"
+            self.ids.aphorism_text.text = tpl.format(
+                aphorism = A.aphorism,
+                author = A.author,
+                source = A.source,
+                tags = A.hashtags
+            )
+            self.open()
+
+    def delete_action(self):
+        if self.aphorism_id > 0:
+            try:
+                a = Aphorism.get(Aphorism.id == self.aphorism_id)
+                a.delete_instance()
+            except Exception as e:
+                raise(e)
+            else:
+                app.root.select_list_id = None
+                self.cancel()
 
     def cancel(self):
         self.dismiss()
@@ -262,12 +306,19 @@ class Main(BoxLayout):
     .. warning:: Handle with care!
     '''
     app            = ObjectProperty(None)
+    select_list_id = NumericProperty()
 
     pixel = 'assets/img/pixel.png'
 
     def __init__(self, **kwargs):
         super(Main, self).__init__()
         self.app = kwargs.get('app')
+
+    def select_list_id(self, id):
+        """
+        Hack for listing to get the edit id
+        """
+        self.select_list_id = id
 
     def aphorism_copy(self):
         pass
@@ -320,6 +371,17 @@ class Main(BoxLayout):
             self.aphorism_display(A)
             widget = Factory.FormEdit()
             widget.edit(A)
+            return widget
+        return A
+
+    def aphorism_delete_by_id(self, id):
+        try:
+            A = self.aphorism_get_by_id(id)
+        except:
+            return False
+        else:
+            widget = Factory.FormDelete()
+            widget.delete(A)
             return widget
         return A
 
