@@ -59,6 +59,10 @@
             icon: 'assets/img/icons/search.png'
             on_press: app.Main.ids.Screens.current = 'Search'; app.Main.ids.FormSearch.ids.search_box.focus = True
         ActionButton:
+            text: "List"
+            icon: 'assets/img/icons/list.png'
+            on_press: app.Main.ids.Screens.current = 'List'; app.Main.ids.FormList.list()
+        ActionButton:
             text: "New"
             icon: 'assets/img/icons/new.png'
             on_press: root.new()
@@ -128,6 +132,23 @@
     text: "{}".format(self.aphorism[1])
     markup: False
     on_press: app.root.aphorism_display_by_id(self.aphorism[0])
+
+<FormList>:
+    orientation: "vertical"
+    results: results_list
+    ListView:
+        id: results_list
+        adapter:
+            ListAdapter(
+            data = [],
+            args_converter = root.args_converter,
+            cls = main.ButtonSearchResults)
+    MyButton:
+        size_hint_y: None
+        height: '64dp'
+        font_size: '20sp'
+        text: 'Refresh Listing'
+        on_press: root.list()
 
 <FormLabel@Label>
     size_hint_y: None
@@ -229,7 +250,6 @@
                 BoxLayout:
                     orientation: "vertical"
                     ActionBarMain:
-                        size_hint_y: None
                     BoxLayout:
                         id: aphorism_container
                         orientation: "vertical"
@@ -253,10 +273,8 @@
                 BoxLayout:
                     orientation: "vertical"
                     ActionBarMain:
-                    BoxLayout:
-                        orientation: "vertical"
-                        RelativeLayout:
-
+                    FormList:
+                        id: FormList
 # DEBUG ALL WIDGETS
 #<Widget>:
 #    canvas.after:

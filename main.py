@@ -116,10 +116,23 @@ class FormSearch(BoxLayout):
         id, quote = data_item
         return {'aphorism': (id, quote)}
 
+
 class ButtonSearchResults(ListItemButton):
    aphorism = ListProperty()
-   pass
 
+class FormList(BoxLayout):
+    def list(self):
+        results = []
+        for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
+            results.append([a.id, a.ToOneLine(30)])
+        self.results.item_strings = results
+        del self.results.adapter.data[:]
+        self.results.adapter.data.extend(results)
+        self.results._trigger_reset_populate()
+
+    def args_converter(self, index, data_item):
+        id, quote = data_item
+        return {'aphorism': (id, quote)}
 
 class FormTextInput(TextInput):
     max_chars = 255
