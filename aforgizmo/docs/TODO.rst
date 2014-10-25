@@ -10,7 +10,6 @@ New Features
 Missing Functionality
 ---------------------
 -  User action notifications/flash messages
--  Delete aphorism screen
 -  Export database
 -  Import database
 -  Implement import/export for non-JSON formats such as CSV
@@ -23,7 +22,6 @@ Refactoring
 
 Improvements
 ------------
--  Make the listing buttons in edit page multiple selectable for delete
 -  Zoom images to cover entire quote display screen area
 
 Bugs
