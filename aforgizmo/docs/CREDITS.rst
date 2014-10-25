@@ -1,6 +1,8 @@
 APPLICATION TEAM
 ================
 
+There is no 'I' in TEAM :)
+
 -  Vijay Mahrra -- vijay.mahrra@gmail.com -- http://about.me/vijay.mahrra
 
 CONTRIBUTORS
