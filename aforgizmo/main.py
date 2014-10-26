@@ -55,6 +55,9 @@ class WidgetHelp(Popup):
 class FormTextInput(TextInput):
     pass
 
+class WidgetCopy(Popup):
+    textarea_copy = ObjectProperty()
+
 class MyButton(Button):
     """
     Button with a possibility to change the color on on_press (similar to background_down in normal Button widget)
@@ -121,6 +124,7 @@ class WidgetAphorism(MyBoxLayout):
     def background_random_set(self):
         self.background_set(app.background_random_get())
 
+
 class MyListItemButton(ListItemButton):
     selected_id = NumericProperty()
     aphorism = ListProperty()
@@ -128,6 +132,7 @@ class MyListItemButton(ListItemButton):
         app.selected_aphorism = self.aphorism
         app.selected_id = id
         self.selected_id = id
+
 
 class FormSearch(MyBoxLayout):
     results = ObjectProperty()
@@ -151,6 +156,7 @@ class FormSearch(MyBoxLayout):
     def args_converter(self, index, data_item):
         id, quote = data_item
         return {'aphorism': (id, quote)}
+
 
 class FormList(MyBoxLayout):
     results = ObjectProperty()
@@ -194,6 +200,7 @@ class FormTextInput(TextInput):
         s = self.text
         self.text = (s[:max_chars]) if len(s) > max_chars else s
 
+
 class FormNew(Popup):
     def new(self):
         data = {
@@ -235,6 +242,7 @@ class FormNew(Popup):
 
     def cancel(self):
         self.dismiss()
+
 
 class FormEdit(Popup):
     aphorism_id = NumericProperty()
@@ -322,6 +330,7 @@ class FormDelete(Popup):
     def cancel(self):
         self.dismiss()
 
+
 class FormWipe(Popup):
     def wipe(self):
         self.open()
@@ -336,8 +345,6 @@ class FormWipe(Popup):
     def cancel(self):
         self.dismiss()
 
-class WidgetCopy(Popup):
-    textarea_copy = ObjectProperty()
 
 class Main(MyBoxLayout):
     '''Main UI Screen Widget
@@ -440,6 +447,7 @@ class Main(MyBoxLayout):
                 fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
         except Exception as e:
             print e
+
 
 class MainApp(App):
     '''Main Program
@@ -657,7 +665,6 @@ if __name__ in ('__main__', '__android__'):
     for font in KIVY_FONTS:
         LabelBase.register(**font)
 
-    # load widget lkv files
     files = []
     for root, dirs, files in os.walk('widgets'):
         for file in files:
