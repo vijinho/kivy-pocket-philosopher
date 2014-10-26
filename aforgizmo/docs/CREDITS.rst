@@ -9,7 +9,7 @@ CONTRIBUTORS
 ============
 Teachers
 --------
-I was inspired by the hard work and effort by:
+I was inspired and used also code based on the hard work and effort by:
 -  http://robertour.com/category/kivy
 -  http://cheparev.com/
 

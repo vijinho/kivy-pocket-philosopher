@@ -4,7 +4,6 @@
 #    MyButton:
 #        size_hint_y: 0.1
 #        height: '64dp'
-#        font_size: '20sp'
 #        text: 'All Aphorisms'
 #        on_press: root.list(); app.root.select_list_id = None
     ListView:
@@ -19,24 +18,21 @@
         size_hint_y: 0.2
         cols: 2
         rows: 2
+        spacing: 2
         MyButton:
             height: '64dp'
-            font_size: '20sp'
             text: 'Edit'
             on_press: root.edit()
         MyButton:
             height: '64dp'
-            font_size: '20sp'
             text: 'Delete'
             on_press: root.delete()
         MyButton:
             height: '64dp'
-            font_size: '20sp'
             text: 'Backup'
             on_press: root.db_backup()
         MyButton:
             height: '64dp'
-            font_size: '20sp'
             text: 'Import'
             on_press: root.db_import()
 
@@ -46,7 +42,6 @@
     padding_y: 10
     halign: 'left'
     valign: 'middle'
-    font_size: '18sp'
     text_size: root.width, None
     text: "{}".format(self.aphorism[1])
     on_press: root.pressed(self.aphorism[0]); app.root.select_list_id = self.aphorism[0]

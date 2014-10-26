@@ -5,7 +5,6 @@
         MyButton:
             size_hint_y: None
             height: '64dp'
-            font_size: '20sp'
             text: 'Copy'
             on_press: root.copy()
         RelativeLayout:
@@ -21,7 +20,7 @@
                     padding: ('20dp', '20dp')
                     valign: 'middle'
                     font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
-                    font_size: '30sp'
+                    font_size: root.height / 18
                     markup: True
                     canvas.before:
                         Color:

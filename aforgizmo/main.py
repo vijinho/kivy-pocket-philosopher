@@ -33,6 +33,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.listview import ListView, ListItemButton
 from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.image import Image
+from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.core.text import LabelBase
 
@@ -40,6 +41,24 @@ from kivy.core.text import LabelBase
 from peewee import *
 from models import Aphorism
 
+class MyButton(Button):
+    """
+    Button with a possibility to change the color on on_press (similar to background_down in normal Button widget)
+    """
+    background_color_normal = ListProperty([0.3, 0.3, 0.3, 0.75])
+    background_color_down = ListProperty([0.8, 0.8, 0.8, 0.75])
+
+    def __init__(self, **kwargs):
+        super(MyButton, self).__init__(**kwargs)
+        self.background_normal = ""
+        self.background_down = ""
+        self.background_color = self.background_color_normal
+
+    def on_press(self):
+        self.background_color = self.background_color_down
+
+    def on_release(self):
+        self.background_color = self.background_color_normal
 
 class MyScreenManager(ScreenManager):
     background_image = ObjectProperty(Image(source='assets/img/bg/background.png'))

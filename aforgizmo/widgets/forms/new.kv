@@ -31,7 +31,11 @@
                 max_chars: 1024
                 size_hint_y: 0.2
                 size: (self.parent.width, '72dp')
-        BoxLayout:
+        GridLayout:
+            size_hint_y: 0.1
+            cols: 2
+            rows: 1
+            spacing: 2
             size_hint_y: 0.1
             MyButton:
                 id: submit

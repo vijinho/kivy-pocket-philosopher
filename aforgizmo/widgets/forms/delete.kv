@@ -12,8 +12,11 @@
             orientation: "vertical"
             WidgetDeleteLabel:
                 id: aphorism_text
-        BoxLayout:
+        GridLayout:
             size_hint_y: 0.1
+            cols: 2
+            rows: 1
+            spacing: 2
             MyButton:
                 id: submit
                 size_hint_x: 0.7
@@ -31,5 +34,4 @@
     padding_y: 10
     halign: 'left'
     valign: 'middle'
-    font_size: '18sp'
     markup: True
