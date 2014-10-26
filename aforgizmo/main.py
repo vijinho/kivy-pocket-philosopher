@@ -361,7 +361,7 @@ class FormDelete(Popup):
     def delete(self, A):
         if isinstance(A, Aphorism):
             self.aphorism_id = A.id
-            tpl = "\"[b]{aphorism}[/b]\"\n  -- [i]{author}[/i]\n\n[b]source[/b]\n\ntags"
+            tpl = "\"[b]{aphorism}[/b]\"\n  -- [i]{author}[/i]\n\nSource: [b]{source}[/b]\n\nTags: [b]{tags}[/b]"
             self.ids.aphorism_text.text = tpl.format(
                 aphorism = A.aphorism,
                 author = A.author,
