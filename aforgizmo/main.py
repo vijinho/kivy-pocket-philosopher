@@ -19,23 +19,22 @@ import time
 import kivy
 kivy.require('1.8.0')
 from kivy.config import Config
-from kivy.utils import platform
+from kivy.lang import Builder
 from kivy.core.window import Window
+from kivy.uix.screenmanager import ScreenManager
 from kivy.core.clipboard import Clipboard
 from kivy.app import App
 from kivy.properties import ObjectProperty, ListProperty, NumericProperty
 from kivy.factory import Factory
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
 from kivy.uix.actionbar import ActionBar
-from kivy.uix.popup import Popup
+from kivy.core.text import LabelBase
+from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.listview import ListView, ListItemButton
-from kivy.uix.screenmanager import ScreenManager
-from kivy.uix.image import Image
 from kivy.uix.button import Button
-from kivy.lang import Builder
-from kivy.core.text import LabelBase
+from kivy.uix.popup import Popup
+from kivy.uix.image import Image
 
 # application imports
 from peewee import *
@@ -45,6 +44,7 @@ class MyButton(Button):
     """
     Button with a possibility to change the color on on_press (similar to background_down in normal Button widget)
     """
+    background_image = ObjectProperty(Image(source='assets/img/pixel.png'))
     background_color_normal = ListProperty([0.3, 0.3, 0.3, 0.75])
     background_color_down = ListProperty([0.8, 0.8, 0.8, 0.75])
 

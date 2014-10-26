@@ -1,6 +1,11 @@
 <MyButton@Button>:
     halign: 'left'
     markup: True
+    canvas.before:
+        BorderImage:
+            texture: self.background_image.texture
+            pos: self.pos
+            size: self.size
 
 <MyLabel@Label>
     halign: 'left'
