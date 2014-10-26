@@ -10,8 +10,6 @@ New Features
 Missing Functionality
 ---------------------
 -  User action notifications/flash messages
--  Export database
--  Import database
 -  Implement import/export for non-JSON formats such as CSV
 -  Share aphorism
 
