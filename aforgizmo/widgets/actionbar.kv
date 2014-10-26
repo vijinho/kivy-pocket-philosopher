@@ -5,19 +5,19 @@
         ActionPrevious:
             with_previous: False
             text: 'Pocket Philosopher'
-            on_press: app.Main.ids.Screens.current = 'Main'
+            on_press: app.root.ids.Screens.current = 'Main'
         ActionButton:
             text: "Search"
             icon: 'assets/img/icons/search.png'
-            on_press: app.Main.ids.Screens.current = 'Search'; app.Main.ids.FormSearch.ids.search_box.focus = True
+            on_press: app.root.ids.Screens.current = 'Search'; app.root.ids.FormSearch.ids.search_box.focus = True
         ActionButton:
             text: "Edit"
             icon: 'assets/img/icons/edit.png'
-            on_press: app.Main.ids.Screens.current = 'List'; app.Main.ids.FormList.list()
+            on_press: app.root.ids.Screens.current = 'List'; app.root.ids.FormList.list()
         ActionButton:
             text: "New"
             icon: 'assets/img/icons/new.png'
-            on_press: root.new()
+            on_press: app.new()
         ActionOverflow:
             ActionButton:
                 id: btn_settings
@@ -27,11 +27,11 @@
             ActionButton:
                 text: "Help"
                 icon: 'assets/img/icons/help.png'
-                on_press: root.help()
+                on_press: app.help()
             ActionButton:
                 text: "About"
                 icon: 'assets/img/icons/about.png'
-                on_press: root.about()
+                on_press: app.about()
             ActionButton:
                 icon: 'assets/img/icons/quit.png'
                 text: "Exit"

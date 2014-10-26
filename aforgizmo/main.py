@@ -66,16 +66,6 @@ class MyButton(Button):
     def on_release(self):
         self.background_color = self.background_color_normal
 
-class ActionBarMain(ActionBar):
-    def about(self):
-        WidgetAbout().open()
-
-    def help(self):
-        WidgetHelp().open()
-
-    def new(self):
-        FormNew().open()
-
 class WidgetAbout(Popup):
     pass
 
@@ -379,7 +369,7 @@ class FormDelete(Popup):
             else:
                 app.root.select_list_id = None
                 self.cancel()
-                app.Main.ids.FormList.list()
+                app.root.ids.FormList.list()
 
     def cancel(self):
         self.dismiss()
@@ -389,10 +379,10 @@ class FormWipe(Popup):
         self.open()
 
     def wipe_action(self):
-        app.Main.auto_backup()
+        app.root.auto_backup()
         Aphorism.drop_table()
         app.setup_database()
-        app.Main.ids.FormList.list()
+        app.root.ids.FormList.list()
         self.dismiss()
 
     def cancel(self):
@@ -537,8 +527,9 @@ class MainApp(App):
                 return e
 
     def build(self):
-        self.Main = Main(app = self)
-        return self.Main
+        return Main()
+#        self.Main = Main(app = self)
+#        return self.Main
 
     def build_config(self, config):
         config.setdefaults('display', {
@@ -573,7 +564,7 @@ class MainApp(App):
         Fired when the application is being started (before the runTouchApp() call.
         """
         self.background_refresh_list()
-        self.Main.aphorism_random_display()
+        self.root.aphorism_random_display()
         return True
 
     def on_stop(self):
@@ -599,6 +590,15 @@ class MainApp(App):
         """
         self.background_refresh_list()
         pass
+
+    def about(self):
+        WidgetAbout().open()
+
+    def help(self):
+        WidgetHelp().open()
+
+    def new(self):
+        FormNew().open()
 
     def background_refresh_list(self):
         """
