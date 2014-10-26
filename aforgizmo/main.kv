@@ -22,23 +22,20 @@
             id: Screens
             Screen:
                 name: 'Main'
-                BoxLayout:
-                    orientation: "vertical"
+                MyBoxLayout:
                     ActionBarMain:
-                    BoxLayout:
+                    MyBoxLayout:
                         id: aphorism_container
                         orientation: "vertical"
                         WidgetAphorism:
                     MyButton:
-                        size_hint_y: None
+                        size_hint_y: 0.1
                         height: '64dp'
                         text: 'Random'
                         on_press: root.aphorism_random_display()
             Screen:
                 name: 'Search'
-                orientation: "vertical"
-                BoxLayout:
-                    orientation: "vertical"
+                MyBoxLayout:
                     ActionBarMain:
                     FormSearch:
                         id: FormSearch

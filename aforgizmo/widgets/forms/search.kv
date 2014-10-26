@@ -1,16 +1,11 @@
-<WidgetInputSearch>:
-    focus: True
-    multiline: False
-
 <FormSearch>:
     search_input: search_box
     search_results: search_results_list
-    BoxLayout:
-        orientation: "vertical"
-        BoxLayout:
+    MyBoxLayout:
+        MyBoxLayout:
             orientation: "horizontal"
             size_hint_y: None
-            size: (self.parent.width, '36dp')
+            size: (self.parent.width, '40dp')
             Image:
                 size_hint_x: None
                 width: '32dp'
@@ -18,12 +13,12 @@
                 keep_ratio: True
                 allow_stretch: True
                 source: 'assets/img/icons/search.png'
-            WidgetInputSearch:
+            FormTextInput:
                 id: search_box
             MyButton:
                 id: search_submit
                 size_hint_x: None
-                width: '64dp'
+                width: '96dp'
                 text: 'Go!'
                 on_press: root.search(text = search_box.text)
         ListView:

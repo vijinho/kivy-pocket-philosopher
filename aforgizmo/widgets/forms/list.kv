@@ -1,5 +1,6 @@
 <FormList>:
     orientation: "vertical"
+    spacing: 1
     results: results_list
 #    MyButton:
 #        size_hint_y: 0.1
@@ -14,11 +15,10 @@
             selection_mode = 'single',
             args_converter = root.args_converter,
             cls = main.ButtonListResults)
-    GridLayout:
+    MyGridLayout:
         size_hint_y: 0.2
         cols: 3
         rows: 2
-        spacing: 2
         MyButton:
             height: '64dp'
             text: 'View'

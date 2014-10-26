@@ -2,8 +2,7 @@
     size_hint: 0.8, 0.8
     auto_dismiss: True
     title: 'Delete Aphorism'
-    BoxLayout:
-        orientation: "vertical"
+    MyBoxLayout:
         padding: 3
         AnchorLayout:
             id: form
@@ -12,11 +11,10 @@
             orientation: "vertical"
             WidgetDeleteLabel:
                 id: aphorism_text
-        GridLayout:
+        MyGridLayout:
             size_hint_y: 0.1
             cols: 2
             rows: 1
-            spacing: 2
             MyButton:
                 id: submit
                 size_hint_x: 0.7

@@ -6,8 +6,8 @@
         RstDocument:
             source: 'docs/ABOUT.rst'
         MyButton:
-            size_hint_y: None
-            text: 'OK'
+            size_hint_y: 0.1
+            text: 'Ok'
             on_press: root.dismiss()
 
 <WidgetHelp>:
@@ -18,8 +18,8 @@
         RstDocument:
             source: 'docs/HELP.rst'
         MyButton:
-            size_hint_y: None
-            text: 'OK'
+            size_hint_y: 0.1
+            text: 'Ok'
             height: '64dp'
             on_press: root.dismiss()
 
@@ -40,6 +40,6 @@
             focus: True
             font_name: 'assets/fonts/ubuntu/UbuntuMono-R.ttf'
         MyButton:
-            size_hint_y: None
+            size_hint_y: 0.1
             text: 'Copy'
             on_press: root.dismiss()

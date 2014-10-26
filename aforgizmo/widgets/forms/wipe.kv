@@ -2,15 +2,13 @@
     size_hint: 0.75, 0.4
     auto_dismiss: True
     title: 'Reset Database?'
-    BoxLayout:
-        orientation: "vertical"
+    MyBoxLayout:
         MyLabel:
             text: "[b]Warning![/b]\n\nThis will erase your entire database.  A backup will be made automatically in the [i]data/[/i] folder."
-        GridLayout:
+        MyGridLayout:
             size_hint_y: 0.5
             cols: 2
             rows: 1
-            spacing: 2
             orientation: "horizontal"
             MyButton:
                 text: '[b]Yes![/b]'

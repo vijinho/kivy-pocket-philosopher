@@ -2,12 +2,10 @@
     size_hint: 0.8, 0.8
     auto_dismiss: False
     title: 'Edit Aphorism'
-    BoxLayout:
-        orientation: "vertical"
+    MyBoxLayout:
         padding: 3
-        BoxLayout:
+        MyBoxLayout:
             id: form
-            orientation: "vertical"
             FormLabel:
                 text: 'Aphorism:'
             FormTextArea:
@@ -31,11 +29,10 @@
                 max_chars: 1024
                 size_hint_y: 0.2
                 size: (self.parent.width, '72dp')
-        GridLayout:
+        MyGridLayout:
             size_hint_y: 0.1
             cols: 2
             rows: 1
-            spacing: 2
             MyButton:
                 id: submit
                 size_hint_x: 0.7

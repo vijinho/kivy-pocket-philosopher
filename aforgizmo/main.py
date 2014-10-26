@@ -40,6 +40,12 @@ from kivy.uix.image import Image
 from peewee import *
 from models import Aphorism
 
+class MyScreenManager(ScreenManager):
+    background_image = ObjectProperty(Image(source='assets/img/bg/background.png'))
+
+class MyBoxLayout(BoxLayout):
+    pass
+
 class MyButton(Button):
     """
     Button with a possibility to change the color on on_press (similar to background_down in normal Button widget)
@@ -60,9 +66,6 @@ class MyButton(Button):
     def on_release(self):
         self.background_color = self.background_color_normal
 
-class MyScreenManager(ScreenManager):
-    background_image = ObjectProperty(Image(source='assets/img/bg/background.png'))
-
 class ActionBarMain(ActionBar):
     def about(self):
         WidgetAbout().open()
@@ -79,7 +82,7 @@ class WidgetAbout(Popup):
 class WidgetHelp(Popup):
     pass
 
-class WidgetAphorism(BoxLayout):
+class WidgetAphorism(MyBoxLayout):
     pixel = 'assets/img/pixel.png'
     aphorism = ObjectProperty()
 
@@ -139,18 +142,10 @@ class WidgetAphorism(BoxLayout):
     def background_random_set(self):
         self.background_set(self.background_random_get())
 
+class FormTextInput(TextInput):
+    pass
 
-class WidgetInputSearch(TextInput):
-    pat = re.compile('[^A-Za-z0-9_]')
-    def insert_text(self, substring, from_undo=False):
-        s = re.sub(self.pat, '', substring.lower())
-        self.on_text_validate()
-        return super(WidgetInputSearch, self).insert_text(s, from_undo=from_undo)
-
-    def on_text_validate(self):
-        app.Main.ids.FormSearch.search(text = self.text)
-
-class FormSearch(BoxLayout):
+class FormSearch(MyBoxLayout):
     def search(self, text):
         results = []
         if len(str(text)) > 0:
@@ -171,7 +166,7 @@ class FormSearch(BoxLayout):
 class ButtonSearchResults(ListItemButton):
    aphorism = ListProperty()
 
-class FormList(BoxLayout):
+class FormList(MyBoxLayout):
     results = ObjectProperty()
     def list(self):
         results = []
@@ -406,7 +401,7 @@ class FormWipe(Popup):
 class WidgetCopy(Popup):
     textarea_copy = ObjectProperty()
 
-class Main(BoxLayout):
+class Main(MyBoxLayout):
     '''Main UI Screen Widget
     .. versionadded:: 1.0
     .. note:: This is the king of the app widgets
