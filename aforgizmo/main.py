@@ -411,6 +411,7 @@ class MainApp(App):
     '''Main Program
     '''
     use_kivy_settings = False
+    backgrounds = ListProperty()
 
     def __init__(self):
         self.title = 'Pocket Philosopher'
@@ -509,6 +510,7 @@ class MainApp(App):
         Fired when the application is being started (before the runTouchApp() call.
         """
         self.background_refresh_list()
+        self.Main.aphorism_random_display()
         return True
 
     def on_stop(self):
