@@ -48,6 +48,25 @@
             text: 'OK'
             on_press: root.dismiss()
 
+<WidgetCopy>:
+    size_hint: 0.9, 0.9
+    title: 'Copy Aphorism'
+    textarea_copy: copytext
+    BoxLayout:
+        orientation: "vertical"
+        FormLabel:
+            size_hint_y: 0.1
+            text: 'If the copy button fails, try to directly copy the text below.'
+        FormTextArea:
+            id: copytext
+            size_hint_y: 0.8
+            size: (self.parent.width, '72dp')
+            markup: False
+        MyButton:
+            size_hint_y: 0.1
+            text: 'Copy'
+            on_press: root.dismiss()
+
 <ActionBarMain@ActionBar>
     pos_hint: {'top':1}
     ActionView:
@@ -56,10 +75,6 @@
             with_previous: False
             text: 'Pocket Philosopher'
             on_press: app.Main.ids.Screens.current = 'Main'
-        #ActionButton:
-        #    text: "Copy"
-        #    icon: 'assets/img/icons/copy.png'
-        #    on_press: app.Main.aphorism_copy()
         ActionButton:
             text: "Search"
             icon: 'assets/img/icons/search.png'
@@ -326,6 +341,7 @@
                 on_press: root.cancel()
 
 <WidgetAphorism@BoxLayout>:
+    orientation: "vertical"
     BoxLayout:
         orientation: "vertical"
         RelativeLayout:
@@ -349,7 +365,12 @@
                         Rectangle:
                             pos: self.pos
                             size: self.size
-
+    MyButton:
+        text: 'Copy'
+        size_hint_y: None
+        height: '64dp'
+        font_size: '20sp'
+        on_press: root.copy()
 <Main>:
     search_results: []
     AnchorLayout:

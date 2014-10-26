@@ -55,6 +55,18 @@ class WidgetHelp(Popup):
 
 class WidgetAphorism(BoxLayout):
     pixel = 'assets/img/pixel.png'
+    aphorism = ObjectProperty()
+
+    def copy(self):
+        A = self.aphorism
+        tpl = "\"{aphorism}\"\n  -- {author}\n\n({source})"
+        quote = tpl.format(aphorism = A.aphorism, author = A.author, source = A.source)
+        Clipboard.put(quote, 'TEXT')
+        Clipboard.put(quote, 'text/plain;charset=utf-8')
+        Clipboard.put(quote, 'UTF8_STRING')
+        w = Factory.WidgetCopy()
+        w.textarea_copy.text = quote
+        w.open()
 
     def random_get(self):
         for A in Aphorism.select().order_by(fn.Random()).limit(1):
@@ -299,6 +311,9 @@ class FormDelete(Popup):
     def cancel(self):
         self.dismiss()
 
+class WidgetCopy(Popup):
+    textarea_copy = ObjectProperty()
+
 class Main(BoxLayout):
     '''Main UI Screen Widget
     .. versionadded:: 1.0
@@ -319,9 +334,6 @@ class Main(BoxLayout):
         Hack for listing to get the edit id
         """
         self.select_list_id = id
-
-    def aphorism_copy(self):
-        pass
 
     def aphorism_clear_widget(self):
         container = self.ids.aphorism_container
