@@ -10,3 +10,6 @@ Pocket Philosopher TODO List
 -  Share aphorism on Twitter/Facebook/Google+ etc
 -  Implement import/export for non-JSON formats such as CSV
 -  User action notifications/flash messages
+-  On Listing, hide View/Edit/Delete buttons until a list item is selected
+-  Add file browser for backup and import
+-  Implement reset database

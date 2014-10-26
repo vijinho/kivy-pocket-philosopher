@@ -233,7 +233,8 @@ class FormList(BoxLayout):
             print "success"
 
     def db_reset(self):
-        print 'reset'
+        Aphorism.drop_table()
+        app.setup_database()
 
 class ButtonListResults(ListItemButton):
     selected_id = NumericProperty()
@@ -510,7 +511,6 @@ class MainApp(App):
                 with open('data/aphorisms.json') as json_file:
                     json_data = json.load(json_file)
                 Aphorism.insert_many(json_data).execute()
-                return self.random_get()
             except Exception as e:
                 print e
                 return e
