@@ -601,7 +601,7 @@ class MainApp(App):
         return background
 
 
-if __name__ == '__main__':
+if __name__ in ('__main__', '__android__'):
     Config.set('kivy', 'window_icon', 'assets/img/icon.png')
 
     KIVY_FONTS = [
