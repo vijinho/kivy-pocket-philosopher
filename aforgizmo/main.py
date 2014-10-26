@@ -13,6 +13,7 @@ import random
 import imghdr
 import re
 import json
+import time
 
 # kivy imports
 import kivy
@@ -174,12 +175,29 @@ class FormList(BoxLayout):
             app.root.aphorism_delete_by_id(id)
 
     def db_import(self):
-        print 'import'
-        pass
+        try:
+            filename = 'data/aphorisms.json'
+            with open(source_file) as json_file:
+                json_data = json.load(json_file)
+            Aphorism.insert_many(json_data).execute()
+            return self.random_get()
+        except Exception as e:
+            print e
+        else:
+            print "success"
 
-    def db_export(self):
-        print 'export'
-        pass
+    def db_backup(self):
+        data = []
+        for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
+            data.append(a.AsHash())
+        filename = "data/aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
+        try:
+            with open(filename, "w") as fp:
+                fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
+        except Exception as e:
+            print e
+        else:
+            print "success"
 
 class ButtonListResults(ListItemButton):
     selected_id = NumericProperty()
@@ -449,7 +467,7 @@ class MainApp(App):
 
         if 'a' not in locals():
             try:
-                source_file = 'data/aphorisms.json';
+                source_file = 'data/aphorisms.json'
                 with open(source_file) as json_file:
                     json_data = json.load(json_file)
                 Aphorism.insert_many(json_data).execute()
