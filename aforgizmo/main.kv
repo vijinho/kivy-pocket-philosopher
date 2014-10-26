@@ -46,10 +46,12 @@
         MyButton:
             size_hint_y: None
             text: 'OK'
+            height: '64dp'
+            font_size: '20sp'
             on_press: root.dismiss()
 
 <WidgetCopy>:
-    size_hint: 0.9, 0.9
+    size_hint: 0.75, 0.75
     title: 'Copy Aphorism'
     textarea_copy: copytext
     BoxLayout:
@@ -64,7 +66,7 @@
             markup: False
             focus: True
         MyButton:
-            size_hint_y: 0.1
+            size_hint_y: None
             text: 'Copy'
             on_press: root.dismiss()
 
@@ -158,6 +160,12 @@
 <FormList>:
     orientation: "vertical"
     results: results_list
+    MyButton:
+        size_hint_y: None
+        height: '64dp'
+        font_size: '20sp'
+        text: 'All Aphorisms'
+        on_press: root.list(); app.root.select_list_id = None
     ListView:
         id: results_list
         adapter:
@@ -167,12 +175,6 @@
             args_converter = root.args_converter,
             cls = main.ButtonListResults)
         BoxLayout:
-            MyButton:
-                size_hint_y: None
-                height: '64dp'
-                font_size: '20sp'
-                text: 'Refresh'
-                on_press: root.list(); app.root.select_list_id = None
             MyButton:
                 size_hint_y: None
                 height: '64dp'
@@ -410,22 +412,6 @@
                 BoxLayout:
                     orientation: "vertical"
                     ActionBarMain:
-                    FormLabel:
-                        size_hint_y: None
-                        size: self.texture_size
-                        text_size: root.width, None
-                        padding_y: 10
-                        halign: 'left'
-                        valign: 'middle'
-                        font_size: '18sp'
-                        font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
-                        text: 'All Aphorisms:'
-                        canvas.before:
-                            Color:
-                                rgba: [.5, .5, .5, .5]
-                            Rectangle:
-                                pos: self.pos
-                                size: self.size
                     FormList:
                         id: FormList
 # DEBUG ALL WIDGETS
