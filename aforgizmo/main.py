@@ -397,6 +397,7 @@ class FormWipe(Popup):
         app.Main.auto_backup()
         Aphorism.drop_table()
         app.setup_database()
+        app.Main.ids.FormList.list()
         self.dismiss()
 
     def cancel(self):
