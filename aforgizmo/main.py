@@ -40,23 +40,14 @@ from kivy.uix.image import Image
 from peewee import *
 from models import Aphorism
 
-class MyScreenManager(ScreenManager):
-    background_image = ObjectProperty(Image(source='assets/img/bg/background.png'))
+class FormTextInput(TextInput):
+    pass
 
 class MyBoxLayout(BoxLayout):
     pass
 
-class WidgetAbout(Popup):
-    pass
-
-class WidgetHelp(Popup):
-    pass
-
-class FormTextInput(TextInput):
-    pass
-
-class WidgetCopy(Popup):
-    textarea_copy = ObjectProperty()
+class MyScreenManager(ScreenManager):
+    background_image = ObjectProperty(Image(source='assets/img/bg/background.png'))
 
 class MyButton(Button):
     """
@@ -352,7 +343,6 @@ class Main(MyBoxLayout):
     .. note:: This is the king of the app widgets
     .. warning:: Handle with care!
     '''
-    select_list_id = NumericProperty()
     current_aphorism = ObjectProperty()
 
     pixel = 'assets/img/pixel.png'
@@ -360,19 +350,9 @@ class Main(MyBoxLayout):
     def __init__(self, **kwargs):
         super(Main, self).__init__()
 
-    def select_list_id(self, id):
-        """
-        Hack for listing to get the edit id
-        """
-        self.select_list_id = id
-
-    def aphorism_clear_widget(self):
+    def aphorism_display(self, A):
         container = self.ids.aphorism_container
         container.clear_widgets()
-        return container
-
-    def aphorism_display(self, A):
-        container = self.aphorism_clear_widget()
         widget = Factory.WidgetAphorism()
         widget.set(A)
         container.add_widget(widget)
@@ -429,7 +409,8 @@ class Main(MyBoxLayout):
         return A
 
     def aphorism_random_display(self):
-        container = self.aphorism_clear_widget()
+        container = self.ids.aphorism_container
+        container.clear_widgets()
         widget = Factory.WidgetAphorism()
         A = widget.random_set()
         container.add_widget(widget)
@@ -559,16 +540,25 @@ class MainApp(App):
         Clipboard.put(quote, 'TEXT')
         Clipboard.put(quote, 'text/plain;charset=utf-8')
         Clipboard.put(quote, 'UTF8_STRING')
-        w = Factory.WidgetCopy()
+        w = self.WidgetCopy()
         w.textarea_copy.text = quote
         w.textarea_copy.select_all()
         w.open()
 
+    class WidgetCopy(Popup):
+        textarea_copy = ObjectProperty()
+
     def about(self):
-        WidgetAbout().open()
+        self.WidgetAbout().open()
+
+    class WidgetAbout(Popup):
+        pass
 
     def help(self):
-        WidgetHelp().open()
+        self.WidgetHelp().open()
+
+    class WidgetHelp(Popup):
+        pass
 
     def new(self):
         FormNew().open()
