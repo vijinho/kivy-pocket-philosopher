@@ -46,6 +46,15 @@ class MyScreenManager(ScreenManager):
 class MyBoxLayout(BoxLayout):
     pass
 
+class WidgetAbout(Popup):
+    pass
+
+class WidgetHelp(Popup):
+    pass
+
+class FormTextInput(TextInput):
+    pass
+
 class MyButton(Button):
     """
     Button with a possibility to change the color on on_press (similar to background_down in normal Button widget)
@@ -66,11 +75,6 @@ class MyButton(Button):
     def on_release(self):
         self.background_color = self.background_color_normal
 
-class WidgetAbout(Popup):
-    pass
-
-class WidgetHelp(Popup):
-    pass
 
 class WidgetAphorism(MyBoxLayout):
     pixel = 'assets/img/pixel.png'
@@ -131,9 +135,6 @@ class WidgetAphorism(MyBoxLayout):
 
     def background_random_set(self):
         self.background_set(self.background_random_get())
-
-class FormTextInput(TextInput):
-    pass
 
 class FormSearch(MyBoxLayout):
     def search(self, text):
@@ -652,5 +653,6 @@ if __name__ in ('__main__', '__android__'):
             if file.endswith('.kv'):
                 Builder.load_file(os.path.join(root, file))
 
+    global app
     app = MainApp()
     app.run()
