@@ -58,6 +58,8 @@ class WidgetAphorism(BoxLayout):
     aphorism = ObjectProperty()
 
     def copy(self):
+        if not self.aphorism:
+            return
         A = self.aphorism
         tpl = "\"{aphorism}\"\n  -- {author}\n\n({source})"
         quote = tpl.format(aphorism = A.aphorism, author = A.author, source = A.source)

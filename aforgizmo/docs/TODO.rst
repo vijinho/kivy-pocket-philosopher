@@ -13,7 +13,6 @@ Missing Functionality
 -  Export database
 -  Import database
 -  Implement import/export for non-JSON formats such as CSV
--  Copy aphorism
 -  Share aphorism
 
 Refactoring
