@@ -38,6 +38,19 @@ from models import Aphorism
 
 Config.set('kivy', 'window_icon', 'assets/img/icon.png')
 
+from kivy.core.text import LabelBase
+KIVY_FONTS = [
+    {
+        "name": "Ubuntu",
+        "fn_regular": "assets/fonts/ubuntu/Ubuntu-L.ttf",
+        "fn_bold": "assets/fonts/ubuntu/Ubuntu-M.ttf",
+        "fn_italic": "assets/fonts/ubuntu/Ubuntu-LI.ttf",
+        "fn_bolditalic": "assets/fonts/ubuntu/Ubuntu-MI.ttf"
+    }
+]
+for font in KIVY_FONTS:
+    LabelBase.register(**font)
+
 class ActionBarMain(ActionBar):
     def about(self):
         WidgetAbout().open()

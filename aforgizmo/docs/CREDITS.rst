@@ -7,8 +7,11 @@ There is no 'I' in TEAM :)
 
 CONTRIBUTORS
 ============
-
--  Got many ideas from http://robertour.com/category/kivy
+Teachers
+--------
+I was inspired by the hard work and effort by:
+-  http://robertour.com/category/kivy
+-  http://cheparev.com/
 
 SOFTWARE PROJECTS
 =================
@@ -24,5 +27,6 @@ DESIGN, GRAPHICS, TYPOGRAPHY
 ============================
 
 -  Roboto Slab (Font) by Christian Robertson - http://www.google.com/fonts/specimen/Roboto+Slab
+-  UI Font is Ubuntu - http://font.ubuntu.com/
 -  Serif Affinity Designer (App Icon) - https://affinity.serif.com/
 -  Android-based icons - https://developer.android.com/design/downloads/
