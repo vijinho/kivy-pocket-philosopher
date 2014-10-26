@@ -158,8 +158,6 @@ class FormList(BoxLayout):
             self.results._trigger_reset_populate()
         except Exception as e:
             print e
-            print 'fail'
-            pass
 
     def args_converter(self, index, data_item):
         id, quote = data_item
