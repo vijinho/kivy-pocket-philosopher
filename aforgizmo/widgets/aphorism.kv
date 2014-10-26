@@ -2,6 +2,12 @@
     orientation: "vertical"
     BoxLayout:
         orientation: "vertical"
+        MyButton:
+            size_hint_y: None
+            height: '64dp'
+            font_size: '20sp'
+            text: 'Copy'
+            on_press: root.copy()
         RelativeLayout:
             MyImage:
                 id: background
@@ -23,3 +29,4 @@
                         Rectangle:
                             pos: self.pos
                             size: self.size
+

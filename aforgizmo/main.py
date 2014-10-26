@@ -635,7 +635,7 @@ if __name__ == '__main__':
     for font in KIVY_FONTS:
         LabelBase.register(**font)
 
-    # load widget kv files
+    # load widget lkv files
     files = []
     for root, dirs, files in os.walk('widgets'):
         for file in files:
