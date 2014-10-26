@@ -1,0 +1,20 @@
+<FormWipe@Popup>:
+    size_hint: 0.75, 0.4
+    auto_dismiss: True
+    title: 'Reset Database?'
+    BoxLayout:
+        orientation: "vertical"
+        MyLabel:
+            text: "[b]Warning![/b]\n\nThis will erase your entire database."
+        GridLayout:
+            size_hint_y: 0.5
+            cols: 2
+            rows: 1
+            spacing: 2
+            orientation: "horizontal"
+            MyButton:
+                text: '[b]Yes![/b]'
+                on_press: root.wipe_action()
+            MyButton:
+                text: 'No'
+                on_press: root.cancel()

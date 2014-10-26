@@ -232,9 +232,9 @@ class FormList(BoxLayout):
         else:
             print "success"
 
-    def db_reset(self):
-        Aphorism.drop_table()
-        app.setup_database()
+    def reset(self):
+        widget = Factory.FormWipe()
+        widget.wipe()
 
 class ButtonListResults(ListItemButton):
     selected_id = NumericProperty()
@@ -385,6 +385,18 @@ class FormDelete(Popup):
                 app.root.select_list_id = None
                 self.cancel()
                 app.Main.ids.FormList.list()
+
+    def cancel(self):
+        self.dismiss()
+
+class FormWipe(Popup):
+    def wipe(self):
+        self.open()
+
+    def wipe_action(self):
+        Aphorism.drop_table()
+        app.setup_database()
+        self.dismiss()
 
     def cancel(self):
         self.dismiss()
