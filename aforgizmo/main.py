@@ -31,25 +31,12 @@ from kivy.uix.actionbar import ActionBar
 from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 from kivy.uix.listview import ListView, ListItemButton
+from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.image import Image
 
 # application imports
 from peewee import *
 from models import Aphorism
-
-Config.set('kivy', 'window_icon', 'assets/img/icon.png')
-
-from kivy.core.text import LabelBase
-KIVY_FONTS = [
-    {
-        "name": "Ubuntu",
-        "fn_regular": "assets/fonts/ubuntu/Ubuntu-L.ttf",
-        "fn_bold": "assets/fonts/ubuntu/Ubuntu-M.ttf",
-        "fn_italic": "assets/fonts/ubuntu/Ubuntu-LI.ttf",
-        "fn_bolditalic": "assets/fonts/ubuntu/Ubuntu-MI.ttf"
-    }
-]
-for font in KIVY_FONTS:
-    LabelBase.register(**font)
 
 class ActionBarMain(ActionBar):
     def about(self):
@@ -629,5 +616,23 @@ class MainApp(App):
 
 
 if __name__ == '__main__':
+    Config.set('kivy', 'window_icon', 'assets/img/icon.png')
+
+    from kivy.core.text import LabelBase
+    KIVY_FONTS = [
+        {
+            "name": "Ubuntu",
+            "fn_regular": "assets/fonts/ubuntu/Ubuntu-L.ttf",
+            "fn_bold": "assets/fonts/ubuntu/Ubuntu-M.ttf",
+            "fn_italic": "assets/fonts/ubuntu/Ubuntu-LI.ttf",
+            "fn_bolditalic": "assets/fonts/ubuntu/Ubuntu-MI.ttf"
+        }
+    ]
+    for font in KIVY_FONTS:
+        LabelBase.register(**font)
+
+    class MyScreenManager(ScreenManager):
+        background_image = ObjectProperty(Image(source='assets/img/bg/background.png'))
+
     app = MainApp()
     app.run()

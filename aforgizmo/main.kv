@@ -5,13 +5,25 @@
 #:import ListAdapter kivy.adapters.listadapter.ListAdapter
 #:import SimpleListAdapter kivy.adapters.simplelistadapter.SimpleListAdapter
 
+<MyScreenManager>
+    canvas.before:
+        BorderImage:
+            texture: self.background_image.texture
+            pos: self.pos
+            size: self.size
+
 <Label>:
     font_name: 'Ubuntu'
+
+<Button>:
+    font_name: 'Ubuntu'
+    halign: 'left'
+    font_size: '16sp'
+    markup: True
 
 <MyButton@Button>:
     halign: 'left'
     font_size: '16sp'
-    font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
     markup: True
 
 <MyImage@Image>:
@@ -68,6 +80,7 @@
             size: (self.parent.width, '72dp')
             markup: False
             focus: True
+            font_name: 'assets/fonts/ubuntu/UbuntuMono-R.ttf'
         MyButton:
             size_hint_y: None
             text: 'Copy'
@@ -402,7 +415,7 @@
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'top'
-        ScreenManager:
+        MyScreenManager:
             size_hint: 1, 1
             id: Screens
             Screen:
