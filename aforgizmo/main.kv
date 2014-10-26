@@ -62,6 +62,7 @@
             size_hint_y: 0.8
             size: (self.parent.width, '72dp')
             markup: False
+            focus: True
         MyButton:
             size_hint_y: 0.1
             text: 'Copy'
@@ -209,6 +210,8 @@
     size_hint_y: None
     size: (self.parent.width, '36dp')
     multiline: False
+    allow_copy: True
+    use_bubble: True
 
 <FormTextArea@FormTextInput>:
     multiline: True

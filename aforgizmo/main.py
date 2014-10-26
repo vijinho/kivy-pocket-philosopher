@@ -68,6 +68,7 @@ class WidgetAphorism(BoxLayout):
         Clipboard.put(quote, 'UTF8_STRING')
         w = Factory.WidgetCopy()
         w.textarea_copy.text = quote
+        w.textarea_copy.select_all()
         w.open()
 
     def random_get(self):
