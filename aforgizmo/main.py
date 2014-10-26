@@ -174,53 +174,6 @@ class FormList(MyBoxLayout):
         id, quote = data_item
         return {'aphorism': (id, quote)}
 
-    def edit(self):
-        id = app.root.select_list_id
-        if id > 0:
-            app.root.aphorism_edit_by_id(id)
-
-    def delete(self):
-        id = app.root.select_list_id
-        if id > 0:
-            app.root.aphorism_delete_by_id(id)
-
-    def db_import(self):
-        files = []
-        for root, dirs, files in os.walk('data'):
-            for file in files:
-                m = re.search('^aphorism(.+).json', 'file')
-                if m:
-                    files.append(os.path.join(root, file))
-        print files
-        try:
-            filename = 'data/' + files[0]
-            with open(filename) as json_file:
-                json_data = json.load(json_file)
-            Aphorism.insert_many(json_data).execute()
-        except Exception as e:
-            print e
-        else:
-            print "success"
-
-    def db_backup(self):
-        data = []
-        for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
-            savedata = a.AsHash()
-            del(savedata['id'])
-            data.append(savedata)
-        filename = "data/aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
-        try:
-            with open(filename, "w") as fp:
-                fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
-        except Exception as e:
-            print e
-        else:
-            print "success"
-
-    def reset(self):
-        widget = Factory.FormWipe()
-        widget.wipe()
-
 class ButtonListResults(ListItemButton):
     selected_id = NumericProperty()
     aphorism = ListProperty()
@@ -599,6 +552,53 @@ class MainApp(App):
 
     def new(self):
         FormNew().open()
+
+    def edit(self):
+        id = app.root.select_list_id
+        if id > 0:
+            app.root.aphorism_edit_by_id(id)
+
+    def delete(self):
+        id = app.root.select_list_id
+        if id > 0:
+            app.root.aphorism_delete_by_id(id)
+
+    def db_import(self):
+        files = []
+        for root, dirs, files in os.walk('data'):
+            for file in files:
+                m = re.search('^aphorism(.+).json', 'file')
+                if m:
+                    files.append(os.path.join(root, file))
+        print files
+        try:
+            filename = 'data/' + files[0]
+            with open(filename) as json_file:
+                json_data = json.load(json_file)
+            Aphorism.insert_many(json_data).execute()
+        except Exception as e:
+            print e
+        else:
+            print "success"
+
+    def db_backup(self):
+        data = []
+        for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
+            savedata = a.AsHash()
+            del(savedata['id'])
+            data.append(savedata)
+        filename = "data/aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
+        try:
+            with open(filename, "w") as fp:
+                fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
+        except Exception as e:
+            print e
+        else:
+            print "success"
+
+    def db_reset(self):
+        widget = Factory.FormWipe()
+        widget.wipe()
 
     def background_refresh_list(self):
         """
