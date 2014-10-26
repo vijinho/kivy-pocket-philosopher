@@ -129,6 +129,7 @@ class FormSearch(MyBoxLayout):
             for a in Aphorism.select().where(
                 Aphorism.aphorism ** search).order_by(Aphorism.author, Aphorism.source):
                 results.append([a.id, a.ToOneLine(30)])
+            app.current_search = text
         self.search_results.item_strings = results
         del self.search_results.adapter.data[:]
         self.search_results.adapter.data.extend(results)
@@ -438,6 +439,7 @@ class MainApp(App):
     use_kivy_settings = False
     backgrounds = ListProperty()
     current_background = StringProperty()
+    current_search = StringProperty()
 
     def __init__(self):
         self.title = 'Pocket Philosopher'
