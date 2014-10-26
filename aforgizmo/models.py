@@ -11,12 +11,17 @@ from peewee import *
 from datetime import datetime
 import json
 
-database = SqliteDatabase('data/aphorisms.db')
+def get_database():
+    import ConfigParser
+    config = ConfigParser.RawConfigParser()
+    config.read('config.ini')
+    file = config.get('database', 'file')
+    database = SqliteDatabase(file)
 
 class BaseModel(Model):
     """(Peewee) Base Database model for Aphorisms App"""
     class Meta:
-        database = database
+        database = get_database()
 
 class Aphorism(BaseModel):
     """Database model for Aphorisms"""

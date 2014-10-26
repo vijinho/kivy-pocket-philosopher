@@ -65,7 +65,7 @@ target/
 *.un~
 bin/
 .buildozer
-*.ini
+main.ini
 
 # PyDev
 .project

@@ -488,7 +488,6 @@ class MainApp(App):
     def __init__(self):
         self.title = 'Pocket Philosopher'
         self.icon = 'assets/img/icon.png'
-        self.setup_database()
         App.__init__(self)
 
     def setup_database(self):
@@ -500,12 +499,17 @@ class MainApp(App):
 
         if 'a' not in locals():
             try:
-                source_file = 'data/aphorisms.json'
-                with open(source_file) as json_file:
+                try:
+                    Aphorism.create_table()
+                except:
+                    pass
+
+                with open('data/aphorisms.json') as json_file:
                     json_data = json.load(json_file)
                 Aphorism.insert_many(json_data).execute()
                 return self.random_get()
             except Exception as e:
+                print e
                 return e
 
     def build(self):
@@ -525,6 +529,7 @@ class MainApp(App):
         config.setdefaults('editor', {
             'default_source': '(Unknown)'
         })
+        self.setup_database()
 
     def build_settings(self, settings):
         with open('data/settings.json', 'r') as settings_json:
