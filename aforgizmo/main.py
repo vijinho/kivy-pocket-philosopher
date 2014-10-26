@@ -527,47 +527,9 @@ class MainApp(App):
         })
 
     def build_settings(self, settings):
-        jsondata = """[
-            {
-                "type": "title",
-                "title": "Background Image Settings"
-            },
-            {
-                "type": "bool",
-                "title": "Show Images?",
-                "desc": "Show a random background image behind each aphorism?",
-                "section": "display",
-                "key": "bg_enabled",
-                "true": "auto"
-            },
-            {
-                "type": "path",
-                "title": "Image Folder",
-                "desc": "The top-level folder used to find the background images.",
-                "section": "display",
-                "key": "bg_folder"
-            },
-            {
-                "type": "title",
-                "title": "Editor Settings"
-            },
-            {
-                "type": "string",
-                "title": "Default Author",
-                "desc": "What text should appear for the author's name when not entered?",
-                "section": "editor",
-                "key": "default_author"
-            },
-            {
-                "type": "string",
-                "title": "Default Source",
-                "desc": "What text should appear for the source of the aphorism when not entered?",
-                "section": "editor",
-                "key": "default_source"
-            }
-            ]"""
-        settings.add_json_panel('Pocket Philosopher Settings',
-                                self.config, data=jsondata)
+        with open('data/settings.json', 'r') as settings_json:
+            settings.add_json_panel('Pocket Philosopher Settings',
+                                self.config, data=settings_json.read())
 
     def on_config_change(self, config, section, key, value):
         if config is self.config:
