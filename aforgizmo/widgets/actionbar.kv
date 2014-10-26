@@ -1,0 +1,38 @@
+<ActionBarMain@ActionBar>
+    pos_hint: {'top':1}
+    ActionView:
+        use_separator: True
+        ActionPrevious:
+            with_previous: False
+            text: 'Pocket Philosopher'
+            on_press: app.Main.ids.Screens.current = 'Main'
+        ActionButton:
+            text: "Search"
+            icon: 'assets/img/icons/search.png'
+            on_press: app.Main.ids.Screens.current = 'Search'; app.Main.ids.FormSearch.ids.search_box.focus = True
+        ActionButton:
+            text: "Edit"
+            icon: 'assets/img/icons/edit.png'
+            on_press: app.Main.ids.Screens.current = 'List'; app.Main.ids.FormList.list()
+        ActionButton:
+            text: "New"
+            icon: 'assets/img/icons/new.png'
+            on_press: root.new()
+        ActionOverflow:
+            ActionButton:
+                id: btn_settings
+                text: "Settings"
+                icon: 'assets/img/icons/settings.png'
+                on_press: app.open_settings()
+            ActionButton:
+                text: "Help"
+                icon: 'assets/img/icons/help.png'
+                on_press: root.help()
+            ActionButton:
+                text: "About"
+                icon: 'assets/img/icons/about.png'
+                on_press: root.about()
+            ActionButton:
+                icon: 'assets/img/icons/quit.png'
+                text: "Exit"
+                on_press: app.stop()

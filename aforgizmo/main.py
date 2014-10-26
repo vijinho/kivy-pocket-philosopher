@@ -33,10 +33,16 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.listview import ListView, ListItemButton
 from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.image import Image
+from kivy.lang import Builder
+from kivy.core.text import LabelBase
 
 # application imports
 from peewee import *
 from models import Aphorism
+
+
+class MyScreenManager(ScreenManager):
+    background_image = ObjectProperty(Image(source='assets/img/bg/background.png'))
 
 class ActionBarMain(ActionBar):
     def about(self):
@@ -180,8 +186,7 @@ class FormList(BoxLayout):
             for file in files:
                 m = re.search('^aphorism(.+).json', 'file')
                 if m:
-                    path = os.path.join(root, file)
-                    files.append(path)
+                    files.append(os.path.join(root, file))
         print files
         try:
             filename = 'data/' + files[0]
@@ -618,7 +623,6 @@ class MainApp(App):
 if __name__ == '__main__':
     Config.set('kivy', 'window_icon', 'assets/img/icon.png')
 
-    from kivy.core.text import LabelBase
     KIVY_FONTS = [
         {
             "name": "Ubuntu",
@@ -631,8 +635,12 @@ if __name__ == '__main__':
     for font in KIVY_FONTS:
         LabelBase.register(**font)
 
-    class MyScreenManager(ScreenManager):
-        background_image = ObjectProperty(Image(source='assets/img/bg/background.png'))
+    # load widget kv files
+    files = []
+    for root, dirs, files in os.walk('widgets'):
+        for file in files:
+            if file.endswith('.kv'):
+                Builder.load_file(os.path.join(root, file))
 
     app = MainApp()
     app.run()

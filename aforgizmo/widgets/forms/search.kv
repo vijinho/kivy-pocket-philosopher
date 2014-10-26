@@ -1,0 +1,47 @@
+<WidgetInputSearch>:
+    focus: True
+    multiline: False
+
+<FormSearch>:
+    search_input: search_box
+    search_results: search_results_list
+    BoxLayout:
+        orientation: "vertical"
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            size: (self.parent.width, '36dp')
+            Image:
+                size_hint_x: None
+                width: '32dp'
+                height: root.height
+                keep_ratio: True
+                allow_stretch: True
+                source: 'assets/img/icons/search.png'
+            WidgetInputSearch:
+                id: search_box
+            MyButton:
+                id: search_submit
+                size_hint_x: None
+                width: '64dp'
+                text: 'Go!'
+                on_press: root.search(text = search_box.text)
+        ListView:
+            id: search_results_list
+            adapter:
+                SimpleListAdapter(
+                data = [],
+                args_converter = root.args_converter,
+                cls = main.ButtonSearchResults)
+
+<ButtonSearchResults@MyButton>:
+    size_hint_y: None
+    size: self.texture_size
+    padding_y: 10
+    halign: 'left'
+    valign: 'middle'
+    font_size: '18sp'
+    text_size: root.width, None
+    text: "{}".format(self.aphorism[1])
+    markup: False
+    on_press: app.root.aphorism_display_by_id(self.aphorism[0]); app.root.select_list_id = self.aphorism[0]

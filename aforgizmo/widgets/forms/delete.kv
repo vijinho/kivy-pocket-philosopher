@@ -1,0 +1,35 @@
+<FormDelete@Popup>:
+    size_hint: 0.8, 0.8
+    auto_dismiss: True
+    title: 'Delete Aphorism'
+    BoxLayout:
+        orientation: "vertical"
+        padding: 3
+        AnchorLayout:
+            id: form
+            anchor_x: 'center'
+            anchor_y: 'top'
+            orientation: "vertical"
+            WidgetDeleteLabel:
+                id: aphorism_text
+        BoxLayout:
+            size_hint_y: 0.1
+            MyButton:
+                id: submit
+                size_hint_x: 0.7
+                text: 'Delete Aphorism'
+                on_press: root.delete_action()
+            MyButton:
+                size_hint_x: 0.3
+                text: 'Cancel'
+                on_press: root.cancel()
+
+<WidgetDeleteLabel@Label>:
+    size_hint_y: None
+    size: self.texture_size
+    text_size: root.width, None
+    padding_y: 10
+    halign: 'left'
+    valign: 'middle'
+    font_size: '18sp'
+    markup: True

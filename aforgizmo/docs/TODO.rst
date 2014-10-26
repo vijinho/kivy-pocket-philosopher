@@ -15,7 +15,7 @@ Missing Functionality
 
 Refactoring
 -----------
--  Split the ``main.kv`` and ``main.py`` files in more manageable smaller chunks.
+-  Split the ``main.py`` file in more manageable smaller chunks.
 
 Improvements
 ------------

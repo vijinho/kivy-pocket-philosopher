@@ -1,0 +1,25 @@
+<WidgetAphorism@BoxLayout>:
+    orientation: "vertical"
+    BoxLayout:
+        orientation: "vertical"
+        RelativeLayout:
+            MyImage:
+                id: background
+            Scatter:
+                size_hint: None, None
+                size: quote.size
+                Label:
+                    id: quote
+                    text_size: root.width, None
+                    size: self.texture_size
+                    padding: ('20dp', '20dp')
+                    valign: 'middle'
+                    font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
+                    font_size: '30sp'
+                    markup: True
+                    canvas.before:
+                        Color:
+                            rgba: get_random_color(0.5)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size

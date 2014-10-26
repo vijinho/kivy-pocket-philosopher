@@ -1,0 +1,19 @@
+<MyScreenManager>
+    canvas.before:
+        BorderImage:
+            texture: self.background_image.texture
+            pos: self.pos
+            size: self.size
+
+<MyImage@Image>:
+    pos: self.pos
+    size: self.size
+    auto_bring_to_front: False
+    source: 'assets/img/pixel.png'
+    keep_ratio: True
+    allow_stretch: True
+    canvas.before:
+        Color:
+            rgba: [.4, .4, .4, .3]
+        Rectangle:
+            texture: self.texture
