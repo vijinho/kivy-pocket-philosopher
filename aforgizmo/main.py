@@ -24,7 +24,7 @@ from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager
 from kivy.core.clipboard import Clipboard
 from kivy.app import App
-from kivy.properties import ObjectProperty, ListProperty, NumericProperty
+from kivy.properties import ObjectProperty, ListProperty, NumericProperty, StringProperty
 from kivy.factory import Factory
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.actionbar import ActionBar
@@ -94,7 +94,7 @@ class WidgetAphorism(MyBoxLayout):
 
     def random_set(self):
         if int(app.config.get('display', 'bg_enabled')) == 1:
-            self.background_set(self.background_random_get())
+            self.background_set(app.background_random_get())
         A = self.random_get()
         self.set(A)
         return A
@@ -114,14 +114,12 @@ class WidgetAphorism(MyBoxLayout):
     def background_set(self, path):
         if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
             self.ids.background.source = path
+            app.current_background = path
         else:
             self.ids.background.source = self.pixel
 
-    def background_random_get(self):
-        return app.background_random_get()
-
     def background_random_set(self):
-        self.background_set(self.background_random_get())
+        self.background_set(app.background_random_get())
 
 class FormSearch(MyBoxLayout):
     def search(self, text):
@@ -439,6 +437,7 @@ class MainApp(App):
     '''
     use_kivy_settings = False
     backgrounds = ListProperty()
+    current_background = StringProperty()
 
     def __init__(self):
         self.title = 'Pocket Philosopher'
