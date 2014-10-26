@@ -327,7 +327,7 @@ class FormWipe(Popup):
         self.open()
 
     def wipe_action(self):
-        app.root.auto_backup()
+        app.auto_backup()
         Aphorism.drop_table()
         app.setup_database()
         app.root.ids.FormList.list()
@@ -415,19 +415,6 @@ class Main(MyBoxLayout):
         A = widget.random_set()
         container.add_widget(widget)
         return A
-
-    def auto_backup(self):
-        data = []
-        for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
-            savedata = a.AsHash()
-            del(savedata['id'])
-            data.append(savedata)
-        filename = "data/aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
-        try:
-            with open(filename, "w") as fp:
-                fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
-        except Exception as e:
-            print e
 
 
 class MainApp(App):
@@ -590,6 +577,19 @@ class MainApp(App):
             print e
         else:
             print "success"
+
+    def auto_backup(self):
+        data = []
+        for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
+            savedata = a.AsHash()
+            del(savedata['id'])
+            data.append(savedata)
+        filename = "data/aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
+        try:
+            with open(filename, "w") as fp:
+                fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
+        except Exception as e:
+            print e
 
     def db_backup(self):
         data = []
