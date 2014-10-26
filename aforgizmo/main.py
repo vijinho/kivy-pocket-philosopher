@@ -71,6 +71,14 @@ class WidgetAphorism(BoxLayout):
         w.textarea_copy.select_all()
         w.open()
 
+    def screenshot(self):
+        """
+        only works from v 1.8.1
+        http://stackoverflow.com/questions/22753306/export-to-png-function-of-kivy-gives-error
+        :return:
+        """
+        self.export_to_png('test.png')
+
     def random_get(self):
         for A in Aphorism.select().order_by(fn.Random()).limit(1):
             return A

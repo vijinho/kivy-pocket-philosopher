@@ -381,12 +381,19 @@
                         Rectangle:
                             pos: self.pos
                             size: self.size
+#    MyButton:
+#        text: 'Screenshot'
+#        size_hint_y: None
+#        height: '64dp'
+#        font_size: '20sp'
+#        on_press: root.screenshot()
     MyButton:
         text: 'Copy'
         size_hint_y: None
         height: '64dp'
         font_size: '20sp'
         on_press: root.copy()
+
 <Main>:
     search_results: []
     AnchorLayout:
