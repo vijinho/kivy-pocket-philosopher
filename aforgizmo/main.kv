@@ -26,13 +26,20 @@
                     ActionBarMain:
                     MyBoxLayout:
                         id: aphorism_container
-                        orientation: "vertical"
                         WidgetAphorism:
-                    MyButton:
+                    MyBoxLayout:
+                        orientation: "horizontal"
                         size_hint_y: 0.1
-                        height: '64dp'
-                        text: 'Random'
-                        on_press: root.aphorism_random_display()
+                        MyButton:
+                            size_hint_x: 0.7
+                            height: '64dp'
+                            text: 'Random'
+                            on_press: root.aphorism_random_display()
+                        MyButton:
+                            size_hint_x: 0.3
+                            height: '64dp'
+                            text: 'Copy'
+                            on_press: app.copy()
             Screen:
                 name: 'Search'
                 MyBoxLayout:

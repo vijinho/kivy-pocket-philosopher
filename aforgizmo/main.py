@@ -80,20 +80,6 @@ class WidgetAphorism(MyBoxLayout):
     pixel = 'assets/img/pixel.png'
     aphorism = ObjectProperty()
 
-    def copy(self):
-        if not self.aphorism:
-            return
-        A = self.aphorism
-        tpl = "\"{aphorism}\"\n  -- {author}\n\n({source})"
-        quote = tpl.format(aphorism = A.aphorism, author = A.author, source = A.source)
-        Clipboard.put(quote, 'TEXT')
-        Clipboard.put(quote, 'text/plain;charset=utf-8')
-        Clipboard.put(quote, 'UTF8_STRING')
-        w = Factory.WidgetCopy()
-        w.textarea_copy.text = quote
-        w.textarea_copy.select_all()
-        w.open()
-
     def screenshot(self):
         """
         only works from v 1.8.1
@@ -115,6 +101,7 @@ class WidgetAphorism(MyBoxLayout):
 
     def set(self, A, tpl = None):
         self.aphorism = A
+        app.current_aphorism = A
         if isinstance(A, Aphorism):
             if tpl == None:
                 tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]"""
@@ -351,14 +338,13 @@ class Main(MyBoxLayout):
     .. note:: This is the king of the app widgets
     .. warning:: Handle with care!
     '''
-    app            = ObjectProperty(None)
     select_list_id = NumericProperty()
+    current_aphorism = ObjectProperty()
 
     pixel = 'assets/img/pixel.png'
 
     def __init__(self, **kwargs):
         super(Main, self).__init__()
-        self.app = kwargs.get('app')
 
     def select_list_id(self, id):
         """
@@ -544,6 +530,20 @@ class MainApp(App):
         """
         self.background_refresh_list()
         pass
+
+    def copy(self):
+        if not self.current_aphorism:
+            return
+        A = self.current_aphorism
+        tpl = "\"{aphorism}\"\n  -- {author}\n\n({source})"
+        quote = tpl.format(aphorism = A.aphorism, author = A.author, source = A.source)
+        Clipboard.put(quote, 'TEXT')
+        Clipboard.put(quote, 'text/plain;charset=utf-8')
+        Clipboard.put(quote, 'UTF8_STRING')
+        w = Factory.WidgetCopy()
+        w.textarea_copy.text = quote
+        w.textarea_copy.select_all()
+        w.open()
 
     def about(self):
         WidgetAbout().open()
