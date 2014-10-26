@@ -232,6 +232,9 @@ class FormList(BoxLayout):
         else:
             print "success"
 
+    def db_reset(self):
+        print 'reset'
+
 class ButtonListResults(ListItemButton):
     selected_id = NumericProperty()
     aphorism = ListProperty()

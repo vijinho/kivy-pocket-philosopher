@@ -4,7 +4,7 @@
 #    MyButton:
 #        size_hint_y: 0.1
 #        height: '64dp'
-#        text: 'All Aphorisms'
+#        text: 'Reload Aphorisms'
 #        on_press: root.list(); app.root.select_list_id = None
     ListView:
         id: results_list
@@ -16,9 +16,13 @@
             cls = main.ButtonListResults)
     GridLayout:
         size_hint_y: 0.2
-        cols: 2
+        cols: 3
         rows: 2
         spacing: 2
+        MyButton:
+            height: '64dp'
+            text: 'View'
+            on_press: app.root.aphorism_display_by_id(app.root.select_list_id)
         MyButton:
             height: '64dp'
             text: 'Edit'
@@ -35,6 +39,10 @@
             height: '64dp'
             text: 'Import'
             on_press: root.db_import()
+        MyButton:
+            height: '64dp'
+            text: 'Reset!'
+            on_press: root.db_reset()
 
 <ButtonListResults@ListItemButton>:
     size_hint_y: None
