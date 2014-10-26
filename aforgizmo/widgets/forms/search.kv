@@ -1,6 +1,6 @@
 <FormSearch>:
     search_input: search_box
-    search_results: search_results_list
+    results: results
     MyBoxLayout:
         MyBoxLayout:
             orientation: "horizontal"
@@ -22,12 +22,12 @@
                 text: 'Go!'
                 on_press: root.search(text = search_box.text)
         ListView:
-            id: search_results_list
+            id: results
             adapter:
                 SimpleListAdapter(
                 data = [],
                 args_converter = root.args_converter,
-                cls = main.ButtonSearchResults)
+                cls = root.ButtonSearchResults)
 
 <ButtonSearchResults@MyButton>:
     size_hint_y: None
@@ -38,4 +38,4 @@
     text_size: root.width, None
     text: "{}".format(self.aphorism[1])
     markup: False
-    on_press: app.root.aphorism_display_by_id(self.aphorism[0]); app.root.select_list_id = self.aphorism[0]
+    on_press: app.root.aphorism_display_by_id(self.aphorism[0])

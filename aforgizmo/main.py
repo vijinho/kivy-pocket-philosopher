@@ -121,7 +121,20 @@ class WidgetAphorism(MyBoxLayout):
     def background_random_set(self):
         self.background_set(app.background_random_get())
 
+class MyListItemButton(ListItemButton):
+    selected_id = NumericProperty()
+    aphorism = ListProperty()
+    def pressed(self, id):
+        app.selected_aphorism = self.aphorism
+        app.selected_id = id
+        self.selected_id = id
+
 class FormSearch(MyBoxLayout):
+    results = ObjectProperty()
+
+    class ButtonSearchResults(MyListItemButton):
+        pass
+
     def search(self, text):
         results = []
         if len(str(text)) > 0:
@@ -130,21 +143,21 @@ class FormSearch(MyBoxLayout):
                 Aphorism.aphorism ** search).order_by(Aphorism.author, Aphorism.source):
                 results.append([a.id, a.ToOneLine(30)])
             app.current_search = text
-        self.search_results.item_strings = results
-        del self.search_results.adapter.data[:]
-        self.search_results.adapter.data.extend(results)
-        self.search_results._trigger_reset_populate()
+        self.results.item_strings = results
+        del self.results.adapter.data[:]
+        self.results.adapter.data.extend(results)
+        self.results._trigger_reset_populate()
 
     def args_converter(self, index, data_item):
         id, quote = data_item
         return {'aphorism': (id, quote)}
 
-
-class ButtonSearchResults(ListItemButton):
-   aphorism = ListProperty()
-
 class FormList(MyBoxLayout):
     results = ObjectProperty()
+
+    class ButtonListResults(MyListItemButton):
+        pass
+
     def list(self):
         results = []
         try:
@@ -161,11 +174,6 @@ class FormList(MyBoxLayout):
         id, quote = data_item
         return {'aphorism': (id, quote)}
 
-class ButtonListResults(ListItemButton):
-    selected_id = NumericProperty()
-    aphorism = ListProperty()
-    def pressed(self, id):
-        self.selected_id = id
 
 class FormTextInput(TextInput):
     max_chars = 255
@@ -307,7 +315,7 @@ class FormDelete(Popup):
             except Exception as e:
                 raise(e)
             else:
-                app.root.select_list_id = None
+                app.selected_id = self.aphorism_id
                 self.cancel()
                 app.root.ids.FormList.list()
 
@@ -440,6 +448,8 @@ class MainApp(App):
     backgrounds = ListProperty()
     current_background = StringProperty()
     current_search = StringProperty()
+    selected_aphorism = ObjectProperty()
+    selected_id = NumericProperty()
 
     def __init__(self):
         self.title = 'Pocket Philosopher'
@@ -556,12 +566,12 @@ class MainApp(App):
         FormNew().open()
 
     def edit(self):
-        id = app.root.select_list_id
+        id = app.selected_id
         if id > 0:
             app.root.aphorism_edit_by_id(id)
 
     def delete(self):
-        id = app.root.select_list_id
+        id = app.selected_id
         if id > 0:
             app.root.aphorism_delete_by_id(id)
 

@@ -1,20 +1,20 @@
 <FormList>:
     orientation: "vertical"
     spacing: 1
-    results: results_list
+    results: results
 #    MyButton:
 #        size_hint_y: 0.1
 #        height: '64dp'
 #        text: 'Reload Aphorisms'
 #        on_press: root.list(); app.root.select_list_id = None
     ListView:
-        id: results_list
+        id: results
         adapter:
             ListAdapter(
             data = [],
             selection_mode = 'single',
             args_converter = root.args_converter,
-            cls = main.ButtonListResults)
+            cls = root.ButtonListResults)
     MyGridLayout:
         size_hint_y: 0.2
         cols: 3
@@ -52,5 +52,5 @@
     valign: 'middle'
     text_size: root.width, None
     text: "{}".format(self.aphorism[1])
-    on_press: root.pressed(self.aphorism[0]); app.root.select_list_id = self.aphorism[0]
+    on_press: root.pressed(self.aphorism[0])
     markup: False
