@@ -175,12 +175,19 @@ class FormList(BoxLayout):
             app.root.aphorism_delete_by_id(id)
 
     def db_import(self):
+        files = []
+        for root, dirs, files in os.walk('data'):
+            for file in files:
+                m = re.search('^aphorism(.+).json', 'file')
+                if m:
+                    path = os.path.join(root, file)
+                    files.append(path)
+        print files
         try:
-            filename = 'data/aphorisms.json'
-            with open(source_file) as json_file:
+            filename = 'data/' + files[0]
+            with open(filename) as json_file:
                 json_data = json.load(json_file)
             Aphorism.insert_many(json_data).execute()
-            return self.random_get()
         except Exception as e:
             print e
         else:
@@ -189,7 +196,9 @@ class FormList(BoxLayout):
     def db_backup(self):
         data = []
         for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
-            data.append(a.AsHash())
+            savedata = a.AsHash()
+            del(savedata['id'])
+            data.append(savedata)
         filename = "data/aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
         try:
             with open(filename, "w") as fp:
