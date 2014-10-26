@@ -326,7 +326,8 @@ class FormDelete(Popup):
             else:
                 app.root.select_list_id = None
                 self.cancel()
-
+                app.Main.ids.FormList.list()
+                
     def cancel(self):
         self.dismiss()
 
