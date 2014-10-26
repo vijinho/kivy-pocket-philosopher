@@ -90,12 +90,12 @@
             text: "New"
             icon: 'assets/img/icons/new.png'
             on_press: root.new()
-        ActionButton:
-            id: btn_settings
-            text: "Settings"
-            icon: 'assets/img/icons/settings.png'
-            on_press: app.open_settings()
         ActionOverflow:
+            ActionButton:
+                id: btn_settings
+                text: "Settings"
+                icon: 'assets/img/icons/settings.png'
+                on_press: app.open_settings()
             ActionButton:
                 text: "Help"
                 icon: 'assets/img/icons/help.png'
