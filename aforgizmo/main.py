@@ -162,6 +162,14 @@ class FormList(BoxLayout):
         if id > 0:
             app.root.aphorism_delete_by_id(id)
 
+    def db_import(self):
+        print 'import'
+        pass
+
+    def db_export(self):
+        print 'export'
+        pass
+
 class ButtonListResults(ListItemButton):
     selected_id = NumericProperty()
     aphorism = ListProperty()

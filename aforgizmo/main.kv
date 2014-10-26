@@ -161,7 +161,7 @@
     orientation: "vertical"
     results: results_list
     MyButton:
-        size_hint_y: None
+        size_hint_y: 0.1
         height: '64dp'
         font_size: '20sp'
         text: 'All Aphorisms'
@@ -174,19 +174,30 @@
             selection_mode = 'single',
             args_converter = root.args_converter,
             cls = main.ButtonListResults)
-        BoxLayout:
-            MyButton:
-                size_hint_y: None
-                height: '64dp'
-                font_size: '20sp'
-                text: 'Edit'
-                on_press: root.edit()
-            MyButton:
-                size_hint_y: None
-                height: '64dp'
-                font_size: '20sp'
-                text: 'Delete'
-                on_press: root.delete()
+    GridLayout:
+        size_hint_y: 0.2
+        cols: 2
+        rows: 2
+        MyButton:
+            height: '64dp'
+            font_size: '20sp'
+            text: 'Edit'
+            on_press: root.edit()
+        MyButton:
+            height: '64dp'
+            font_size: '20sp'
+            text: 'Delete'
+            on_press: root.delete()
+        MyButton:
+            height: '64dp'
+            font_size: '20sp'
+            text: 'Export'
+            on_press: root.db_export()
+        MyButton:
+            height: '64dp'
+            font_size: '20sp'
+            text: 'Import'
+            on_press: root.db_import()
 
 <ButtonListResults@ListItemButton>:
     size_hint_y: None
