@@ -2,11 +2,6 @@
     orientation: "vertical"
     spacing: 1
     results: results
-#    MyButton:
-#        size_hint_y: 0.1
-#        height: '64dp'
-#        text: 'Reload Aphorisms'
-#        on_press: root.list(); app.root.select_list_id = None
     ListView:
         id: results
         adapter:
@@ -22,7 +17,7 @@
         MyButton:
             height: '64dp'
             text: 'View'
-            on_press: app.root.aphorism_display_by_id(app.selected_id)
+            on_press: app.aphorism_display_by_id(app.selected_id)
         MyButton:
             height: '64dp'
             text: 'Edit'

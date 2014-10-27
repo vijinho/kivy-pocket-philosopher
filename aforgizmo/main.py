@@ -70,52 +70,6 @@ class MyButton(Button):
         self.background_color = self.background_color_normal
 
 
-class WidgetAphorism(MyBoxLayout):
-    pixel = 'assets/img/pixel.png'
-    aphorism = ObjectProperty()
-
-    def screenshot(self):
-        """
-        only works from v 1.8.1
-        http://stackoverflow.com/questions/22753306/export-to-png-function-of-kivy-gives-error
-        :return:
-        """
-        self.export_to_png('test.png')
-
-    def random_get(self):
-        for A in Aphorism.select().order_by(fn.Random()).limit(1):
-            return A
-
-    def random_set(self):
-        if int(app.config.get('display', 'bg_enabled')) == 1:
-            self.background_set(app.background_random_get())
-        A = self.random_get()
-        self.set(A)
-        return A
-
-    def set(self, A, tpl = None):
-        self.aphorism = A
-        app.current_aphorism = A
-        if isinstance(A, Aphorism):
-            if tpl == None:
-                tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]"""
-            formatted = tpl.format(aphorism =  A.aphorism, author = A.author)
-            self.ids.quote.text = formatted
-            return (tpl, formatted)
-        else:
-            return A
-
-    def background_set(self, path):
-        if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
-            self.ids.background.source = path
-            app.current_background = path
-        else:
-            self.ids.background.source = self.pixel
-
-    def background_random_set(self):
-        self.background_set(app.background_random_get())
-
-
 class MyListItemButton(ListItemButton):
     selected_id = NumericProperty()
     aphorism = ListProperty()
@@ -192,229 +146,52 @@ class FormTextInput(TextInput):
         self.text = (s[:max_chars]) if len(s) > max_chars else s
 
 
-class FormNew(Popup):
-    def new(self):
-        data = {
-            'aphorism': self.ids.aphorism.text,
-            'author'  : self.ids.author.text,
-            'source'  : self.ids.source.text,
-            'tags'    : self.ids.tags.text
-        }
+class WidgetAphorism(MyBoxLayout):
+    pixel = 'assets/img/pixel.png'
+    aphorism = ObjectProperty()
 
-        # set required fields if empty
-        if len(data['author']) == 0:
-            data['author'] = app.config.get('editor', 'default_author')
-            if len(data['author']) == 0:
-                data['author'] = '(Anonymous)'
-            self.ids.author.text = data['author']
-
-        if len(data['source']) == 0:
-            data['source'] = app.config.get('editor', 'default_source')
-            if len(data['source']) == 0:
-                data['source'] = '(Unknown)'
-            self.ids.source.text = data['source']
-
-        # add aphorism is required fields valid
-        if len(data['aphorism']) > 0:
-            try:
-                a = Aphorism(
-                    aphorism = data['aphorism'],
-                    author   = data['author'],
-                    source   = data['source'],
-                    hashtags = data['tags'])
-                a.save()
-            except Exception as e:
-                raise(e)
-            else:
-                app.root.aphorism_display_by_id(a.id)
-                self.dismiss()
-        else:
-            self.ids.aphorism.focus = True
-
-    def cancel(self):
-        self.dismiss()
-
-
-class FormEdit(Popup):
-    aphorism_id = NumericProperty()
-
-    def edit(self, A):
+    def set(self, A, tpl = None):
+        self.aphorism = A
+        app.current_aphorism = A
         if isinstance(A, Aphorism):
-            self.aphorism_id = A.id
-            self.ids.aphorism.text = A.aphorism
-            self.ids.author.text = A.author
-            self.ids.source.text = A.source
-            self.ids.tags.text = A.hashtags
-            self.open()
-
-    def edit_action(self):
-        data = {
-            'id': int(self.aphorism_id),
-            'aphorism': self.ids.aphorism.text,
-            'author'  : self.ids.author.text,
-            'source'  : self.ids.source.text,
-            'tags'    : self.ids.tags.text
-        }
-
-        # set required fields if empty
-        if len(data['author']) == 0:
-            data['author'] = app.config.get('editor', 'default_author')
-            if len(data['author']) == 0:
-                data['author'] = '(Anonymous)'
-            self.ids.author.text = data['author']
-
-        if len(data['source']) == 0:
-            data['source'] = app.config.get('editor', 'default_source')
-            if len(data['source']) == 0:
-                data['source'] = '(Unknown)'
-            self.ids.source.text = data['source']
-
-        # add aphorism is required fields valid
-        if data['id'] > 0 and len(data['aphorism']) > 0:
-            try:
-                a = Aphorism(
-                    id       = data['id'],
-                    aphorism = data['aphorism'],
-                    author   = data['author'],
-                    source   = data['source'],
-                    hashtags = data['tags'])
-                a.save()
-            except Exception as e:
-                raise(e)
-            else:
-                app.root.aphorism_display_by_id(a.id)
-                self.cancel()
+            if tpl == None:
+                tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]"""
+            formatted = tpl.format(aphorism =  A.aphorism, author = A.author)
+            self.ids.quote.text = formatted
+            return (tpl, formatted)
         else:
-            self.ids.aphorism.focus = True
+            return A
 
-    def cancel(self):
-        self.dismiss()
+    def random_set(self):
+        if int(app.config.get('display', 'bg_enabled')) == 1:
+            self.background_set(app.background_random_get())
+        A = app.aphorism_random_get()
+        self.set(A)
+        return A
 
+    def background_set(self, path):
+        if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+            self.ids.background.source = path
+            app.current_background = path
+        else:
+            self.ids.background.source = self.pixel
 
-class FormDelete(Popup):
-    aphorism_id = NumericProperty()
+    def background_random_set(self):
+        self.background_set(app.background_random_get())
 
-    def delete(self, A):
-        if isinstance(A, Aphorism):
-            self.aphorism_id = A.id
-            tpl = "\"[b]{aphorism}[/b]\"\n  -- [i]{author}[/i]\n\nSource: [b]{source}[/b]\n\nTags: [b]{tags}[/b]"
-            self.ids.aphorism_text.text = tpl.format(
-                aphorism = A.aphorism,
-                author = A.author,
-                source = A.source,
-                tags = A.hashtags
-            )
-            self.open()
-
-    def delete_action(self):
-        if self.aphorism_id > 0:
-            try:
-                a = Aphorism.get(Aphorism.id == self.aphorism_id)
-                a.delete_instance()
-            except Exception as e:
-                raise(e)
-            else:
-                app.selected_id = self.aphorism_id
-                self.cancel()
-                app.root.ids.FormList.list()
-
-    def cancel(self):
-        self.dismiss()
-
-
-class FormWipe(Popup):
-    def wipe(self):
-        self.open()
-
-    def wipe_action(self):
-        app.auto_backup()
-        Aphorism.drop_table()
-        app.setup_database()
-        app.root.ids.FormList.list()
-        self.dismiss()
-
-    def cancel(self):
-        self.dismiss()
+    def screenshot(self):
+        """
+        only works from v 1.8.1
+        http://stackoverflow.com/questions/22753306/export-to-png-function-of-kivy-gives-error
+        :return:
+        """
+        filename = "data/screenshot-{0}.png".format(time.strftime("%Y%m%d-%H%M%S"))
+        self.export_to_png(filename)
 
 
 class Main(MyBoxLayout):
-    '''Main UI Screen Widget
-    .. versionadded:: 1.0
-    .. note:: This is the king of the app widgets
-    .. warning:: Handle with care!
-    '''
-    current_aphorism = ObjectProperty()
-
-    pixel = 'assets/img/pixel.png'
-
     def __init__(self, **kwargs):
         super(Main, self).__init__()
-
-    def aphorism_display(self, A):
-        container = self.ids.aphorism_container
-        container.clear_widgets()
-        widget = Factory.WidgetAphorism()
-        widget.set(A)
-        container.add_widget(widget)
-        return widget
-
-    def aphorism_get_by_id(self, id):
-        try:
-            id = int(id)
-        except:
-            return False
-        else:
-            if id:
-                try:
-                    A = Aphorism.get(Aphorism.id == id)
-                except:
-                    return False
-                else:
-                    return A
-
-    def aphorism_display_by_id(self, id):
-        try:
-            A = self.aphorism_get_by_id(id)
-        except:
-            return False
-        else:
-            widget = self.aphorism_display(A)
-            if int(app.config.get('display', 'bg_enabled')) == 1:
-                widget.background_random_set()
-
-        self.ids.Screens.current = 'Main'
-        return A
-
-    def aphorism_edit_by_id(self, id):
-        try:
-            A = self.aphorism_get_by_id(id)
-        except:
-            return False
-        else:
-            self.aphorism_display(A)
-            widget = Factory.FormEdit()
-            widget.edit(A)
-            return widget
-        return A
-
-    def aphorism_delete_by_id(self, id):
-        try:
-            A = self.aphorism_get_by_id(id)
-        except:
-            return False
-        else:
-            widget = Factory.FormDelete()
-            widget.delete(A)
-            return widget
-        return A
-
-    def aphorism_random_display(self):
-        container = self.ids.aphorism_container
-        container.clear_widgets()
-        widget = Factory.WidgetAphorism()
-        A = widget.random_set()
-        container.add_widget(widget)
-        return A
 
 
 class MainApp(App):
@@ -491,7 +268,7 @@ class MainApp(App):
         Fired when the application is being started (before the runTouchApp() call.
         """
         self.background_refresh_list()
-        self.root.aphorism_random_display()
+        self.aphorism_random_display()
         return True
 
     def on_stop(self):
@@ -548,17 +325,59 @@ class MainApp(App):
         pass
 
     def new(self):
-        FormNew().open()
+        self.FormNew().open()
+
+    class FormNew(Popup):
+        def new(self):
+            data = {
+                'aphorism': self.ids.aphorism.text,
+                'author'  : self.ids.author.text,
+                'source'  : self.ids.source.text,
+                'tags'    : self.ids.tags.text
+            }
+
+            # set required fields if empty
+            if len(data['author']) == 0:
+                data['author'] = app.config.get('editor', 'default_author')
+                if len(data['author']) == 0:
+                    data['author'] = '(Anonymous)'
+                self.ids.author.text = data['author']
+
+            if len(data['source']) == 0:
+                data['source'] = app.config.get('editor', 'default_source')
+                if len(data['source']) == 0:
+                    data['source'] = '(Unknown)'
+                self.ids.source.text = data['source']
+
+            # add aphorism is required fields valid
+            if len(data['aphorism']) > 0:
+                try:
+                    a = Aphorism(
+                        aphorism = data['aphorism'],
+                        author   = data['author'],
+                        source   = data['source'],
+                        hashtags = data['tags'])
+                    a.save()
+                except Exception as e:
+                    raise(e)
+                else:
+                    app.aphorism_display_by_id(a.id)
+                    self.dismiss()
+            else:
+                self.ids.aphorism.focus = True
+
+        def cancel(self):
+            self.dismiss()
 
     def edit(self):
         id = app.selected_id
         if id > 0:
-            app.root.aphorism_edit_by_id(id)
+            app.aphorism_edit_by_id(id)
 
     def delete(self):
         id = app.selected_id
         if id > 0:
-            app.root.aphorism_delete_by_id(id)
+            app.aphorism_delete_by_id(id)
 
     def db_import(self):
         files = []
@@ -607,8 +426,23 @@ class MainApp(App):
             print "success"
 
     def db_reset(self):
-        widget = Factory.FormWipe()
+        widget = self.FormWipe()
         widget.wipe()
+
+    class FormWipe(Popup):
+        def wipe(self):
+            self.open()
+
+        def wipe_action(self):
+            app.auto_backup()
+            Aphorism.drop_table()
+            app.setup_database()
+            app.root.ids.FormList.list()
+            self.dismiss()
+
+        def cancel(self):
+            self.dismiss()
+
 
     def background_refresh_list(self):
         """
@@ -639,6 +473,161 @@ class MainApp(App):
             return self.backgrounds_random()
         return background
 
+    def aphorism_random_get(self):
+        for A in Aphorism.select().order_by(fn.Random()).limit(1):
+            return A
+
+    def aphorism_get_by_id(self, id):
+        try:
+            id = int(id)
+        except:
+            return False
+        else:
+            if id:
+                try:
+                    A = Aphorism.get(Aphorism.id == id)
+                except:
+                    return False
+                else:
+                    return A
+
+    def aphorism_display(self, A):
+        container = app.root.ids.aphorism_container
+        container.clear_widgets()
+        widget = Factory.WidgetAphorism()
+        widget.set(A)
+        container.add_widget(widget)
+        return widget
+
+    def aphorism_display_by_id(self, id):
+        try:
+            A = self.aphorism_get_by_id(id)
+        except:
+            return False
+        else:
+            widget = self.aphorism_display(A)
+            if int(app.config.get('display', 'bg_enabled')) == 1:
+                widget.background_random_set()
+
+        app.root.ids.Screens.current = 'Main'
+        return A
+
+    def aphorism_edit_by_id(self, id):
+        try:
+            A = self.aphorism_get_by_id(id)
+        except:
+            return False
+        else:
+            self.aphorism_display(A)
+            widget = self.FormEdit()
+            widget.edit(A)
+            return widget
+        return A
+
+    class FormEdit(Popup):
+        aphorism_id = NumericProperty()
+
+        def edit(self, A):
+            if isinstance(A, Aphorism):
+                self.aphorism_id = A.id
+                self.ids.aphorism.text = A.aphorism
+                self.ids.author.text = A.author
+                self.ids.source.text = A.source
+                self.ids.tags.text = A.hashtags
+                self.open()
+
+        def edit_action(self):
+            data = {
+                'id': int(self.aphorism_id),
+                'aphorism': self.ids.aphorism.text,
+                'author'  : self.ids.author.text,
+                'source'  : self.ids.source.text,
+                'tags'    : self.ids.tags.text
+            }
+
+            # set required fields if empty
+            if len(data['author']) == 0:
+                data['author'] = app.config.get('editor', 'default_author')
+                if len(data['author']) == 0:
+                    data['author'] = '(Anonymous)'
+                self.ids.author.text = data['author']
+
+            if len(data['source']) == 0:
+                data['source'] = app.config.get('editor', 'default_source')
+                if len(data['source']) == 0:
+                    data['source'] = '(Unknown)'
+                self.ids.source.text = data['source']
+
+            # add aphorism is required fields valid
+            if data['id'] > 0 and len(data['aphorism']) > 0:
+                try:
+                    a = Aphorism(
+                        id       = data['id'],
+                        aphorism = data['aphorism'],
+                        author   = data['author'],
+                        source   = data['source'],
+                        hashtags = data['tags'])
+                    a.save()
+                except Exception as e:
+                    raise(e)
+                else:
+                    app.aphorism_display_by_id(a.id)
+                    self.cancel()
+            else:
+                self.ids.aphorism.focus = True
+
+        def cancel(self):
+            self.dismiss()
+
+
+    def aphorism_delete_by_id(self, id):
+        try:
+            A = self.aphorism_get_by_id(id)
+        except:
+            return False
+        else:
+            widget = self.FormDelete()
+            widget.delete(A)
+            return widget
+        return A
+
+    class FormDelete(Popup):
+        aphorism_id = NumericProperty()
+
+        def delete(self, A):
+            if isinstance(A, Aphorism):
+                self.aphorism_id = A.id
+                tpl = "\"[b]{aphorism}[/b]\"\n  -- [i]{author}[/i]\n\nSource: [b]{source}[/b]\n\nTags: [b]{tags}[/b]"
+                self.ids.aphorism_text.text = tpl.format(
+                    aphorism = A.aphorism,
+                    author = A.author,
+                    source = A.source,
+                    tags = A.hashtags
+                )
+                self.open()
+
+        def delete_action(self):
+            if self.aphorism_id > 0:
+                try:
+                    a = Aphorism.get(Aphorism.id == self.aphorism_id)
+                    a.delete_instance()
+                except Exception as e:
+                    raise(e)
+                else:
+                    app.selected_id = self.aphorism_id
+                    self.cancel()
+                    app.root.ids.FormList.list()
+
+        def cancel(self):
+            self.dismiss()
+
+    def aphorism_random_display(self):
+        container = app.root.ids.aphorism_container
+        container.clear_widgets()
+        widget = Factory.WidgetAphorism()
+        A = widget.random_set()
+        container.add_widget(widget)
+        return A
 
 if __name__ in ('__main__', '__android__'):
     Config.set('kivy', 'window_icon', 'assets/img/icon.png')
