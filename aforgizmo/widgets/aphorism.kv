@@ -7,20 +7,17 @@
             auto_bring_to_front: False
             keep_ratio: True
             allow_stretch: True
-    MyBoxLayout:
         FloatLayout:
             size_hint: None, None
             size: quote.size
             Label:
-                #pos: (0, aphorism_rnd.height)
-                pos: (0, aphorism_rnd.height)
                 id: quote
+                pos: (0, aphorism_rnd.height)
                 text_size: root.width, None
                 size: self.texture_size
-                padding: ('20dp', '20dp')
+                font_size: '24sp'
                 valign: 'middle'
                 font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
-                font_size: root.height / 18
                 markup: True
                 canvas.before:
                     Color:

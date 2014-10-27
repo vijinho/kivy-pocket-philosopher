@@ -52,8 +52,8 @@ class MyButton(Button):
     and also the background image
     """
     background_image = ObjectProperty(Image(source='assets/img/pixel.png'))
-    background_color_normal = ListProperty([0.3, 0.3, 0.3, 0.75])
-    background_color_down = ListProperty([0.8, 0.8, 0.8, 0.75])
+    background_color_normal = ListProperty([0.3, 0.3, 0.3, 0.3])
+    background_color_down = ListProperty([0.8, 0.8, 0.8, 0.3])
 
     def __init__(self, **kwargs):
         super(MyButton, self).__init__(**kwargs)
@@ -66,7 +66,6 @@ class MyButton(Button):
 
     def on_release(self):
         self.background_color = self.background_color_normal
-
 
 class ImageClickable(ButtonBehavior, Image):
     source_up = ObjectProperty(Image(source='assets/img/pixel.png'))
