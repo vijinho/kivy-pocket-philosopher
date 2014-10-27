@@ -1,14 +1,18 @@
-<WidgetAphorism@BoxLayout>:
-    orientation: "vertical"
+<WidgetAphorism>:
     id: aphorism_box
-    RelativeLayout:
-        MyImage:
+    FloatLayout:
+        Image:
             id: background
-            size: (root.width, root.height)
+            pos: (0,root.height - self.height)
+            auto_bring_to_front: False
+            keep_ratio: True
+            allow_stretch: True
+    MyBoxLayout:
         FloatLayout:
             size_hint: None, None
             size: quote.size
             Label:
+                pos: (0, aphorism_rnd.height)
                 id: quote
                 text_size: root.width, None
                 size: self.texture_size
@@ -19,22 +23,24 @@
                 markup: True
                 canvas.before:
                     Color:
-                        rgba: get_random_color(0.5)
+                        rgba: get_random_color(0.3)
                     Rectangle:
                         pos: self.pos
                         size: self.size
-    FloatLayout:
-        size_hint: None, None
-        size: aphorism_copy.size
-        ImageClickable:
-            id: aphorism_copy
-            pos: (aphorism_box.width - 100, aphorism_box.height - 100)
-            source: 'assets/img/icons/medium_copy.png'
-            source_up: 'assets/img/icons/medium_copy.png'
-            source_down: 'assets/img/icons/medium_copy.png'
-            on_release: app.aphorism_copy()
-    MyButton:
-        size_hint_y: 0.2
-        text: 'Random'
-        font_size: '38sp'
-        on_release: app.aphorism_random()
+        FloatLayout:
+            size_hint: None, None
+            size: aphorism_copy.size
+            ImageClickable:
+                id: aphorism_copy
+                pos: (aphorism_box.width - 100, aphorism_box.height - 100)
+                source: 'assets/img/icons/medium_copy.png'
+                source_up: 'assets/img/icons/medium_copy.png'
+                source_down: 'assets/img/icons/medium_copy.png'
+                on_release: app.aphorism_copy()
+        MyButton:
+            size_hint_y: None
+            height: '100sp'
+            id: aphorism_rnd
+            text: 'Random'
+            font_size: '50sp'
+            on_release: app.aphorism_random()
