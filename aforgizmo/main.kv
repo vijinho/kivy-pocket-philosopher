@@ -48,3 +48,19 @@
             ActionBarMain:
             FormList:
                 id: FormList
+    Screen:
+        name: 'Backup'
+        MyBoxLayout:
+            ActionBarMain:
+            MyButton:
+                height: '64dp'
+                text: 'Backup'
+                on_press: app.db_backup()
+            MyButton:
+                height: '64dp'
+                text: 'Import'
+                on_press: app.db_import()
+            MyButton:
+                height: '64dp'
+                text: 'Wipe'
+                on_press: app.db_reset()

@@ -18,6 +18,10 @@
             text: "New"
             icon: 'assets/img/icons/new.png'
             on_press: app.aphorism_new()
+        ActionButton:
+            text: "Backup & Restore"
+            icon: 'assets/img/icons/import_export.png'
+            on_press: app.root.current = 'Backup'
         ActionOverflow:
             ActionButton:
                 id: btn_settings

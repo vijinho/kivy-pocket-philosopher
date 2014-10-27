@@ -304,6 +304,7 @@ class MainApp(App):
             Aphorism.create_table()
             app.root.ids.FormList.list()
             self.dismiss()
+            app.root.current = 'List';
 
     def db_auto_backup(self):
         data = []
@@ -337,6 +338,7 @@ class MainApp(App):
             print e
         else:
             app.root.ids.FormList.list()
+            app.root.current = 'List';
             
     def about(self):
         self.WidgetAbout().open()
