@@ -37,10 +37,13 @@
                 source_up: 'assets/img/icons/medium_copy.png'
                 source_down: 'assets/img/icons/medium_copy.png'
                 on_release: app.aphorism_copy()
-        MyButton:
-            size_hint_y: None
-            height: '100sp'
-            id: aphorism_rnd
-            text: 'Random'
-            font_size: '50sp'
-            on_release: app.aphorism_random()
+        FloatLayout:
+            size_hint: None, None
+            size: aphorism_rnd.size
+            ImageClickable:
+                id: aphorism_rnd
+                pos: ((aphorism_box.width / 2) -50, 0)
+                source: 'assets/img/icons/large_refresh.png'
+                source_up: 'assets/img/icons/large_refresh.png'
+                source_down: 'assets/img/icons/large_refresh.png'
+                on_release: app.aphorism_random()
