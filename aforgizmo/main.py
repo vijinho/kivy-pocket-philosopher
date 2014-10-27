@@ -321,19 +321,7 @@ class MainApp(App):
             print e
 
     def db_backup(self):
-        data = []
-        for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
-            savedata = a.AsHash()
-            del(savedata['id'])
-            data.append(savedata)
-        filename = "data/aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
-        try:
-            with open(filename, "w") as fp:
-                fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
-        except Exception as e:
-            print e
-        else:
-            print "success"
+        self.auto_backup()
 
     def db_import(self):
         files = []
@@ -342,7 +330,6 @@ class MainApp(App):
                 m = re.search('^aphorism(.+).json', 'file')
                 if m:
                     files.append(os.path.join(root, file))
-        print files
         try:
             filename = 'data/' + files[0]
             with open(filename) as json_file:
@@ -350,8 +337,6 @@ class MainApp(App):
             Aphorism.insert_many(json_data).execute()
         except Exception as e:
             print e
-        else:
-            print "success"
 
     def about(self):
         self.WidgetAbout().open()
@@ -364,48 +349,6 @@ class MainApp(App):
 
     class WidgetHelp(Popup):
         pass
-
-    def new(self):
-        self.FormNew().open()
-
-    class FormNew(Popup):
-        def new(self):
-            data = {
-                'aphorism': self.ids.aphorism.text,
-                'author'  : self.ids.author.text,
-                'source'  : self.ids.source.text,
-                'tags'    : self.ids.tags.text
-            }
-
-            # set required fields if empty
-            if len(data['author']) == 0:
-                data['author'] = app.config.get('editor', 'default_author')
-                if len(data['author']) == 0:
-                    data['author'] = '(Anonymous)'
-                self.ids.author.text = data['author']
-
-            if len(data['source']) == 0:
-                data['source'] = app.config.get('editor', 'default_source')
-                if len(data['source']) == 0:
-                    data['source'] = '(Unknown)'
-                self.ids.source.text = data['source']
-
-            # add aphorism is required fields valid
-            if len(data['aphorism']) > 0:
-                try:
-                    a = Aphorism(
-                        aphorism = data['aphorism'],
-                        author   = data['author'],
-                        source   = data['source'],
-                        hashtags = data['tags'])
-                    a.save()
-                except Exception as e:
-                    raise(e)
-                else:
-                    app.aphorism_display_by_id(a.id)
-                    self.dismiss()
-            else:
-                self.ids.aphorism.focus = True
 
     def background_refresh_list(self):
         """
@@ -503,6 +446,48 @@ class MainApp(App):
         A = widget.random_set()
         container.add_widget(widget)
         return A
+
+    def aphorism_new(self):
+        self.FormNew().open()
+
+    class FormNew(Popup):
+        def new(self):
+            data = {
+                'aphorism': self.ids.aphorism.text,
+                'author'  : self.ids.author.text,
+                'source'  : self.ids.source.text,
+                'tags'    : self.ids.tags.text
+            }
+
+            # set required fields if empty
+            if len(data['author']) == 0:
+                data['author'] = app.config.get('editor', 'default_author')
+                if len(data['author']) == 0:
+                    data['author'] = '(Anonymous)'
+                self.ids.author.text = data['author']
+
+            if len(data['source']) == 0:
+                data['source'] = app.config.get('editor', 'default_source')
+                if len(data['source']) == 0:
+                    data['source'] = '(Unknown)'
+                self.ids.source.text = data['source']
+
+            # add aphorism is required fields valid
+            if len(data['aphorism']) > 0:
+                try:
+                    a = Aphorism(
+                        aphorism = data['aphorism'],
+                        author   = data['author'],
+                        source   = data['source'],
+                        hashtags = data['tags'])
+                    a.save()
+                except Exception as e:
+                    raise(e)
+                else:
+                    app.aphorism_display_by_id(a.id)
+                    self.dismiss()
+            else:
+                self.ids.aphorism.focus = True
 
     def edit(self):
         id = app.selected_id
