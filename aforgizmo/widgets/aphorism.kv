@@ -5,7 +5,7 @@
             id: background
             pos: (0,root.height - self.height)
             auto_bring_to_front: False
-            keep_ratio: True
+            keep_ratio: False
             allow_stretch: True
         FloatLayout:
             size_hint: None, None
@@ -21,7 +21,7 @@
                 markup: True
                 canvas.before:
                     Color:
-                        rgba: get_random_color(0.1)
+                        rgba: get_random_color(0.3)
                     Rectangle:
                         pos: self.pos
                         size: self.size
