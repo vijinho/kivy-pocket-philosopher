@@ -1,7 +1,6 @@
 <ActionBarMain@ActionBar>
     pos_hint: {'top':1}
     ActionView:
-        use_separator: True
         ActionPrevious:
             with_previous: False
             text: 'Pocket Philosopher'
@@ -19,24 +18,23 @@
             icon: 'assets/img/icons/new.png'
             on_press: app.aphorism_new()
         ActionButton:
-            text: "Backup & Restore"
+            text: "Backup"
             icon: 'assets/img/icons/import_export.png'
             on_press: app.root.current = 'Backup'
-        ActionOverflow:
-            ActionButton:
-                id: btn_settings
-                text: "Settings"
-                icon: 'assets/img/icons/settings.png'
-                on_press: app.open_settings()
-            ActionButton:
-                text: "Help"
-                icon: 'assets/img/icons/help.png'
-                on_press: app.help()
-            ActionButton:
-                text: "About"
-                icon: 'assets/img/icons/about.png'
-                on_press: app.about()
-            ActionButton:
-                icon: 'assets/img/icons/quit.png'
-                text: "Exit"
-                on_press: app.stop()
+        ActionButton:
+            id: btn_settings
+            text: "Settings"
+            icon: 'assets/img/icons/settings.png'
+            on_press: app.open_settings()
+        ActionButton:
+            text: "Help"
+            icon: 'assets/img/icons/help.png'
+            on_press: app.help()
+        ActionButton:
+            text: "About"
+            icon: 'assets/img/icons/about.png'
+            on_press: app.about()
+        ActionButton:
+            icon: 'assets/img/icons/quit.png'
+            text: "Exit"
+            on_press: app.stop()
