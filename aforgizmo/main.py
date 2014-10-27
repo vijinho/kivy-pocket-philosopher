@@ -196,6 +196,7 @@ class MainApp(App):
     current_search = StringProperty()
     selected_aphorism = ObjectProperty()
     selected_id = NumericProperty()
+    folder = StringProperty()
 
     def on_selected_id(self, *args):
         id = int(self.selected_id)
@@ -205,6 +206,8 @@ class MainApp(App):
     def __init__(self):
         self.title = 'Pocket Philosopher'
         self.icon = 'assets/img/icon.png'
+        self.folder = os.path.dirname(os.path.abspath(__file__))
+        self.data_folder = os.path.join(self.folder, 'data')
         App.__init__(self)
 
     def build(self):
