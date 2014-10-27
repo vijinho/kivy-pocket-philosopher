@@ -307,9 +307,6 @@ class MainApp(App):
             app.root.ids.FormList.list()
             self.dismiss()
 
-        def cancel(self):
-            self.dismiss()
-
     def auto_backup(self):
         data = []
         for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
@@ -409,9 +406,6 @@ class MainApp(App):
                     self.dismiss()
             else:
                 self.ids.aphorism.focus = True
-
-        def cancel(self):
-            self.dismiss()
 
     def background_refresh_list(self):
         """
@@ -572,12 +566,9 @@ class MainApp(App):
                     raise(e)
                 else:
                     app.aphorism_display_by_id(a.id)
-                    self.cancel()
+                    self.dismiss()
             else:
                 self.ids.aphorism.focus = True
-
-        def cancel(self):
-            self.dismiss()
 
     def delete(self):
         id = app.selected_id
@@ -616,11 +607,8 @@ class MainApp(App):
                     raise(e)
                 else:
                     app.selected_id = self.aphorism_id
-                    self.cancel()
+                    self.dismiss()
                     app.root.ids.FormList.list()
-
-        def cancel(self):
-            self.dismiss()
 
 
 if __name__ in ('__main__', '__android__'):
