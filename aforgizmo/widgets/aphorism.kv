@@ -1,25 +1,40 @@
 <WidgetAphorism@BoxLayout>:
-    BoxLayout:
-        orientation: "vertical"
-        RelativeLayout:
-            MyImage:
-                id: background
-            Scatter:
-                size_hint: None, None
-                size: quote.size
-                Label:
-                    id: quote
-                    text_size: root.width, None
-                    size: self.texture_size
-                    padding: ('20dp', '20dp')
-                    valign: 'middle'
-                    font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
-                    font_size: root.height / 18
-                    markup: True
-                    canvas.before:
-                        Color:
-                            rgba: get_random_color(0.5)
-                        Rectangle:
-                            pos: self.pos
-                            size: self.size
-
+    orientation: "vertical"
+    id: aphorism_box
+    RelativeLayout:
+        MyImage:
+            id: background
+            size: (root.width, root.height)
+        FloatLayout:
+            size_hint: None, None
+            size: quote.size
+            Label:
+                id: quote
+                text_size: root.width, None
+                size: self.texture_size
+                padding: ('20dp', '20dp')
+                valign: 'middle'
+                font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
+                font_size: root.height / 18
+                markup: True
+                canvas.before:
+                    Color:
+                        rgba: get_random_color(0.5)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+    FloatLayout:
+        size_hint: None, None
+        size: aphorism_copy.size
+        ImageClickable:
+            id: aphorism_copy
+            pos: (aphorism_box.width - 100, aphorism_box.height - 100)
+            source: 'assets/img/icons/medium_copy.png'
+            source_up: 'assets/img/icons/medium_copy.png'
+            source_down: 'assets/img/icons/medium_copy.png'
+            on_release: app.aphorism_copy()
+    MyButton:
+        size_hint_y: 0.2
+        text: 'Random'
+        font_size: '38sp'
+        on_release: app.aphorism_random()

@@ -13,6 +13,7 @@ kivy.require('1.8.0')
 from kivy.properties import ObjectProperty, ListProperty, NumericProperty, StringProperty
 from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
@@ -21,6 +22,7 @@ from kivy.app import App
 from kivy.uix.popup import Popup
 from kivy.config import Config
 from kivy.core.text import LabelBase
+from kivy.uix.label import Label
 import os
 from kivy.lang import Builder
 from models import Aphorism
@@ -43,6 +45,7 @@ class MyBoxLayout(BoxLayout):
 class MyScreenManager(ScreenManager):
     background_image = ObjectProperty(Image(source='assets/img/bg/background.png'))
 
+
 class MyButton(Button):
     """
     Button with a possibility to change the color on on_press (similar to background_down in normal Button widget)
@@ -63,6 +66,21 @@ class MyButton(Button):
 
     def on_release(self):
         self.background_color = self.background_color_normal
+
+
+class ImageClickable(ButtonBehavior, Image):
+    source_up = ObjectProperty(Image(source='assets/img/pixel.png'))
+    source_down = ObjectProperty(Image(source='assets/img/pixel.png'))
+
+    def __init__(self, **kwargs):
+        super(ImageClickable, self).__init__(**kwargs)
+        self.source = 'assets/img/pixel.png'
+
+    def on_press(self):
+        self.source = self.source_down
+
+    def on_release(self):
+        self.source = self.source_up
 
 
 class MyListItemButton(ListItemButton):
