@@ -165,8 +165,8 @@ class WidgetAphorism(MyBoxLayout):
 
     def random_set(self):
         if int(app.config.get('display', 'bg_enabled')) == 1:
-            self.background_set(app.background_random_get())
-        A = app.aphorism_random_get()
+            self.background_set(app.background_get_random())
+        A = app.aphorism_get()
         self.set(A)
         return A
 
@@ -178,7 +178,7 @@ class WidgetAphorism(MyBoxLayout):
             self.ids.background.source = self.pixel
 
     def background_random_set(self):
-        self.background_set(app.background_random_get())
+        self.background_set(app.background_get_random())
 
     def screenshot(self):
         """
@@ -235,16 +235,16 @@ class MainApp(App):
         if config is self.config:
             token = (section, key)
             if token == ('display', 'bg_folder'):
-                self.background_refresh_list()
+                self.backgrounds_refresh()
             elif token == ('display', 'bg_enabled'):
-                self.background_refresh_list()
+                self.backgrounds_refresh()
 
     def on_start(self):
         """
         Fired when the application is being started (before the runTouchApp() call.
         """
-        self.background_refresh_list()
-        self.aphorism_random_display()
+        self.backgrounds_refresh()
+        self.aphorism_random()
         return True
 
     def on_stop(self):
@@ -268,7 +268,7 @@ class MainApp(App):
         Beware: you have no guarantee that this event will be fired after the
         on_pause event has been called.
         """
-        self.background_refresh_list()
+        self.backgrounds_refresh()
         pass
 
     def setup_database(self):
@@ -301,13 +301,13 @@ class MainApp(App):
             self.open()
 
         def wipe_action(self):
-            app.auto_backup()
+            app.db_auto_backup()
             Aphorism.drop_table()
             app.setup_database()
             app.root.ids.FormList.list()
             self.dismiss()
 
-    def auto_backup(self):
+    def db_auto_backup(self):
         data = []
         for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
             savedata = a.AsHash()
@@ -321,7 +321,7 @@ class MainApp(App):
             print e
 
     def db_backup(self):
-        self.auto_backup()
+        self.db_auto_backup()
 
     def db_import(self):
         files = []
@@ -350,7 +350,7 @@ class MainApp(App):
     class WidgetHelp(Popup):
         pass
 
-    def background_refresh_list(self):
+    def backgrounds_refresh(self):
         """
         Get a the list of file paths to bg images
         :return: list of the bg image path strings
@@ -368,7 +368,7 @@ class MainApp(App):
 
         return self.backgrounds
 
-    def background_random_get(self):
+    def background_get_random(self):
         """
         Get a random bg image path string
         :return: file path to random bg image
@@ -382,7 +382,7 @@ class MainApp(App):
         else:
             return self.pixel
 
-    def copy(self):
+    def aphorism_copy(self):
         if not self.current_aphorism:
             return
         A = self.current_aphorism
@@ -400,12 +400,11 @@ class MainApp(App):
         textarea_copy = ObjectProperty()
 
 
-    def aphorism_random_get(self):
-        for A in Aphorism.select().order_by(fn.Random()).limit(1):
-            return A
-
-    def aphorism_get_by_id(self, id):
+    def aphorism_get(self, id = None):
         try:
+            if id is None:
+                for A in Aphorism.select().order_by(fn.Random()).limit(1):
+                    return A
             id = int(id)
         except:
             return False
@@ -418,7 +417,7 @@ class MainApp(App):
                 else:
                     return A
 
-    def aphorism_display(self, A):
+    def aphorism_widget(self, A):
         container = app.root.ids.aphorism_container
         container.clear_widgets()
         widget = Factory.WidgetAphorism()
@@ -426,20 +425,20 @@ class MainApp(App):
         container.add_widget(widget)
         return widget
 
-    def aphorism_display_by_id(self, id):
+    def aphorism_show(self, id):
         try:
-            A = self.aphorism_get_by_id(id)
+            A = self.aphorism_get(id)
         except:
             return False
         else:
-            widget = self.aphorism_display(A)
+            widget = self.aphorism_widget(A)
             if int(app.config.get('display', 'bg_enabled')) == 1:
                 widget.background_random_set()
 
         app.root.current = 'Main'
         return A
 
-    def aphorism_random_display(self):
+    def aphorism_random(self):
         container = app.root.ids.aphorism_container
         container.clear_widgets()
         widget = Factory.WidgetAphorism()
@@ -484,20 +483,20 @@ class MainApp(App):
                 except Exception as e:
                     raise(e)
                 else:
-                    app.aphorism_display_by_id(a.id)
+                    app.aphorism_show(a.id)
                     self.dismiss()
             else:
                 self.ids.aphorism.focus = True
 
-    def edit(self):
+    def aphorism_edit(self):
         id = app.selected_id
         if id > 0:
             try:
-                A = self.aphorism_get_by_id(id)
+                A = self.aphorism_get(id)
             except:
                 return False
             else:
-                self.aphorism_display(A)
+                self.aphorism_widget(A)
                 widget = self.FormEdit()
                 widget.edit(A)
                 return widget
@@ -550,16 +549,16 @@ class MainApp(App):
                 except Exception as e:
                     raise(e)
                 else:
-                    app.aphorism_display_by_id(a.id)
+                    app.aphorism_show(a.id)
                     self.dismiss()
             else:
                 self.ids.aphorism.focus = True
 
-    def delete(self):
+    def aphorism_delete(self):
         id = app.selected_id
         if id > 0:
             try:
-                A = self.aphorism_get_by_id(id)
+                A = self.aphorism_get(id)
             except:
                 return False
             else:
