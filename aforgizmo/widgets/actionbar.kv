@@ -5,15 +5,15 @@
         ActionPrevious:
             with_previous: False
             text: 'Pocket Philosopher'
-            on_press: app.root.ids.Screens.current = 'Main'
+            on_press: app.root.current = 'Main'
         ActionButton:
             text: "Search"
             icon: 'assets/img/icons/search.png'
-            on_press: app.root.ids.Screens.current = 'Search'; app.root.ids.FormSearch.ids.search_box.focus = True
+            on_press: app.root.current = 'Search'; app.root.ids.FormSearch.ids.search_box.focus = True
         ActionButton:
             text: "Edit"
             icon: 'assets/img/icons/edit.png'
-            on_press: app.root.ids.Screens.current = 'List'; app.root.ids.FormList.list()
+            on_press: app.root.current = 'List'; app.root.ids.FormList.list()
         ActionButton:
             text: "New"
             icon: 'assets/img/icons/new.png'

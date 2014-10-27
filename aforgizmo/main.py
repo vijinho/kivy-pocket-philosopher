@@ -189,10 +189,9 @@ class WidgetAphorism(MyBoxLayout):
         self.export_to_png(filename)
 
 
-class Main(MyBoxLayout):
+class Main(MyScreenManager):
     def __init__(self, **kwargs):
         super(Main, self).__init__()
-
 
 class MainApp(App):
     pixel = 'assets/img/pixel.png'
@@ -499,7 +498,7 @@ class MainApp(App):
             if int(app.config.get('display', 'bg_enabled')) == 1:
                 widget.background_random_set()
 
-        app.root.ids.Screens.current = 'Main'
+        app.root.current = 'Main'
         return A
 
     def aphorism_random_display(self):
