@@ -337,7 +337,9 @@ class MainApp(App):
             Aphorism.insert_many(json_data).execute()
         except Exception as e:
             print e
-
+        else:
+            app.root.ids.FormList.list()
+            
     def about(self):
         self.WidgetAbout().open()
 
