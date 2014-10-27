@@ -290,7 +290,7 @@ class MainApp(App):
                 print e
                 return e
 
-    def db_reset(self):
+    def form_wipe(self):
         widget = self.FormWipe()
         widget.wipe()
 
@@ -299,53 +299,55 @@ class MainApp(App):
             self.open()
 
         def wipe_action(self):
-            app.db_auto_backup()
+            app.db_backup()
             Aphorism.drop_table()
             Aphorism.create_table()
             app.root.ids.FormList.list()
             self.dismiss()
-            app.root.current = 'List';
+            app.root.current = 'List'
 
-    def db_auto_backup(self):
+    def db_backup(self, path = 'data'):
         data = []
         for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
             savedata = a.AsHash()
             del(savedata['id'])
             data.append(savedata)
-        filename = "data/aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
         try:
-            with open(filename, "w") as fp:
+            filename = "aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
+            with open(os.path.join(path, filename), "w") as fp:
                 fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
         except Exception as e:
             print e
 
 
-    def db_backup(self):
+    def form_backup(self):
         self.FormBackup().open()
 
     class FormBackup(Popup):
-        def backup(self):
+        def backup(self, path, filename):
+            filename = os.path.join(path, filename[0])
+            if (os.path.isdir(filename)):
+                path = filename
             try:
-                app.db_auto_backup()
+                try:
+                    app.db_backup(path)
+                except Exception as e:
+                    print e
+                else:
+                    pass
             except Exception as e:
-                raise(e)
+                print e
             else:
                 self.dismiss()
 
-    def db_import(self):
+    def form_import(self):
         self.FormImport().open()
 
     class FormImport(Popup):
-        def restore(self):
+        def restore(self, path, filename):
             try:
-                files = []
-                for root, dirs, files in os.walk('data'):
-                    for file in files:
-                        m = re.search('^aphorism(.+).json', 'file')
-                        if m:
-                            files.append(os.path.join(root, file))
                 try:
-                    filename = 'data/' + files[0]
+                    filename = os.path.join(path, filename[0])
                     with open(filename) as json_file:
                         json_data = json.load(json_file)
                     Aphorism.insert_many(json_data).execute()
@@ -353,10 +355,9 @@ class MainApp(App):
                     print e
                 else:
                     app.root.ids.FormList.list()
-                    app.root.current = 'List';
-                pass
+                    app.root.current = 'List'
             except Exception as e:
-                raise(e)
+                print e
             else:
                 self.dismiss()
 

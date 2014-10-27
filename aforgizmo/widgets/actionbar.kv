@@ -10,15 +10,15 @@
             icon: 'assets/img/icons/search.png'
             on_press: app.root.current = 'Search'; app.root.ids.FormSearch.ids.search_box.focus = True
         ActionButton:
-            text: "Edit"
+            text: "Edit Aphorisms"
             icon: 'assets/img/icons/edit.png'
             on_press: app.root.current = 'List'; app.root.ids.FormList.list()
         ActionButton:
-            text: "New"
+            text: "Add Aphorism"
             icon: 'assets/img/icons/new.png'
             on_press: app.aphorism_new()
         ActionButton:
-            text: "Backup"
+            text: "Backup/Restore"
             icon: 'assets/img/icons/import_export.png'
             on_press: app.root.current = 'Backup'
         ActionButton:

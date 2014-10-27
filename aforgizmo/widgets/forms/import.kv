@@ -1,18 +1,24 @@
 <FormImport@Popup>:
-    size_hint: 0.75, 0.4
+    size_hint: 0.85, 0.85
     auto_dismiss: True
     title: 'Import Database'
     MyBoxLayout:
         MyLabel:
+            size_hint_y: 0.1
             text: "This will import a previously backed up database."
+        FileChooserListView:
+            size_hint_y: 0.8
+            id: filechooser
+            path: '/Users/vijay/src/python/kivy/aforgizmo/aforgizmo/data'
+            filters: ['*.json']
         MyGridLayout:
-            size_hint_y: 0.5
+            size_hint_y: 0.1
             cols: 2
             rows: 1
             orientation: "horizontal"
             MyButton:
                 text: '[b]Restore Data[/b]'
-                on_press: root.restore()
+                on_release: root.restore(filechooser.path, filechooser.selection)
             MyButton:
                 text: 'Cancel'
                 on_press: root.dismiss()
