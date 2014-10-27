@@ -210,27 +210,6 @@ class MainApp(App):
         self.icon = 'assets/img/icon.png'
         App.__init__(self)
 
-    def setup_database(self):
-        try:
-            for a in Aphorism.select().limit(1):
-                pass
-        except Exception:
-            Aphorism.create_table()
-
-        if 'a' not in locals():
-            try:
-                try:
-                    Aphorism.create_table()
-                except:
-                    pass
-
-                with open('data/aphorisms.json') as json_file:
-                    json_data = json.load(json_file)
-                Aphorism.insert_many(json_data).execute()
-            except Exception as e:
-                print e
-                return e
-
     def build(self):
         return Main()
 #        self.Main = Main(app = self)
@@ -296,22 +275,90 @@ class MainApp(App):
         self.background_refresh_list()
         pass
 
-    def copy(self):
-        if not self.current_aphorism:
-            return
-        A = self.current_aphorism
-        tpl = "\"{aphorism}\"\n  -- {author}\n\n({source})"
-        quote = tpl.format(aphorism = A.aphorism, author = A.author, source = A.source)
-        Clipboard.put(quote, 'TEXT')
-        Clipboard.put(quote, 'text/plain;charset=utf-8')
-        Clipboard.put(quote, 'UTF8_STRING')
-        w = self.WidgetCopy()
-        w.textarea_copy.text = quote
-        w.textarea_copy.select_all()
-        w.open()
+    def setup_database(self):
+        try:
+            for a in Aphorism.select().limit(1):
+                pass
+        except Exception:
+            Aphorism.create_table()
 
-    class WidgetCopy(Popup):
-        textarea_copy = ObjectProperty()
+        if 'a' not in locals():
+            try:
+                try:
+                    Aphorism.create_table()
+                except:
+                    pass
+
+                with open('data/aphorisms.json') as json_file:
+                    json_data = json.load(json_file)
+                Aphorism.insert_many(json_data).execute()
+            except Exception as e:
+                print e
+                return e
+
+    def db_reset(self):
+        widget = self.FormWipe()
+        widget.wipe()
+
+    class FormWipe(Popup):
+        def wipe(self):
+            self.open()
+
+        def wipe_action(self):
+            app.auto_backup()
+            Aphorism.drop_table()
+            app.setup_database()
+            app.root.ids.FormList.list()
+            self.dismiss()
+
+        def cancel(self):
+            self.dismiss()
+
+    def auto_backup(self):
+        data = []
+        for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
+            savedata = a.AsHash()
+            del(savedata['id'])
+            data.append(savedata)
+        filename = "data/aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
+        try:
+            with open(filename, "w") as fp:
+                fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
+        except Exception as e:
+            print e
+
+    def db_backup(self):
+        data = []
+        for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
+            savedata = a.AsHash()
+            del(savedata['id'])
+            data.append(savedata)
+        filename = "data/aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
+        try:
+            with open(filename, "w") as fp:
+                fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
+        except Exception as e:
+            print e
+        else:
+            print "success"
+
+    def db_import(self):
+        files = []
+        for root, dirs, files in os.walk('data'):
+            for file in files:
+                m = re.search('^aphorism(.+).json', 'file')
+                if m:
+                    files.append(os.path.join(root, file))
+        print files
+        try:
+            filename = 'data/' + files[0]
+            with open(filename) as json_file:
+                json_data = json.load(json_file)
+            Aphorism.insert_many(json_data).execute()
+        except Exception as e:
+            print e
+        else:
+            print "success"
 
     def about(self):
         self.WidgetAbout().open()
@@ -370,81 +417,6 @@ class MainApp(App):
         def cancel(self):
             self.dismiss()
 
-    def edit(self):
-        id = app.selected_id
-        if id > 0:
-            app.aphorism_edit_by_id(id)
-
-    def delete(self):
-        id = app.selected_id
-        if id > 0:
-            app.aphorism_delete_by_id(id)
-
-    def db_import(self):
-        files = []
-        for root, dirs, files in os.walk('data'):
-            for file in files:
-                m = re.search('^aphorism(.+).json', 'file')
-                if m:
-                    files.append(os.path.join(root, file))
-        print files
-        try:
-            filename = 'data/' + files[0]
-            with open(filename) as json_file:
-                json_data = json.load(json_file)
-            Aphorism.insert_many(json_data).execute()
-        except Exception as e:
-            print e
-        else:
-            print "success"
-
-    def auto_backup(self):
-        data = []
-        for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
-            savedata = a.AsHash()
-            del(savedata['id'])
-            data.append(savedata)
-        filename = "data/aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
-        try:
-            with open(filename, "w") as fp:
-                fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
-        except Exception as e:
-            print e
-
-    def db_backup(self):
-        data = []
-        for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
-            savedata = a.AsHash()
-            del(savedata['id'])
-            data.append(savedata)
-        filename = "data/aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
-        try:
-            with open(filename, "w") as fp:
-                fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
-        except Exception as e:
-            print e
-        else:
-            print "success"
-
-    def db_reset(self):
-        widget = self.FormWipe()
-        widget.wipe()
-
-    class FormWipe(Popup):
-        def wipe(self):
-            self.open()
-
-        def wipe_action(self):
-            app.auto_backup()
-            Aphorism.drop_table()
-            app.setup_database()
-            app.root.ids.FormList.list()
-            self.dismiss()
-
-        def cancel(self):
-            self.dismiss()
-
-
     def background_refresh_list(self):
         """
         Get a the list of file paths to bg images
@@ -476,6 +448,24 @@ class MainApp(App):
             return background
         else:
             return self.pixel
+
+    def copy(self):
+        if not self.current_aphorism:
+            return
+        A = self.current_aphorism
+        tpl = "\"{aphorism}\"\n  -- {author}\n\n({source})"
+        quote = tpl.format(aphorism = A.aphorism, author = A.author, source = A.source)
+        Clipboard.put(quote, 'TEXT')
+        Clipboard.put(quote, 'text/plain;charset=utf-8')
+        Clipboard.put(quote, 'UTF8_STRING')
+        w = self.WidgetCopy()
+        w.textarea_copy.text = quote
+        w.textarea_copy.select_all()
+        w.open()
+
+    class WidgetCopy(Popup):
+        textarea_copy = ObjectProperty()
+
 
     def aphorism_random_get(self):
         for A in Aphorism.select().order_by(fn.Random()).limit(1):
@@ -515,6 +505,19 @@ class MainApp(App):
 
         app.root.ids.Screens.current = 'Main'
         return A
+
+    def aphorism_random_display(self):
+        container = app.root.ids.aphorism_container
+        container.clear_widgets()
+        widget = Factory.WidgetAphorism()
+        A = widget.random_set()
+        container.add_widget(widget)
+        return A
+
+    def edit(self):
+        id = app.selected_id
+        if id > 0:
+            app.aphorism_edit_by_id(id)
 
     def aphorism_edit_by_id(self, id):
         try:
@@ -583,6 +586,10 @@ class MainApp(App):
         def cancel(self):
             self.dismiss()
 
+    def delete(self):
+        id = app.selected_id
+        if id > 0:
+            app.aphorism_delete_by_id(id)
 
     def aphorism_delete_by_id(self, id):
         try:
@@ -625,13 +632,6 @@ class MainApp(App):
         def cancel(self):
             self.dismiss()
 
-    def aphorism_random_display(self):
-        container = app.root.ids.aphorism_container
-        container.clear_widgets()
-        widget = Factory.WidgetAphorism()
-        A = widget.random_set()
-        container.add_widget(widget)
-        return A
 
 if __name__ in ('__main__', '__android__'):
     Config.set('kivy', 'window_icon', 'assets/img/icon.png')
