@@ -16,7 +16,7 @@ def get_database():
     config = ConfigParser.RawConfigParser()
     config.read('config.ini')
     file = config.get('database', 'file')
-    database = SqliteDatabase(file)
+    return SqliteDatabase(file)
 
 class BaseModel(Model):
     """(Peewee) Base Database model for Aphorisms App"""
