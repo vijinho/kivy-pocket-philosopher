@@ -183,7 +183,6 @@ class WidgetAphorism(MyBoxLayout):
         filename = "data/screenshot-{0}.png".format(time.strftime("%Y%m%d-%H%M%S"))
         self.export_to_png(filename)
 
-
 class Main(MyScreenManager):
     def __init__(self, **kwargs):
         super(Main, self).__init__()
@@ -196,6 +195,11 @@ class MainApp(App):
     current_search = StringProperty()
     selected_aphorism = ObjectProperty()
     selected_id = NumericProperty()
+
+    def on_selected_id(self, *args):
+        id = int(self.selected_id)
+        if id > 0:
+            print 'Show context-sensitive buttons for selected list item.'
 
     def __init__(self):
         self.title = 'Pocket Philosopher'

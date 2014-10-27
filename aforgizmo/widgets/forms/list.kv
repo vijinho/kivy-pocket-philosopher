@@ -1,8 +1,36 @@
+<FormListButtons@MyGridLayout>:
+    cols: 3
+    rows: 2
+    MyButton:
+        height: '64dp'
+        text: 'View'
+        on_press: app.aphorism_show(app.selected_id)
+    MyButton:
+        height: '64dp'
+        text: 'Edit'
+        on_press: app.aphorism_edit()
+    MyButton:
+        height: '64dp'
+        text: 'Delete'
+        on_press: app.aphorism_delete()
+    MyButton:
+        height: '64dp'
+        text: 'Backup'
+        on_press: app.db_backup()
+    MyButton:
+        height: '64dp'
+        text: 'Import'
+        on_press: app.db_import()
+    MyButton:
+        height: '64dp'
+        text: 'Reset!'
+        on_press: app.db_reset()
+
 <FormList>:
     orientation: "vertical"
-    spacing: 1
     results: results
     ListView:
+        size_hint_y: 0.9
         id: results
         adapter:
             ListAdapter(
@@ -10,34 +38,8 @@
             selection_mode = 'single',
             args_converter = root.args_converter,
             cls = root.ButtonListResults)
-    MyGridLayout:
+    FormListButtons:
         size_hint_y: 0.2
-        cols: 3
-        rows: 2
-        MyButton:
-            height: '64dp'
-            text: 'View'
-            on_press: app.aphorism_show(app.selected_id)
-        MyButton:
-            height: '64dp'
-            text: 'Edit'
-            on_press: app.aphorism_edit()
-        MyButton:
-            height: '64dp'
-            text: 'Delete'
-            on_press: app.aphorism_delete()
-        MyButton:
-            height: '64dp'
-            text: 'Backup'
-            on_press: app.db_backup()
-        MyButton:
-            height: '64dp'
-            text: 'Import'
-            on_press: app.db_import()
-        MyButton:
-            height: '64dp'
-            text: 'Reset!'
-            on_press: app.db_reset()
 
 <ButtonListResults@ListItemButton>:
     size_hint_y: None
@@ -49,3 +51,4 @@
     text: "{}".format(self.aphorism[1])
     on_press: root.pressed(self.aphorism[0])
     markup: False
+
