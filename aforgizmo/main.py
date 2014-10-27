@@ -301,7 +301,7 @@ class MainApp(App):
         def wipe_action(self):
             app.db_auto_backup()
             Aphorism.drop_table()
-            app.setup_database()
+            Aphorism.create_table()
             app.root.ids.FormList.list()
             self.dismiss()
 

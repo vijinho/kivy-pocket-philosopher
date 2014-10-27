@@ -1,10 +1,10 @@
 <FormWipe@Popup>:
     size_hint: 0.75, 0.4
     auto_dismiss: True
-    title: 'Reset Database?'
+    title: 'Clear Database?'
     MyBoxLayout:
         MyLabel:
-            text: "[b]Warning![/b]\n\nThis will erase your entire database.  A backup will be made automatically in the [i]data/[/i] folder."
+            text: "[b]Warning![/b]\n\nThis will empty your database, however a backup will first be made automatically in the [i]data/[/i] folder.  If you do not add any new aphorisms the default database will be restored when the application is next started."
         MyGridLayout:
             size_hint_y: 0.5
             cols: 2
