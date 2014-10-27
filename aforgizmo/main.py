@@ -7,38 +7,32 @@ An App which saves, retrieves, edits and displays aphorisms
 
 This app is written in Python using the Kivy library for cross-platform support (Android, IOS, Windows, Linux, Mac OSX).  See http://kivy.org/docs/guide/packaging.html for instructions on packaging the application for the different platforms.
 '''
-# python core/system imports
-import os
-import random
-import imghdr
-import re
-import json
-import time
 
-# kivy imports
 import kivy
 kivy.require('1.8.0')
-from kivy.config import Config
-from kivy.lang import Builder
-from kivy.core.window import Window
-from kivy.uix.screenmanager import ScreenManager
-from kivy.core.clipboard import Clipboard
-from kivy.app import App
 from kivy.properties import ObjectProperty, ListProperty, NumericProperty, StringProperty
-from kivy.factory import Factory
+from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.actionbar import ActionBar
-from kivy.core.text import LabelBase
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.uix.listview import ListView, ListItemButton
-from kivy.uix.button import Button
-from kivy.uix.popup import Popup
 from kivy.uix.image import Image
-
-# application imports
-from peewee import *
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+from kivy.uix.listview import ListItemButton, ListView
+from kivy.app import App
+from kivy.uix.popup import Popup
+from kivy.config import Config
+from kivy.core.text import LabelBase
+import os
+from kivy.lang import Builder
 from models import Aphorism
+from kivy.factory import Factory
+import imghdr
+import random
+import re
+import time
+import json
+from kivy.core.clipboard import Clipboard
+from peewee import *
+
 
 class FormTextInput(TextInput):
     pass
