@@ -24,22 +24,22 @@
             on_press: root.dismiss()
 
 <WidgetCopy@Popup>:
-    size_hint: 0.75, 0.75
+    size_hint: 0.65, 0.65
     title: 'Copy Aphorism'
     textarea_copy: copytext
     BoxLayout:
         orientation: "vertical"
         FormLabel:
-            size_hint_y: 0.1
+            size_hint_y: 0.2
             text: 'If the copy button fails, try to directly copy the text below.'
         FormTextArea:
             id: copytext
-            size_hint_y: 0.8
+            size_hint_y: 0.6
             size: (self.parent.width, '72dp')
             markup: False
             focus: True
             font_name: 'assets/fonts/ubuntu/UbuntuMono-R.ttf'
         MyButton:
-            size_hint_y: 0.1
+            size_hint_y: 0.2
             text: 'Copy'
             on_press: root.dismiss()
