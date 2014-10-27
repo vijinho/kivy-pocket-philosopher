@@ -12,6 +12,7 @@
             size_hint: None, None
             size: quote.size
             Label:
+                #pos: (0, aphorism_rnd.height)
                 pos: (0, aphorism_rnd.height)
                 id: quote
                 text_size: root.width, None
@@ -23,7 +24,7 @@
                 markup: True
                 canvas.before:
                     Color:
-                        rgba: get_random_color(0.3)
+                        rgba: get_random_color(0.1)
                     Rectangle:
                         pos: self.pos
                         size: self.size
@@ -33,17 +34,21 @@
             ImageClickable:
                 id: aphorism_copy
                 pos: (aphorism_box.width - 100, aphorism_box.height - 100)
-                source: 'assets/img/icons/medium_copy.png'
-                source_up: 'assets/img/icons/medium_copy.png'
-                source_down: 'assets/img/icons/medium_copy.png'
+                source: 'assets/img/icons/copy_up.png'
+                source_up: 'assets/img/icons/copy_up.png'
+                source_down: 'assets/img/icons/copy_down.png'
                 on_release: app.aphorism_copy()
+    MyButton:
+        id: aphorism_btn
+        size_hint_y: None
+        height: '100sp'
+        on_press: aphorism_rnd.source = 'assets/img/icons/refresh_down.png'
+        on_release: app.aphorism_random()
         FloatLayout:
             size_hint: None, None
             size: aphorism_rnd.size
-            ImageClickable:
+            Image:
+                auto_bring_to_front: False
                 id: aphorism_rnd
-                pos: ((aphorism_box.width / 2) -50, 0)
-                source: 'assets/img/icons/large_refresh.png'
-                source_up: 'assets/img/icons/large_refresh.png'
-                source_down: 'assets/img/icons/large_refresh.png'
-                on_release: app.aphorism_random()
+                pos: ((aphorism_box.width / 2) - self.width/2, 0)
+                source: 'assets/img/icons/refresh_up.png'
