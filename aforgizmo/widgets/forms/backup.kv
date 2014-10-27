@@ -1,0 +1,18 @@
+<FormBackup@Popup>:
+    size_hint: 0.75, 0.4
+    auto_dismiss: True
+    title: 'Backup Database'
+    MyBoxLayout:
+        MyLabel:
+            text: "This will backup your database to a file named [b]data/aphorisms-[i]DATE[/i].json[/b]"
+        MyGridLayout:
+            size_hint_y: 0.5
+            cols: 2
+            rows: 1
+            orientation: "horizontal"
+            MyButton:
+                text: '[b]Backup Data[/b]'
+                on_press: root.backup()
+            MyButton:
+                text: 'Cancel'
+                on_press: root.dismiss()

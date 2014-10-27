@@ -1,0 +1,18 @@
+<FormImport@Popup>:
+    size_hint: 0.75, 0.4
+    auto_dismiss: True
+    title: 'Import Database'
+    MyBoxLayout:
+        MyLabel:
+            text: "This will import a previously backed up database."
+        MyGridLayout:
+            size_hint_y: 0.5
+            cols: 2
+            rows: 1
+            orientation: "horizontal"
+            MyButton:
+                text: '[b]Restore Data[/b]'
+                on_press: root.restore()
+            MyButton:
+                text: 'Cancel'
+                on_press: root.dismiss()

@@ -319,27 +319,47 @@ class MainApp(App):
         except Exception as e:
             print e
 
+
     def db_backup(self):
-        self.db_auto_backup()
+        self.FormBackup().open()
+
+    class FormBackup(Popup):
+        def backup(self):
+            try:
+                app.db_auto_backup()
+            except Exception as e:
+                raise(e)
+            else:
+                self.dismiss()
 
     def db_import(self):
-        files = []
-        for root, dirs, files in os.walk('data'):
-            for file in files:
-                m = re.search('^aphorism(.+).json', 'file')
-                if m:
-                    files.append(os.path.join(root, file))
-        try:
-            filename = 'data/' + files[0]
-            with open(filename) as json_file:
-                json_data = json.load(json_file)
-            Aphorism.insert_many(json_data).execute()
-        except Exception as e:
-            print e
-        else:
-            app.root.ids.FormList.list()
-            app.root.current = 'List';
-            
+        self.FormImport().open()
+
+    class FormImport(Popup):
+        def restore(self):
+            try:
+                files = []
+                for root, dirs, files in os.walk('data'):
+                    for file in files:
+                        m = re.search('^aphorism(.+).json', 'file')
+                        if m:
+                            files.append(os.path.join(root, file))
+                try:
+                    filename = 'data/' + files[0]
+                    with open(filename) as json_file:
+                        json_data = json.load(json_file)
+                    Aphorism.insert_many(json_data).execute()
+                except Exception as e:
+                    print e
+                else:
+                    app.root.ids.FormList.list()
+                    app.root.current = 'List';
+                pass
+            except Exception as e:
+                raise(e)
+            else:
+                self.dismiss()
+
     def about(self):
         self.WidgetAbout().open()
 
