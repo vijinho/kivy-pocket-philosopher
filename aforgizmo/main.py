@@ -197,6 +197,7 @@ class Main(MyBoxLayout):
 class MainApp(App):
     '''Main Program
     '''
+    pixel = 'assets/img/pixel.png'
     use_kivy_settings = False
     backgrounds = ListProperty()
     current_background = StringProperty()
@@ -261,7 +262,7 @@ class MainApp(App):
             if token == ('display', 'bg_folder'):
                 self.background_refresh_list()
             elif token == ('display', 'bg_enabled'):
-                pass
+                self.background_refresh_list()
 
     def on_start(self):
         """
@@ -467,11 +468,14 @@ class MainApp(App):
         Get a random bg image path string
         :return: file path to random bg image
         """
-        background = random.choice(self.backgrounds)
-        # fix bug where the list and not a string is returned by bg_random
-        if (isinstance(background, kivy.properties.ObservableList)):
-            return self.backgrounds_random()
-        return background
+        if len(self.backgrounds) > 0:
+            background = random.choice(self.backgrounds)
+            # fix bug where the list and not a string is returned by bg_random
+            if (isinstance(background, kivy.properties.ObservableList)):
+                return self.backgrounds_random()
+            return background
+        else:
+            return self.pixel
 
     def aphorism_random_get(self):
         for A in Aphorism.select().order_by(fn.Random()).limit(1):
