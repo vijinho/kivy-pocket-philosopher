@@ -195,8 +195,6 @@ class Main(MyBoxLayout):
 
 
 class MainApp(App):
-    '''Main Program
-    '''
     pixel = 'assets/img/pixel.png'
     use_kivy_settings = False
     backgrounds = ListProperty()
@@ -212,8 +210,6 @@ class MainApp(App):
 
     def build(self):
         return Main()
-#        self.Main = Main(app = self)
-#        return self.Main
 
     def build_config(self, config):
         config.setdefaults('display', {
