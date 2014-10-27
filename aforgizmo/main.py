@@ -52,6 +52,7 @@ class MyScreenManager(ScreenManager):
 class MyButton(Button):
     """
     Button with a possibility to change the color on on_press (similar to background_down in normal Button widget)
+    and also the background image
     """
     background_image = ObjectProperty(Image(source='assets/img/pixel.png'))
     background_color_normal = ListProperty([0.3, 0.3, 0.3, 0.75])
@@ -77,6 +78,26 @@ class MyListItemButton(ListItemButton):
         app.selected_aphorism = self.aphorism
         app.selected_id = id
         self.selected_id = id
+
+
+class FormTextInput(TextInput):
+    max_chars = 255
+    valid_chars = ''
+    def insert_text(self, substring, from_undo=False):
+        if len(self.valid_chars) > 0:
+            valid_chars = '[^' + self.valid_chars + ']'
+            pat = re.compile(valid_chars)
+            s = re.sub(valid_chars, '', substring)
+        else:
+            s = substring
+        super(FormTextInput, self).insert_text(s, from_undo=from_undo)
+        self.validate(self.max_chars)
+
+    def validate(self, max_chars):
+        if int(max_chars) <= 0:
+            max_chars = self.max_chars
+        s = self.text
+        self.text = (s[:max_chars]) if len(s) > max_chars else s
 
 
 class FormSearch(MyBoxLayout):
@@ -124,26 +145,6 @@ class FormList(MyBoxLayout):
     def args_converter(self, index, data_item):
         id, quote = data_item
         return {'aphorism': (id, quote)}
-
-
-class FormTextInput(TextInput):
-    max_chars = 255
-    valid_chars = ''
-    def insert_text(self, substring, from_undo=False):
-        if len(self.valid_chars) > 0:
-            valid_chars = '[^' + self.valid_chars + ']'
-            pat = re.compile(valid_chars)
-            s = re.sub(valid_chars, '', substring)
-        else:
-            s = substring
-        super(FormTextInput, self).insert_text(s, from_undo=from_undo)
-        self.validate(self.max_chars)
-
-    def validate(self, max_chars):
-        if int(max_chars) <= 0:
-            max_chars = self.max_chars
-        s = self.text
-        self.text = (s[:max_chars]) if len(s) > max_chars else s
 
 
 class WidgetAphorism(MyBoxLayout):
@@ -512,19 +513,16 @@ class MainApp(App):
     def edit(self):
         id = app.selected_id
         if id > 0:
-            app.aphorism_edit_by_id(id)
-
-    def aphorism_edit_by_id(self, id):
-        try:
-            A = self.aphorism_get_by_id(id)
-        except:
-            return False
-        else:
-            self.aphorism_display(A)
-            widget = self.FormEdit()
-            widget.edit(A)
-            return widget
-        return A
+            try:
+                A = self.aphorism_get_by_id(id)
+            except:
+                return False
+            else:
+                self.aphorism_display(A)
+                widget = self.FormEdit()
+                widget.edit(A)
+                return widget
+            return A
 
     class FormEdit(Popup):
         aphorism_id = NumericProperty()
@@ -584,18 +582,15 @@ class MainApp(App):
     def delete(self):
         id = app.selected_id
         if id > 0:
-            app.aphorism_delete_by_id(id)
-
-    def aphorism_delete_by_id(self, id):
-        try:
-            A = self.aphorism_get_by_id(id)
-        except:
-            return False
-        else:
-            widget = self.FormDelete()
-            widget.delete(A)
-            return widget
-        return A
+            try:
+                A = self.aphorism_get_by_id(id)
+            except:
+                return False
+            else:
+                widget = self.FormDelete()
+                widget.delete(A)
+                return widget
+            return A
 
     class FormDelete(Popup):
         aphorism_id = NumericProperty()
