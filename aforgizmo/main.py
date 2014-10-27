@@ -184,6 +184,7 @@ class WidgetAphorism(MyBoxLayout):
         self.export_to_png(filename)
 
 class Main(MyScreenManager):
+    backup_results = ObjectProperty()
     def __init__(self, **kwargs):
         super(Main, self).__init__()
 
@@ -299,12 +300,17 @@ class MainApp(App):
             self.open()
 
         def wipe_action(self):
-            app.db_backup()
-            Aphorism.drop_table()
-            Aphorism.create_table()
-            app.root.ids.FormList.list()
+            try:
+                app.db_backup()
+                Aphorism.drop_table()
+                Aphorism.create_table()
+            except Exception as e:
+                app.root.backup_results.text += "Failed clearing the database.\nError: (" + str(e) + ")\n\n"
+            else:
+                app.root.backup_results.text += "Successfully cleared the database!" + "\n\n"
+
             self.dismiss()
-            app.root.current = 'List'
+
 
     def db_backup(self, path = 'data'):
         data = []
@@ -317,7 +323,7 @@ class MainApp(App):
             with open(os.path.join(path, filename), "w") as fp:
                 fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
         except Exception as e:
-            print e
+            raise(e)
 
 
     def form_backup(self):
@@ -325,40 +331,35 @@ class MainApp(App):
 
     class FormBackup(Popup):
         def backup(self, path, filename):
-            filename = os.path.join(path, filename[0])
-            if (os.path.isdir(filename)):
-                path = filename
+            if filename and len(filename) > 0:
+                filename = os.path.join(path, filename[0])
+                if (os.path.isdir(filename)):
+                    path = filename
             try:
-                try:
-                    app.db_backup(path)
-                except Exception as e:
-                    print e
-                else:
-                    pass
+                app.db_backup(path)
             except Exception as e:
-                print e
+                app.root.backup_results.text += "Failed backup of the file:\n" + path + "\nError: (" + str(e) + ")\n\n"
             else:
-                self.dismiss()
+                app.root.backup_results.text += "Successfully backed up to the file:\n" + path + "\n\n"
+
+            self.dismiss()
 
     def form_import(self):
         self.FormImport().open()
 
     class FormImport(Popup):
         def restore(self, path, filename):
-            try:
+            if filename and len(filename) > 0:
                 try:
                     filename = os.path.join(path, filename[0])
                     with open(filename) as json_file:
                         json_data = json.load(json_file)
                     Aphorism.insert_many(json_data).execute()
                 except Exception as e:
-                    print e
+                    app.root.backup_results.text += "Failed import of the file:\n" + filename + "\nError: (" + str(e) + ")\n\n"
                 else:
-                    app.root.ids.FormList.list()
-                    app.root.current = 'List'
-            except Exception as e:
-                print e
-            else:
+                    app.root.backup_results.text += "Successfully imported the backup file:\n" + filename + "\n\n"
+
                 self.dismiss()
 
     def about(self):
