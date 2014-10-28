@@ -272,6 +272,7 @@ class MainApp(App):
         App.__init__(self)
 
     def build(self):
+        Factory.register('WidgetAphorism', cls=WidgetAphorism)
         return Main()
 
     def build_config(self, config):
@@ -505,13 +506,11 @@ class MainApp(App):
                 else:
                     return A
 
-    def aphorism_widget(self, A):
-        container = app.root.ids.aphorism_container
-        container.clear_widgets()
+    def new_aphorism_widget(self, A):
+        app.root.ids.aphorism_container.clear_widgets()
         widget = Factory.WidgetAphorism()
         widget.set(A)
-        container.add_widget(widget)
-        return widget
+        app.root.ids.aphorism_container.add_widget(widget)
 
     def aphorism_show(self, id):
         try:
@@ -519,20 +518,17 @@ class MainApp(App):
         except:
             return False
         else:
-            widget = self.aphorism_widget(A)
+            self.new_aphorism_widget(A)
             if int(app.config.get('display', 'bg_enabled')) == 1:
-                widget.background_random_set()
-
+                #app.root.ids.aphorism_container.background_random_set()
+                pass
         app.root.current = 'Main'
-        return A
 
     def aphorism_random(self):
-        container = app.root.ids.aphorism_container
-        container.clear_widgets()
+        app.root.ids.aphorism_container.clear_widgets()
         widget = Factory.WidgetAphorism()
         A = widget.random_set()
-        container.add_widget(widget)
-        return A
+        app.root.ids.aphorism_container.add_widget(widget)
 
     def aphorism_new(self):
         self.FormNew().open()
@@ -584,7 +580,7 @@ class MainApp(App):
             except:
                 return False
             else:
-                self.aphorism_widget(A)
+                self.new_aphorism_widget(A)
                 widget = self.FormEdit()
                 widget.edit(A)
                 return widget
