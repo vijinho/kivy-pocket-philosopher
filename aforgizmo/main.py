@@ -225,10 +225,11 @@ class WidgetAphorism(MyBoxLayout):
 
     def background_set(self, path):
         if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
-            self.ids.background.source = path
+            app.root.ids.background.source = path
             app.current_background = path
         else:
-            self.ids.background.source = self.pixel
+            app.root.ids.background.source = self.pixel
+        app.root.ids.background.rescale(app.root.width, app.root.height)
 
     def background_random_set(self):
         self.background_set(app.background_get_random())
