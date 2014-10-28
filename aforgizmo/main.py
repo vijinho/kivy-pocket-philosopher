@@ -257,6 +257,7 @@ class MainApp(App):
     selected_aphorism = ObjectProperty()
     selected_id = NumericProperty()
     folder = StringProperty()
+    data_folder = StringProperty()
 
     def on_selected_id(self, *args):
         id = int(self.selected_id)
