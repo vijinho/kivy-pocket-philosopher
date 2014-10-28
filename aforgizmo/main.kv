@@ -59,20 +59,3 @@
                 readonly: True
                 allow_copy: False
                 use_bubble: False
-
-    Screen:
-        name: 'Test'
-        MyBoxLayout:
-            ActionBarMain:
-            Button:
-                text: 'arse'
-                on_press: root.ids.myimage.rescale(app.root.width, app.root.height)
-        FloatLayout:
-            MyImage:
-                id: myimage
-                pos: (0,-150)
-#                size: self.size
-                auto_bring_to_front: False
-                keep_ratio: False
-                allow_stretch: True
-                source: 'assets/1.jpg'
