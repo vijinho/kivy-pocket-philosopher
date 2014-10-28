@@ -45,6 +45,48 @@ class MyBoxLayout(BoxLayout):
 class MyScreenManager(ScreenManager):
     background_image = ObjectProperty(Image(source='assets/img/bg/background.png'))
 
+class MyImage(Image):
+    def __init__(self, **kwargs):
+        super(MyImage, self).__init__()
+
+    def texture_width(self):
+        return self.texture.size[0]
+
+    def texture_height(self):
+        return self.texture.size[1]
+
+    def rescale(self, width, height):
+        """
+        Resize the image to fit the given dimensions, zooming in or out if
+        needed without losing the aspect ratio
+        :param width: target width
+        :param height: target height
+        :return: new dimensions as a tuple (width, height)
+        """
+        ratio = 0.0
+        new_width = 0.0
+        new_height = 0.0
+
+        target_width = float(width)
+        target_height = float(height)
+
+        image_width = float(self.texture_width())
+        image_height = float(self.texture_height())
+
+        ratio = target_width / image_width
+        new_width = image_width * ratio
+        new_height = image_height * ratio
+
+        if (new_height < target_height):
+            ratio = target_height / new_height
+            new_height *= ratio
+            new_width *= ratio
+
+        if new_width > 0 and new_height > 0:
+            self.width = new_width
+            self.height = new_height
+
+        return (new_width, new_height)
 
 class MyButton(Button):
     """
@@ -67,7 +109,7 @@ class MyButton(Button):
     def on_release(self):
         self.background_color = self.background_color_normal
 
-class ImageClickable(ButtonBehavior, Image):
+class ImageClickable(ButtonBehavior, MyImage):
     source_up = ObjectProperty(Image(source='assets/img/pixel.png'))
     source_down = ObjectProperty(Image(source='assets/img/pixel.png'))
 
