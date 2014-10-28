@@ -1,12 +1,12 @@
 <WidgetAphorism>:
     id: aphorism_box
     FloatLayout:
-        Image:
-            id: background
-            pos: (0,root.height - self.height)
-            auto_bring_to_front: False
-            keep_ratio: False
-            allow_stretch: True
+        Scatter:
+            MyImage:
+                id: background
+                pos: (0,0)
+                auto_bring_to_front: False
+                allow_stretch: True
         Scatter:
             size_hint: None, None
             size: quote.size
@@ -40,7 +40,7 @@
         id: aphorism_btn
         size_hint_y: None
         height: '100sp'
-        on_press: aphorism_rnd.source = 'assets/img/icons/refresh_down.png'
+        on_press: aphorism_rnd.source = 'assets/img/icons/refresh_down.png'; root.ids.background.rescale(app.root.width, app.root.height)
         on_release: app.aphorism_random()
         FloatLayout:
             size_hint: None, None
