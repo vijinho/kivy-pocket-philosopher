@@ -353,7 +353,6 @@ class MainApp(App):
                     json_data = json.load(json_file)
                 Aphorism.insert_many(json_data).execute()
             except Exception as e:
-                print e
                 return e
 
     def form_wipe(self):
