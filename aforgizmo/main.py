@@ -391,8 +391,10 @@ class MainApp(App):
                 Aphorism.drop_table()
                 Aphorism.create_table()
             except Exception as e:
+                app.notify('error', 'Failed clearing the database.')
                 app.root.backup_results.text += "Failed clearing the database.\nError: (" + str(e) + ")\n\n"
             else:
+                app.notify('success', 'Successfully cleared the database!')
                 app.root.backup_results.text += "Successfully cleared the database!" + "\n\n"
 
             self.dismiss()
@@ -424,8 +426,10 @@ class MainApp(App):
             try:
                 app.db_backup(path)
             except Exception as e:
+                app.notify('error', 'Backup Failed!')
                 app.root.backup_results.text += "Failed backup of the file:\n" + path + "\nError: (" + str(e) + ")\n\n"
             else:
+                app.notify('success', 'Backup Successful!')
                 app.root.backup_results.text += "Successfully backed up to the file:\n" + path + "\n\n"
 
             self.dismiss()
@@ -442,8 +446,10 @@ class MainApp(App):
                         json_data = json.load(json_file)
                     Aphorism.insert_many(json_data).execute()
                 except Exception as e:
+                    app.notify('error', 'Import Failed!')
                     app.root.backup_results.text += "Failed import of the file:\n" + filename + "\nError: (" + str(e) + ")\n\n"
                 else:
+                    app.notify('success', 'Import Successful!')
                     app.root.backup_results.text += "Successfully imported the backup file:\n" + filename + "\n\n"
 
                 self.dismiss()
