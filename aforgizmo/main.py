@@ -595,13 +595,13 @@ class MainApp(App):
             if len(data['author']) == 0:
                 data['author'] = app.config.get('editor', 'default_author')
                 if len(data['author']) == 0:
-                    data['author'] = '(Anonymous)'
+                    data['author'] = 'Anonymous'
                 self.ids.author.text = data['author']
 
             if len(data['source']) == 0:
                 data['source'] = app.config.get('editor', 'default_source')
                 if len(data['source']) == 0:
-                    data['source'] = '(Unknown)'
+                    data['source'] = 'Unknown'
                 self.ids.source.text = data['source']
 
             # add aphorism is required fields valid
