@@ -10,6 +10,12 @@ This app is written in Python using the Kivy library for cross-platform support 
 
 import kivy
 kivy.require('1.8.0')
+from kivy.app import App
+from kivy.lang import Builder
+from kivy.config import Config
+from kivy.factory import Factory
+from kivy.core.text import LabelBase
+from kivy.core.clipboard import Clipboard
 from kivy.properties import ObjectProperty, ListProperty, NumericProperty, StringProperty
 from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.boxlayout import BoxLayout
@@ -18,22 +24,16 @@ from kivy.uix.image import Image
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.listview import ListItemButton, ListView
-from kivy.app import App
-from kivy.uix.popup import Popup
-from kivy.config import Config
-from kivy.core.text import LabelBase
 from kivy.uix.label import Label
+from kivy.uix.popup import Popup
 import os
-from kivy.lang import Builder
-from models import Aphorism
-from kivy.factory import Factory
 import imghdr
 import random
 import re
 import time
 import json
-from kivy.core.clipboard import Clipboard
 from peewee import *
+from models import Aphorism
 
 
 class FormTextInput(TextInput):
@@ -123,6 +123,19 @@ class ImageClickable(ButtonBehavior, MyImage):
     def on_release(self):
         self.source = self.source_up
 
+class Notify(ButtonBehavior, BoxLayout):
+    msg = StringProperty()
+    icon = StringProperty()
+
+    def __init__(self, **kwargs):
+        super(Notify, self).__init__()
+        self.type = ''
+        self.text = ''
+
+    def message(self, msg_type, msg):
+        self.msg_type = msg_type
+        self.msg = msg
+        self.icon = 'assets/img/icons/notify/' + msg_type + '.png'
 
 class MyListItemButton(ListItemButton):
     selected_id = NumericProperty()
@@ -269,6 +282,7 @@ class MainApp(App):
         self.icon = 'assets/img/icon.png'
         self.folder = os.path.dirname(os.path.abspath(__file__))
         self.data_folder = os.path.join(self.folder, 'data')
+        Factory.register('Notify', cls=Notify)
         App.__init__(self)
 
     def build(self):
@@ -354,6 +368,14 @@ class MainApp(App):
                 Aphorism.insert_many(json_data).execute()
             except Exception as e:
                 return e
+
+    def notify(self, msg_type, msg, screen = None):
+        if screen == None:
+            screen = app.root.current
+        id = 'notifications_' + str(screen)
+        w = Factory.Notify()
+        w.message(msg_type, msg)
+        exec 'app.root.ids.'+id+'.add_widget(w)'
 
     def form_wipe(self):
         widget = self.FormWipe()

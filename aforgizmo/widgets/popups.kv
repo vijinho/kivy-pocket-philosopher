@@ -1,3 +1,30 @@
+<Notify@BoxLayout>:
+    id: box
+    orientation: "horizontal"
+    size_hint_x: 0.75
+    size_hint_y: 0.15
+    on_release: self.parent.remove_widget(self)
+    canvas.before:
+        Color:
+            rgba: .0, .0, .0, .7
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    BoxLayout:
+        Image:
+            size_hint_x: 0.15
+            source: root.icon
+        MyLabel:
+            id: msg
+            size_hint_x: 0.85
+            text: root.msg
+            halign: 'left'
+            valign: 'middle'
+            markup: True
+            text_size: app.root.width, None
+            size: self.texture_size
+            font_size: '16sp'
+
 <WidgetAbout@Popup>:
     size_hint: 0.9, 0.9
     title: 'About'

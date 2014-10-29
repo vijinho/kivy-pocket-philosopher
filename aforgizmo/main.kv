@@ -29,12 +29,21 @@
             FloatLayout:
                 id: aphorism_container
                 WidgetAphorism:
+        FloatLayout:
+            MyStackLayout:
+                id: notifications
+        FloatLayout:
+            MyStackLayout:
+                id: notifications_Main
     Screen:
         name: 'Search'
         MyBoxLayout:
             ActionBarMain:
             FormSearch:
                 id: FormSearch
+        FloatLayout:
+            MyStackLayout:
+                id: notifications_Search
     Screen:
         name: 'List'
         BoxLayout:
@@ -42,6 +51,9 @@
             ActionBarMain:
             FormList:
                 id: FormList
+        FloatLayout:
+            MyStackLayout:
+                id: notifications_List
     Screen:
         name: 'Backup'
         backup_results: backup_results
@@ -65,3 +77,6 @@
                 readonly: True
                 allow_copy: False
                 use_bubble: False
+        FloatLayout:
+            MyStackLayout:
+                id: notifications_Backup
