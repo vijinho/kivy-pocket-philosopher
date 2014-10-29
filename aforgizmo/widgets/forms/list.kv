@@ -31,12 +31,8 @@
 
 <ButtonListResults@ListItemButton>:
     size_hint_y: None
-    height: self.font_size * 3
-    padding_y: 10
-    halign: 'left'
-    valign: 'middle'
+    height: self.font_size * 4
     text_size: root.width, None
     text: "{}".format(self.aphorism[1])
-    on_press: root.pressed(self.aphorism[0])
     markup: False
-
+    on_press: root.pressed(self.aphorism[0])
