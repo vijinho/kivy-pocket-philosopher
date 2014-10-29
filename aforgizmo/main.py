@@ -410,8 +410,9 @@ class MainApp(App):
             filename = "aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
             with open(os.path.join(path, filename), "w") as fp:
                 fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
+            app.notify('success', 'Database backup successful!')
         except Exception as e:
-            raise(e)
+            app.notify('warning', 'Could not backup the database!')
 
 
     def form_backup(self):
@@ -592,9 +593,11 @@ class MainApp(App):
                         hashtags = data['tags'])
                     a.save()
                 except Exception as e:
+                    app.notify('warning', 'Could not add the aphorism!')
                     raise(e)
                 else:
                     app.aphorism_show(a.id)
+                    app.notify('success', 'Aphorism added successfully!')
                     self.dismiss()
             else:
                 self.ids.aphorism.focus = True
@@ -658,9 +661,10 @@ class MainApp(App):
                         hashtags = data['tags'])
                     a.save()
                 except Exception as e:
-                    raise(e)
+                    app.notify('warning', 'Could not edit the aphorism!')
                 else:
                     app.aphorism_show(a.id)
+                    app.notify('success', 'Edited the aphorism successfully!')
                     self.dismiss()
             else:
                 self.ids.aphorism.focus = True
@@ -699,10 +703,11 @@ class MainApp(App):
                     a = Aphorism.get(Aphorism.id == self.aphorism_id)
                     a.delete_instance()
                 except Exception as e:
-                    raise(e)
+                    app.notify('error', 'Could not delete the aphorism!')
                 else:
                     app.selected_id = self.aphorism_id
                     self.dismiss()
+                    app.notify('success', 'Deleted the aphorism!')
                     app.root.ids.FormList.list()
 
 
