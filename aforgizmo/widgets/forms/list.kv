@@ -26,13 +26,9 @@
             selection_mode = 'single',
             args_converter = root.args_converter,
             cls = root.ButtonListResults)
-    FormListActions:
+    BoxLayout:
         size_hint_y: 0.1
+        id: form_list_actions
 
-<ButtonListResults@ListItemButton>:
-    size_hint_y: None
-    height: self.font_size * 4
-    text_size: root.width, None
-    text: "{}".format(self.aphorism[1])
-    markup: False
+<ButtonListResults@MyListItemButton>:
     on_press: root.pressed(self.aphorism[0])

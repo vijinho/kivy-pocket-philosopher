@@ -19,6 +19,7 @@ from kivy.core.clipboard import Clipboard
 from kivy.properties import ObjectProperty, ListProperty, NumericProperty, StringProperty
 from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 from kivy.uix.textinput import TextInput
@@ -40,6 +41,12 @@ class FormTextInput(TextInput):
     pass
 
 class MyBoxLayout(BoxLayout):
+    pass
+
+class MyGridLayout(GridLayout):
+    pass
+
+class FormListActions(MyGridLayout):
     pass
 
 class MyScreenManager(ScreenManager):
@@ -141,10 +148,8 @@ class MyListItemButton(ListItemButton):
     selected_id = NumericProperty()
     aphorism = ListProperty()
     def pressed(self, id):
-        app.selected_aphorism = self.aphorism
         app.selected_id = id
         self.selected_id = id
-
 
 class FormTextInput(TextInput):
     max_chars = 255
@@ -164,7 +169,6 @@ class FormTextInput(TextInput):
             max_chars = self.max_chars
         s = self.text
         self.text = (s[:max_chars]) if len(s) > max_chars else s
-
 
 class FormSearch(MyBoxLayout):
     results = ObjectProperty()
@@ -267,7 +271,6 @@ class MainApp(App):
     backgrounds = ListProperty()
     current_background = StringProperty()
     current_search = StringProperty()
-    selected_aphorism = ObjectProperty()
     selected_id = NumericProperty()
     folder = StringProperty()
     data_folder = StringProperty()
@@ -275,7 +278,9 @@ class MainApp(App):
     def on_selected_id(self, *args):
         id = int(self.selected_id)
         if id > 0:
-            print 'Show context-sensitive buttons for selected list item.'
+            actions = app.root.ids.FormList.ids.form_list_actions
+            actions.clear_widgets()
+            actions.add_widget(FormListActions())
 
     def __init__(self):
         self.title = 'Pocket Philosopher'

@@ -7,6 +7,15 @@
             pos: self.pos
             size: self.size
 
+<MyListItemButton@ListItemButton>:
+    size_hint_y: None
+    height: self.font_size * 4
+    text_size: root.width, None
+    text: "{}".format(self.aphorism[1])
+    markup: False
+    selected_color: (1, 1, 1, 1)
+    deselected_color: (.75, .75, .75, .75)
+
 <MyLabel@Label>
     halign: 'left'
     valign: 'middle'

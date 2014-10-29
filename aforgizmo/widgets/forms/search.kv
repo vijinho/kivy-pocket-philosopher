@@ -29,10 +29,5 @@
                 args_converter = root.args_converter,
                 cls = root.ButtonSearchResults)
 
-<ButtonSearchResults@ListItemButton>:
-    size_hint_y: None
-    height: self.font_size * 4
-    text_size: root.width, None
-    text: "{}".format(self.aphorism[1])
-    markup: False
+<ButtonSearchResults@MyListItemButton>:
     on_press: app.aphorism_show(self.aphorism[0])
