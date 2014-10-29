@@ -609,7 +609,7 @@ class MainApp(App):
                         aphorism = data['aphorism'],
                         author   = data['author'],
                         source   = data['source'],
-                        hashtags = data['tags'])
+                        tags = data['tags'])
                     a.save()
                 except:
                     app.notify('warning', 'Could not add the aphorism!')
@@ -641,7 +641,7 @@ class MainApp(App):
                 self.ids.aphorism.text = A.aphorism
                 self.ids.author.text = A.author
                 self.ids.source.text = A.source
-                self.ids.tags.text = A.hashtags
+                self.ids.tags.text = A.tags
                 self.open()
 
         def edit_action(self):
@@ -674,7 +674,7 @@ class MainApp(App):
                         aphorism = data['aphorism'],
                         author   = data['author'],
                         source   = data['source'],
-                        hashtags = data['tags'])
+                        tags = data['tags'])
                     a.save()
                 except:
                     app.notify('warning', 'Could not edit the aphorism!')
@@ -709,7 +709,7 @@ class MainApp(App):
                     aphorism = A.aphorism,
                     author = A.author,
                     source = A.source,
-                    tags = A.hashtags
+                    tags = A.tags
                 )
                 self.open()
 

@@ -28,7 +28,7 @@ class Aphorism(BaseModel):
     author   = CharField()
     source   = CharField()
     aphorism = TextField()
-    hashtags = TextField()
+    tags = TextField()
     created  = DateTimeField(default=datetime.now)
 
     def AsHash(self):
@@ -42,7 +42,7 @@ class Aphorism(BaseModel):
             'author':   self.author,
             'source':   self.source,
             'aphorism': self.aphorism,
-            'hashtags': self.hashtags
+            'tags': self.tags
         }
         return data
 

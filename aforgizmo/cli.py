@@ -44,21 +44,21 @@ def cli(config, verbose, logfile):
               prompt   = 'Write the aphorism',
               help     = 'The text of the aphorism itself.',
               required = True)
-@click.option('-t', '--hashtags',
+@click.option('-t', '--tags',
               prompt   = 'Hashtags',
               help     = 'Hashtags for the aphorism, space or comma separated, '
                    '# symbol optional',
               default  = 'none',
               required = False)
 @pass_config
-def add(config, author, source, aphorism, hashtags):
+def add(config, author, source, aphorism, tags):
     """Add an aphorism."""
     try:
         a = Aphorism(
             author   = author,
             source   = source,
             aphorism = aphorism,
-            hashtags = hashtags)
+            tags = tags)
         a.save()
     except Exception:
         click.echo(click.style('Failed saving the aphorism!', fg = 'red'),
@@ -223,16 +223,16 @@ def list(config):
         click.secho("(%s)\n" % a.source,   fg = 'yellow')
 
 @cli.command()
-@click.option('-t', '--hashtag',
+@click.option('-t', '--tag',
               prompt   = 'Search Tag',
-              help     = 'The text to search hashtags for.',
+              help     = 'The text to search tags for.',
               required = True)
 @pass_config
-def search(config, hashtag):
+def search(config, tag):
     """Search for an aphorism by tag."""
-    hashtag = '%%{0}%%'.format(hashtag)
+    tag = '%%{0}%%'.format(tag)
     for a in Aphorism.select().where(
-            Aphorism.hashtags ** hashtag).order_by(Aphorism.author, Aphorism.source):
+            Aphorism.tags ** tag).order_by(Aphorism.author, Aphorism.source):
         click.secho('id:%d'  % a.id,       fg = 'white')
         click.secho('"%s"'   % a.aphorism, fg = 'white', bold = True)
         click.secho(' -- %s' % a.author,   fg = 'green')
