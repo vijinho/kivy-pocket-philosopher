@@ -60,19 +60,24 @@
         MyBoxLayout:
             ActionBarMain:
             MyButton:
-                size_hint_y: 0.1
+                size_hint_y: 0.2
                 text: 'Backup'
+                font_size: '42sp'
                 on_press: app.form_backup()
             MyButton:
-                size_hint_y: 0.1
+                size_hint_y: 0.2
                 text: 'Import'
+                font_size: '42sp'
                 on_press: app.form_import()
             MyButton:
-                size_hint_y: 0.1
-                text: 'Wipe'
+                size_hint_y: 0.2
+                text: 'Wipe Data'
+                font_size: '42sp'
                 on_press: app.form_wipe()
             FormTextArea:
-                size_hint_y: 0.7
+                size_hint_y: 0.4
+                font_size: '14sp'
+                font_name: 'assets/fonts/ubuntu/UbuntuMono-R.ttf'
                 id: backup_results
                 readonly: True
                 allow_copy: False

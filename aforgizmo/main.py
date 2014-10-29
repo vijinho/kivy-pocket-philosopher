@@ -36,6 +36,11 @@ import json
 from peewee import *
 from models import Aphorism
 
+class AppError(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
 
 class FormTextInput(TextInput):
     pass
@@ -181,16 +186,19 @@ class FormSearch(MyBoxLayout):
 
     def search(self, text):
         results = []
-        if len(str(text)) > 0:
-            search = '%%{0}%%'.format(text)
-            for a in Aphorism.select().where(
-                Aphorism.aphorism ** search).order_by(Aphorism.author, Aphorism.source):
-                results.append([a.id, a.ToOneLine(30)])
-            app.current_search = text
-        self.results.item_strings = results
-        del self.results.adapter.data[:]
-        self.results.adapter.data.extend(results)
-        self.results._trigger_reset_populate()
+        try:
+            if len(str(text)) > 0:
+                search = '%%{0}%%'.format(text)
+                for a in Aphorism.select().where(
+                    Aphorism.aphorism ** search).order_by(Aphorism.author, Aphorism.source):
+                    results.append([a.id, a.ToOneLine(30)])
+                app.current_search = text
+            self.results.item_strings = results
+            del self.results.adapter.data[:]
+            self.results.adapter.data.extend(results)
+            self.results._trigger_reset_populate()
+        except:
+            app.notify('error', 'Could not query the database for matching aphorisms - is it empty?.')
 
     def args_converter(self, index, data_item):
         id, quote = data_item
@@ -212,8 +220,8 @@ class FormList(MyBoxLayout):
             del self.results.adapter.data[:]
             self.results.adapter.data.extend(results)
             self.results._trigger_reset_populate()
-        except Exception as e:
-            print e
+        except:
+            app.notify('error', 'Could not retrieve the aphorisms from the database.')
 
     def args_converter(self, index, data_item):
         id, quote = data_item
@@ -225,34 +233,15 @@ class WidgetAphorism(MyBoxLayout):
     aphorism = ObjectProperty()
 
     def set(self, A, tpl = None):
-        self.aphorism = A
-        app.current_aphorism = A
         if isinstance(A, Aphorism):
+            self.aphorism = A
+            app.current_aphorism = A
+            if int(app.config.get('display', 'bg_enabled')) == 1:
+                app.background_set(app.background_get_random())
             if tpl == None:
                 tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]"""
             formatted = tpl.format(aphorism =  A.aphorism, author = A.author)
             self.ids.quote.text = formatted
-            return (tpl, formatted)
-        else:
-            return A
-
-    def random_set(self):
-        if int(app.config.get('display', 'bg_enabled')) == 1:
-            self.background_set(app.background_get_random())
-        A = app.aphorism_get()
-        self.set(A)
-        return A
-
-    def background_set(self, path):
-        if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
-            app.root.ids.background.source = path
-            app.current_background = path
-        else:
-            app.root.ids.background.source = self.pixel
-        app.root.ids.background.rescale(app.root.width, app.root.height)
-
-    def background_random_set(self):
-        self.background_set(app.background_get_random())
 
     def screenshot(self):
         """
@@ -310,7 +299,6 @@ class MainApp(App):
         config.setdefaults('editor', {
             'default_source': '(Unknown)'
         })
-        self.setup_database()
 
     def build_settings(self, settings):
         with open('data/settings.json', 'r') as settings_json:
@@ -329,6 +317,7 @@ class MainApp(App):
         """
         Fired when the application is being started (before the runTouchApp() call.
         """
+        self.setup_database()
         self.backgrounds_refresh()
         self.aphorism_random()
         return True
@@ -362,20 +351,20 @@ class MainApp(App):
             for a in Aphorism.select().limit(1):
                 pass
         except Exception:
-            Aphorism.create_table()
+            pass
 
         if 'a' not in locals():
             try:
                 try:
                     Aphorism.create_table()
                 except:
-                    pass
+                    app.notify('error', 'Could not create the database table.  Please check the file permissions in the [b]data[/b] folder.')
 
                 with open('data/aphorisms.json') as json_file:
                     json_data = json.load(json_file)
                 Aphorism.insert_many(json_data).execute()
-            except Exception as e:
-                return e
+            except Exception:
+                app.notify('error', 'Could not load in the initial aphorism data - check that the [b]data/aphorisms.json[/b] file is readable and valid.')
 
     def notify(self, msg_type, msg, screen = None):
         if screen == None:
@@ -419,7 +408,7 @@ class MainApp(App):
             with open(os.path.join(path, filename), "w") as fp:
                 fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
             app.notify('success', 'Database backup successful!')
-        except Exception as e:
+        except:
             app.notify('warning', 'Could not backup the database!')
 
 
@@ -532,7 +521,7 @@ class MainApp(App):
                     return A
             id = int(id)
         except:
-            return False
+            pass
         else:
             if id:
                 try:
@@ -552,19 +541,27 @@ class MainApp(App):
         try:
             A = self.aphorism_get(id)
         except:
-            return False
+            app.notify('warning', 'Could show the aphorism!')
         else:
             self.new_aphorism_widget(A)
-            if int(app.config.get('display', 'bg_enabled')) == 1:
-                #app.root.ids.aphorism_container.background_random_set()
-                pass
         app.root.current = 'Main'
 
     def aphorism_random(self):
         app.root.ids.aphorism_container.clear_widgets()
+        A = app.aphorism_get()
         widget = Factory.WidgetAphorism()
-        A = widget.random_set()
+        widget.set(A)
         app.root.ids.aphorism_container.add_widget(widget)
+
+    def background_set(self, path = None):
+        if path == None:
+            path = app.background_get_random()
+        if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+            app.root.ids.background.source = path
+            app.current_background = path
+        else:
+            app.root.ids.background.source = self.pixel
+        app.root.ids.background.rescale(app.root.width, app.root.height)
 
     def aphorism_new(self):
         self.FormNew().open()
@@ -600,9 +597,8 @@ class MainApp(App):
                         source   = data['source'],
                         hashtags = data['tags'])
                     a.save()
-                except Exception as e:
+                except:
                     app.notify('warning', 'Could not add the aphorism!')
-                    raise(e)
                 else:
                     app.aphorism_show(a.id)
                     app.notify('success', 'Aphorism added successfully!')
@@ -616,13 +612,11 @@ class MainApp(App):
             try:
                 A = self.aphorism_get(id)
             except:
-                return False
+                app.notify('warning', 'Could get the aphorism!')
             else:
                 self.new_aphorism_widget(A)
                 widget = self.FormEdit()
                 widget.edit(A)
-                return widget
-            return A
 
     class FormEdit(Popup):
         aphorism_id = NumericProperty()
@@ -668,11 +662,11 @@ class MainApp(App):
                         source   = data['source'],
                         hashtags = data['tags'])
                     a.save()
-                except Exception as e:
+                except:
                     app.notify('warning', 'Could not edit the aphorism!')
                 else:
-                    app.aphorism_show(a.id)
                     app.notify('success', 'Edited the aphorism successfully!')
+                    app.root.ids.FormList.list()
                     self.dismiss()
             else:
                 self.ids.aphorism.focus = True
@@ -710,7 +704,7 @@ class MainApp(App):
                 try:
                     a = Aphorism.get(Aphorism.id == self.aphorism_id)
                     a.delete_instance()
-                except Exception as e:
+                except:
                     app.notify('error', 'Could not delete the aphorism!')
                 else:
                     app.selected_id = self.aphorism_id

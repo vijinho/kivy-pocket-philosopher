@@ -34,7 +34,9 @@
             source: 'docs/ABOUT.rst'
         MyButton:
             size_hint_y: 0.2
-            text: 'Ok'
+            height: '64dp'
+            font_size: '24sp'
+            text: 'OK'
             on_press: root.dismiss()
 
 <WidgetHelp@Popup>:
@@ -46,8 +48,9 @@
             source: 'docs/HELP.rst'
         MyButton:
             size_hint_y: 0.2
-            text: 'Ok'
             height: '64dp'
+            font_size: '24sp'
+            text: 'OK'
             on_press: root.dismiss()
 
 <WidgetCopy@Popup>:
@@ -68,5 +71,7 @@
             font_name: 'assets/fonts/ubuntu/UbuntuMono-R.ttf'
         MyButton:
             size_hint_y: 0.2
+            height: '64dp'
+            font_size: '24sp'
             text: 'Copy'
             on_press: root.dismiss()
