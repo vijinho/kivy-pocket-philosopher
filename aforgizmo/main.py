@@ -232,16 +232,28 @@ class WidgetAphorism(MyBoxLayout):
     pixel = 'assets/img/pixel.png'
     aphorism = ObjectProperty()
 
-    def set(self, A, tpl = None):
+    def set(self, A, style = None):
         if isinstance(A, Aphorism):
             self.aphorism = A
             app.current_aphorism = A
-            if int(app.config.get('display', 'bg_enabled')) == 1:
-                app.background_set(app.background_get_random())
-            if tpl == None:
-                tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]"""
+            self.style(style, A)
+
+    def style(self, style = None, A = None):
+        if int(app.config.get('display', 'bg_enabled')) == 1:
+            app.background_set(app.background_get_random())
+        if isinstance(A, Aphorism):
+            self.aphorism = A
+        else:
+            A = self.aphorism
+        if style == None:
+            tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]"""
             formatted = tpl.format(aphorism =  A.aphorism, author = A.author)
             self.ids.quote.text = formatted
+        elif style == 'full':
+            tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]\n\n{source}"""
+            formatted = tpl.format(aphorism =  A.aphorism, author = A.author, source = A.source)
+            self.ids.quote.text = formatted
+
 
     def screenshot(self):
         """
