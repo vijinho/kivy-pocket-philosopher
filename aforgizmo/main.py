@@ -144,13 +144,6 @@ class Notify(ButtonBehavior, BoxLayout):
         self.msg = msg
         self.icon = 'assets/img/icons/notify/' + msg_type + '.png'
 
-class MyListItemButton(ListItemButton):
-    selected_id = NumericProperty()
-    aphorism = ListProperty()
-    def pressed(self, id):
-        app.selected_id = id
-        self.selected_id = id
-
 class FormTextInput(TextInput):
     max_chars = 255
     valid_chars = ''
@@ -169,6 +162,16 @@ class FormTextInput(TextInput):
             max_chars = self.max_chars
         s = self.text
         self.text = (s[:max_chars]) if len(s) > max_chars else s
+
+
+class MyListItemButton(ListItemButton):
+    selected_id = NumericProperty()
+    aphorism = ListProperty()
+    def pressed(self, id):
+        app.selected_id = id
+        self.selected_id = id
+        if self.is_selected:
+            app.root.ids.FormList.ids.form_list_actions.clear_widgets()
 
 class FormSearch(MyBoxLayout):
     results = ObjectProperty()
