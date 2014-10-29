@@ -19,11 +19,11 @@
                 id: submit
                 size_hint_x: 0.7
                 text: 'Delete Aphorism'
-                on_press: root.delete_action()
+                on_release: root.delete_action()
             MyButton:
                 size_hint_x: 0.3
                 text: 'Cancel'
-                on_press: root.dismiss()
+                on_release: root.dismiss()
 
 <WidgetDeleteLabel@Label>:
     size_hint_y: None

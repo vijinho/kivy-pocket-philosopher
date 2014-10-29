@@ -106,13 +106,11 @@ class MyButton(Button):
     and also the background image
     """
     background_image = ObjectProperty(Image(source='assets/img/pixel.png'))
-    background_color_normal = ListProperty([0.3, 0.3, 0.3, 0.3])
-    background_color_down = ListProperty([0.8, 0.8, 0.8, 0.3])
+    background_color_normal = ListProperty([0.5, 0.5, 0.5, 0.5])
+    background_color_down = ListProperty([0.9, 0.9, 0.9, 0.9])
 
     def __init__(self, **kwargs):
         super(MyButton, self).__init__(**kwargs)
-        self.background_normal = ""
-        self.background_down = ""
         self.background_color = self.background_color_normal
 
     def on_press(self):

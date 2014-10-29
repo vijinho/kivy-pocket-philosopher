@@ -4,15 +4,15 @@
     MyButton:
         height: '64dp'
         text: 'View'
-        on_press: app.aphorism_show(app.selected_id)
+        on_release: app.aphorism_show(app.selected_id)
     MyButton:
         height: '64dp'
         text: 'Edit'
-        on_press: app.aphorism_edit()
+        on_release: app.aphorism_edit()
     MyButton:
         height: '64dp'
         text: 'Delete'
-        on_press: app.aphorism_delete()
+        on_release: app.aphorism_delete()
 
 <FormList>:
     orientation: "vertical"
