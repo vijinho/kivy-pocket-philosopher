@@ -323,7 +323,11 @@ class MainApp(App):
             if token == ('display', 'bg_folder'):
                 self.backgrounds_refresh()
             elif token == ('display', 'bg_enabled'):
-                self.backgrounds_refresh()
+                if value == 1:
+                    self.backgrounds_refresh()
+                    app.background_set()
+                else:
+                    app.background_set(self.pixel)
 
     def on_start(self):
         """
@@ -494,6 +498,16 @@ class MainApp(App):
 
         return self.backgrounds
 
+    def background_set(self, path = None):
+        if path == None:
+            path = app.background_get_random()
+        if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+            app.root.ids.background.source = path
+            app.current_background = path
+        else:
+            app.root.ids.background.source = self.pixel
+        app.root.ids.background.rescale(app.root.width, app.root.height)
+
     def background_get_random(self):
         """
         Get a random bg image path string
@@ -564,16 +578,6 @@ class MainApp(App):
         widget = Factory.WidgetAphorism()
         widget.set(A)
         app.root.ids.aphorism_container.add_widget(widget)
-
-    def background_set(self, path = None):
-        if path == None:
-            path = app.background_get_random()
-        if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
-            app.root.ids.background.source = path
-            app.current_background = path
-        else:
-            app.root.ids.background.source = self.pixel
-        app.root.ids.background.rescale(app.root.width, app.root.height)
 
     def aphorism_new(self):
         self.FormNew().open()
