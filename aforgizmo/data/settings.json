@@ -35,5 +35,12 @@
         "desc": "What text should appear for the source of the aphorism when not entered?",
         "section": "editor",
         "key": "default_source"
+    },
+    {
+        "type": "string",
+        "title": "Default Tags",
+        "desc": "What tags should appear by default in the editor?",
+        "section": "editor",
+        "key": "default_tags"
     }
 ]

@@ -309,6 +309,9 @@ class MainApp(App):
         config.setdefaults('editor', {
             'default_source': '(Unknown)'
         })
+        config.setdefaults('editor', {
+            'default_tags': ''
+        })
 
     def build_settings(self, settings):
         with open('data/settings.json', 'r') as settings_json:
@@ -601,6 +604,12 @@ class MainApp(App):
                 if len(data['source']) == 0:
                     data['source'] = 'Unknown'
                 self.ids.source.text = data['source']
+
+            if len(data['tags']) == 0:
+                data['tags'] = app.config.get('editor', 'default_tags')
+                if len(data['tags']) == 0:
+                    data['tags'] = ''
+                self.ids.source.text = data['tags']
 
             # add aphorism is required fields valid
             if len(data['aphorism']) > 0:
