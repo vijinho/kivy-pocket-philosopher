@@ -475,14 +475,13 @@ class MainApp(App):
 
     class FormImportUrl(Popup):
         def import_url(self, url):
-            url = url.strip("\n\t\s ")
+            url = url.strip("\r\n\t\s ")
             if len(url) > 0:
                 try:
-                    filename = os.path.realpath(app.data_folder.strip("\n\t\s "))
-                    filename += "/url_import-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
-                    UrlRequest(url, file_path=filename)
-                    filename = os.path.realpath(filename)
-                    with open(filename) as json_file:
+                    filename = "aphorisms_url-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
+                    path = os.path.join(os.path.realpath(app.data_folder.strip("\r\n\t\s ")), filename)
+                    UrlRequest(url, file_path = path)
+                    with open(path) as json_file:
                         json_data = json.load(json_file)
                     Aphorism.insert_many(json_data).execute()
                 except Exception as e:
