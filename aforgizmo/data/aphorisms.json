@@ -1,5 +1,110 @@
 [
     {
+        "aphorism": "I soak up the sunshine and radiate its warmth.",
+        "author": "Darren Harris",
+        "created": "2014-10-30 22:15:59.019969",
+        "source": "Twitter",
+        "tags": "sunshine warmth"
+    },
+    {
+        "aphorism": "You are the world you have created. And when you cease to exist, that world you have created will also cease to exist.",
+        "author": "El Jefe",
+        "created": "2014-10-30 21:58:11.924954",
+        "source": "The Counselor",
+        "tags": "existence life vijay facebook 2014-02 2014-02-23"
+    },
+    {
+        "aphorism": "Look neither ahead, nor behind, look into yourself, with neither fear nor regret. No one descends into himself so long as he remains a slave of the past or the future.",
+        "author": "Emil Cioran",
+        "created": "2014-10-30 22:20:43.707977",
+        "source": "Twitter",
+        "tags": "past future present regret cioran"
+    },
+    {
+        "aphorism": "An ounce of hope is worth a ton of despair.",
+        "author": "George Monbiot",
+        "created": "2014-10-30 21:45:18.153779",
+        "source": "Twitter",
+        "tags": "hope despair"
+    },
+    {
+        "aphorism": "Sometime's something's got to happen before something is going to happen.",
+        "author": "Johan Cruyff",
+        "created": "2014-10-30 22:11:49.185407",
+        "source": "Twitter",
+        "tags": "sometimes something"
+    },
+    {
+        "aphorism": "Before I make a mistake, I don't make a mistake.",
+        "author": "Johan Cruyff",
+        "created": "2014-10-30 22:12:08.793363",
+        "source": "Twitter",
+        "tags": "mistakes mistake"
+    },
+    {
+        "aphorism": "When I get new information, I alter my position. What, sir, do you do with new information?",
+        "author": "John Maynard Keynes",
+        "created": "2014-10-30 21:42:31.820616",
+        "source": "Twitter",
+        "tags": "kaynes philosophy information"
+    },
+    {
+        "aphorism": "Even a monkey can fall from a tree.",
+        "author": "Korean Proverb",
+        "created": "2014-10-30 22:15:31.841134",
+        "source": "Twitter",
+        "tags": "monkey tree proverb"
+    },
+    {
+        "aphorism": "If you do not change direction, you may end up where you are heading.",
+        "author": "Lao Tzu",
+        "created": "2014-10-30 21:51:50.882948",
+        "source": "Twitter",
+        "tags": "change direction"
+    },
+    {
+        "aphorism": "If your happiness depends on what somebody else does, I guess you do have a problem.",
+        "author": "Richard Bach",
+        "created": "2014-10-30 21:51:32.017214",
+        "source": "Twitter",
+        "tags": "happiness problem"
+    },
+    {
+        "aphorism": "A man should teach his own wife to make cabbage soup over there.",
+        "author": "Russian Proverb",
+        "created": "2014-10-30 21:33:53.928036",
+        "source": "Twitter",
+        "tags": "proverb russian wife man"
+    },
+    {
+        "aphorism": "The new definition respect seems to be 'If you don't agree with me then you are being disrespectful.",
+        "author": "Salman Rushdie",
+        "created": "2014-10-30 21:37:11.462814",
+        "source": "Twitter",
+        "tags": "respect disrespect "
+    },
+    {
+        "aphorism": "After a time, you may find that having, is not so pleasing a thing after all, as wanting. It is not logical, but it is often true.",
+        "author": "Spock",
+        "created": "2014-10-30 21:49:31.422813",
+        "source": "Amok Time",
+        "tags": "startrek logic wanting having"
+    },
+    {
+        "aphorism": "Those who dream by night in the dusty recesses of their minds wake in the day to find it was vanity: but the dreamers of the day are dangerous, for they may act on their dreams with open eyes, to make it possible.",
+        "author": "T E Lawrence",
+        "created": "2014-10-30 22:17:29.445256",
+        "source": "Twitter",
+        "tags": "minds vanity dreaming dreamers danerous possibility"
+    },
+    {
+        "aphorism": "\"The older I get the more I seem to regard 'friends' to be people who'd visit me in hospital.\"",
+        "author": "Unknown",
+        "created": "2014-10-30 22:03:31.197540",
+        "source": "Twitter",
+        "tags": "friends hospital health friendship"
+    },
+    {
         "aphorism": "\"I don't want to hear about your problems, I'm only here for the good times!\"",
         "author": "A friend who tired of being someone's soundboard",
         "created": "2014-10-30 19:42:06.621656",
@@ -212,5 +317,19 @@
         "created": "2014-10-30 20:46:12.004744",
         "source": "Twitter",
         "tags": "power rule criticism voltaire"
+    },
+    {
+        "aphorism": "If today was your last day and looking back there's anything you wish you'd have done less of... now's the time to change!",
+        "author": "Vijay Mahrra\t",
+        "created": "2014-10-30 21:37:47.577121",
+        "source": "Facebook",
+        "tags": "change today life 2013-05 2013-05-14"
+    },
+    {
+        "aphorism": "Not choice but habit rules the unreflecting herd.",
+        "author": "William Wordsworth",
+        "created": "2014-10-30 22:17:52.350762",
+        "source": "Twitter",
+        "tags": "choice habit"
     }
 ]
