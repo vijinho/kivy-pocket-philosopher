@@ -481,9 +481,14 @@ class MainApp(App):
                     filename = "aphorisms_url-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
                     path = os.path.join(os.path.realpath(app.data_folder.strip("\r\n\t\s ")), filename)
                     UrlRequest(url, file_path = path)
-                    with open(path) as json_file:
-                        json_data = json.load(json_file)
-                    Aphorism.insert_many(json_data).execute()
+                    if os.path.isfile(path):
+                        with open(path) as json_file:
+                            json_data = json.load(json_file)
+                        Aphorism.insert_many(json_data).execute()
+                    else:
+                        msg = 'Bug: Try the Import button on the data folder for the file: ' + filename
+                        app.notify('warning', msg)
+                        raise AppError(msg)
                 except Exception as e:
                     app.notify('error', 'Import from URL failed!')
                     app.root.backup_results.text += "Failed import of the URL:\n" + url + "\nError: (" + str(e) + ")\n\n"
