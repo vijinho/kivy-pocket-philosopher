@@ -18,7 +18,7 @@ from kivy.core.text import LabelBase
 from kivy.core.clipboard import Clipboard
 from kivy.network.urlrequest import UrlRequest
 from kivy.properties import ObjectProperty, ListProperty, NumericProperty, StringProperty
-from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.screenmanager import ScreenManager, NoTransition
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.behaviors import ButtonBehavior
@@ -266,6 +266,7 @@ class WidgetAphorism(MyBoxLayout):
 class Main(MyScreenManager):
     backup_results = ObjectProperty()
     def __init__(self, **kwargs):
+        self.transition = NoTransition()
         super(Main, self).__init__()
 
 class MainApp(App):
