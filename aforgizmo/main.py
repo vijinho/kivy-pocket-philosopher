@@ -190,7 +190,10 @@ class FormSearch(MyBoxLayout):
 #                search = '%%{0}%%'.format(text)
                 search = '{0}'.format(text)
                 for a in Aphorism.select().where(
-                        Aphorism.aphorism.contains(search)).order_by(Aphorism.author, Aphorism.source):
+                        Aphorism.aphorism.contains(search) |
+                        Aphorism.author.contains(search) |
+                        Aphorism.source.contains(search) |
+                        Aphorism.tags.contains(search)).order_by(Aphorism.author, Aphorism.source):
                     results.append([a.id, a.ToOneLine(40)])
                 app.current_search = text
             self.results.item_strings = results
