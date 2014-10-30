@@ -187,14 +187,12 @@ class FormSearch(MyBoxLayout):
         results = []
         try:
             if len(str(text)) > 0:
-#                search = '%%{0}%%'.format(text)
-                search = '{0}'.format(text)
                 for a in Aphorism.select().where(
-                        Aphorism.aphorism.contains(search) |
-                        Aphorism.author.contains(search) |
-                        Aphorism.source.contains(search) |
-                        Aphorism.tags.contains(search)).order_by(Aphorism.author, Aphorism.source):
-                    results.append([a.id, a.ToOneLine(50)])
+                        Aphorism.aphorism.contains(text) |
+                        Aphorism.author.contains(text) |
+                        Aphorism.source.contains(text) |
+                        Aphorism.tags.contains(text)).order_by(Aphorism.author, Aphorism.source):
+                    results.append([a.id, a.ToOneLine(40)])
                 app.current_search = text
             self.results.item_strings = results
             del self.results.adapter.data[:]
@@ -219,7 +217,7 @@ class FormList(MyBoxLayout):
         results = []
         try:
             for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
-                results.append([a.id, a.ToOneLine(50)])
+                results.append([a.id, a.ToOneLine(40)])
             self.results.item_strings = results
             del self.results.adapter.data[:]
             self.results.adapter.data.extend(results)

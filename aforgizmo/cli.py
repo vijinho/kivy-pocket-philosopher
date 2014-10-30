@@ -223,16 +223,18 @@ def list(config):
         click.secho("(%s)\n" % a.source,   fg = 'yellow')
 
 @cli.command()
-@click.option('-t', '--tag',
-              prompt   = 'Search Tag',
-              help     = 'The text to search tags for.',
+@click.option('-t', '--text',
+              prompt   = 'Search Text',
+              help     = 'The text to search for.',
               required = True)
 @pass_config
-def search(config, tag):
+def search(config, text):
     """Search for an aphorism by tag."""
-    tag = '%%{0}%%'.format(tag)
     for a in Aphorism.select().where(
-            Aphorism.tags ** tag).order_by(Aphorism.author, Aphorism.source):
+            Aphorism.aphorism.contains(text) |
+            Aphorism.author.contains(text) |
+            Aphorism.source.contains(text) |
+            Aphorism.tags.contains(text)).order_by(Aphorism.author, Aphorism.source):
         click.secho('id:%d'  % a.id,       fg = 'white')
         click.secho('"%s"'   % a.aphorism, fg = 'white', bold = True)
         click.secho(' -- %s' % a.author,   fg = 'green')
