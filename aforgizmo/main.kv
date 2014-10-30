@@ -71,6 +71,11 @@
                 on_release: app.form_import()
             MyButton:
                 size_hint_y: 0.2
+                text: 'Import (URL)'
+                font_size: '42sp'
+                on_release: app.form_import_url()
+            MyButton:
+                size_hint_y: 0.2
                 text: 'Wipe Data'
                 font_size: '42sp'
                 on_release: app.form_wipe()
@@ -80,7 +85,7 @@
                 font_name: 'assets/fonts/ubuntu/UbuntuMono-R.ttf'
                 id: backup_results
                 readonly: True
-                allow_copy: False
+                allow_copy: True
                 use_bubble: False
         FloatLayout:
             MyStackLayout:

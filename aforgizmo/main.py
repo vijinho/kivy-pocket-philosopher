@@ -16,6 +16,7 @@ from kivy.config import Config
 from kivy.factory import Factory
 from kivy.core.text import LabelBase
 from kivy.core.clipboard import Clipboard
+from kivy.network.urlrequest import UrlRequest
 from kivy.properties import ObjectProperty, ListProperty, NumericProperty, StringProperty
 from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.boxlayout import BoxLayout
@@ -467,6 +468,32 @@ class MainApp(App):
                     app.notify('success', 'Import Successful!')
                     app.root.backup_results.text += "Successfully imported the backup file:\n" + filename + "\n\n"
 
+                self.dismiss()
+
+    def form_import_url(self):
+        self.FormImportUrl().open()
+
+    class FormImportUrl(Popup):
+        def import_url(self, url):
+            url = url.strip("\n\t\s ")
+            if len(url) > 0:
+                try:
+                    filename = os.path.realpath(app.data_folder.strip("\n\t\s "))
+                    filename += "/url_import-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
+                    UrlRequest(url, file_path=filename)
+                    filename = os.path.realpath(filename)
+                    with open(filename) as json_file:
+                        json_data = json.load(json_file)
+                    Aphorism.insert_many(json_data).execute()
+                except Exception as e:
+                    app.notify('error', 'Import from URL failed!')
+                    app.root.backup_results.text += "Failed import of the URL:\n" + url + "\nError: (" + str(e) + ")\n\n"
+                else:
+                    app.notify('success', 'Import from URL successful!')
+                    app.root.backup_results.text += "Successfully imported the URL:\n" + url + "\n\n"
+                self.dismiss()
+            else:
+                app.notify('warning', 'No URL was entered!')
                 self.dismiss()
 
     def about(self):
