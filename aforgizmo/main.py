@@ -187,17 +187,19 @@ class FormSearch(MyBoxLayout):
         results = []
         try:
             if len(str(text)) > 0:
-                search = '%%{0}%%'.format(text)
+#                search = '%%{0}%%'.format(text)
+                search = '{0}'.format(text)
                 for a in Aphorism.select().where(
-                    Aphorism.aphorism ** search).order_by(Aphorism.author, Aphorism.source):
-                    results.append([a.id, a.ToOneLine(30)])
+                        Aphorism.aphorism.contains(search)).order_by(Aphorism.author, Aphorism.source):
+                    results.append([a.id, a.ToOneLine(40)])
                 app.current_search = text
             self.results.item_strings = results
             del self.results.adapter.data[:]
             self.results.adapter.data.extend(results)
             self.results._trigger_reset_populate()
-        except:
-            app.notify('error', 'Could not query the database for matching aphorisms - is it empty?.')
+        except Exception as e:
+            app.notify('warning', 'Could not query the database for matching aphorisms.')
+            app.notify('error', str(e))
 
     def args_converter(self, index, data_item):
         id, quote = data_item
