@@ -16,7 +16,7 @@
                 markup: True
                 canvas.before:
                     Color:
-                        rgba: get_random_color(0.3)
+                        rgba: get_random_color(0.4)
                     Rectangle:
                         pos: self.pos
                         size: self.size
@@ -30,6 +30,8 @@
                 source_up: 'assets/img/icons/copy_up.png'
                 source_down: 'assets/img/icons/copy_down.png'
                 on_release: app.aphorism_copy()
+                opacity: 0.2
+
     MyButton:
         id: aphorism_btn
         size_hint_y: None
