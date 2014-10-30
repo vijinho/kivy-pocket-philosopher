@@ -12,6 +12,7 @@ Teachers
 I was inspired and used also code based on the hard work and effort by:
 -  http://robertour.com/category/kivy
 -  http://cheparev.com/
+-  http://inclem.net/pages/kivy-crash-course/
 
 SOFTWARE PROJECTS
 =================
