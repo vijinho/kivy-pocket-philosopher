@@ -348,6 +348,7 @@ class MainApp(App):
         """
         Fired when the application stops.
         """
+        self.backgrounds_cleanup()
         return True
 
     def on_pause(self):
@@ -357,6 +358,7 @@ class MainApp(App):
         Both on_pause and on_stop must save important data because after
         on_pause is called, on_resume may not be called at all.
         """
+        self.backgrounds_refresh()
         return True
 
     def on_resume(self):
@@ -615,6 +617,21 @@ class MainApp(App):
                          path = os.path.join(root, file)
                          if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
                              self.backgrounds.append(path)
+        except:
+            pass
+
+        return self.backgrounds
+
+    def backgrounds_cleanup(self):
+        try:
+            for root, dirs, files in os.walk(self.config.get('display', 'bg_folder')):
+                for file in files:
+                    if file.endswith('.jpg') or file.endswith('.png') or file.endswith('.jpeg') or file.endswith('.tiff'):
+                         path = os.path.join(root, file)
+                         if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+                            pass
+                         else:
+                            os.remove(path)
         except:
             pass
 
