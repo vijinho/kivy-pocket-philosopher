@@ -1,11 +1,18 @@
 Pocket Philosopher
 ==================
 
-| An App which saves, retrieves, edits and displays aphorisms.
-| This app is written in Python using the Kivy library for
-cross-platform support (Android, IOS, Windows, Linux, Mac OSX). See
-http://kivy.org/docs/guide/packaging.html for instructions on packaging
-the application for the different platforms.
+This app which saves, retrieves, edits and displays random aphorisms on
+random backgrounds.
+
+Features
+--------
+-  Copy aphorisms to the clipboard for sharing in other applications
+-  Easily search aphorisms
+-  Specify any local folder on your device for image display
+-  Backup/Restore the database locally
+-  Import data from a remote URL (example included)
+-  Download background images from a remote URL (example included)
+-  User flash message notifications with timed-removal
 
 What is an Aphorism?
 --------------------
@@ -81,5 +88,10 @@ See Also
 
 -  https://travis-ci.org/vijinho/aforgizmo - Travis Build Test
 -  https://github.com/jcalazan/random-quotes - A similar Kivy App
+
+This app is written in Python using the Kivy library for
+cross-platform support (Android, IOS, Windows, Linux, Mac OSX). See
+http://kivy.org/docs/guide/packaging.html for instructions on packaging
+the application for the different platforms.
 
 (c) Copyright 2014 Vijay Mahrra http://about.me/vijay.mahrra
