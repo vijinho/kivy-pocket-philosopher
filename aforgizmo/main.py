@@ -28,6 +28,7 @@ from kivy.uix.button import Button
 from kivy.uix.listview import ListItemButton, ListView
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
+from kivy.clock import Clock
 import os
 import imghdr
 import random
@@ -147,6 +148,7 @@ class Notify(ButtonBehavior, BoxLayout):
         self.msg_type = msg_type
         self.msg = msg
         self.icon = 'assets/img/icons/notify/' + msg_type + '.png'
+
 
 class FormTextInput(TextInput):
     max_chars = 255
@@ -281,6 +283,7 @@ class MainApp(App):
     selected_id = NumericProperty()
     folder = StringProperty()
     data_folder = StringProperty()
+    notifications_queue = []
 
     def on_selected_id(self, *args):
         id = int(self.selected_id)
@@ -396,7 +399,26 @@ class MainApp(App):
         id = 'notifications_' + str(screen)
         w = Factory.Notify()
         w.message(msg_type, msg)
+        wid = 'n' + str(random.randint(1000, 20000))
+        w.id = wid
         exec 'app.root.ids.'+id+'.add_widget(w)'
+        exec 'i = app.root.ids.'+id
+        exec 'kids = app.root.ids.'+id+'.children'
+        for k in kids:
+            if k.id == wid:
+                self.notifications_queue.append(id + '.' + k.id)
+                Clock.schedule_once(self.remove_notification, 8)
+
+    def remove_notification(self, dt):
+        if len(self.notifications_queue) > 0:
+            x = self.notifications_queue.pop()
+            x = x.split('.')
+            id, wid = x
+            exec 'i = app.root.ids.'+id
+            exec 'kids = app.root.ids.'+id+'.children'
+            for k in kids:
+                if k.id == wid:
+                    i.remove_widget(k)
 
     def form_wipe(self):
         widget = self.FormWipe()
