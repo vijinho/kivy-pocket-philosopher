@@ -63,27 +63,32 @@
         MyBoxLayout:
             ActionBarMain:
             MyButton:
-                size_hint_y: 0.15
+                size_hint_y: 0.1
                 text: 'Backup Database'
-                font_size: '35sp'
+                font_size: '30sp'
                 on_release: app.form_backup()
             MyButton:
-                size_hint_y: 0.15
+                size_hint_y: 0.1
                 text: 'Import (File)'
-                font_size: '35sp'
+                font_size: '30sp'
                 on_release: app.form_import()
             MyButton:
-                size_hint_y: 0.15
+                size_hint_y: 0.1
                 text: 'Import (URL)'
-                font_size: '35sp'
+                font_size: '30sp'
                 on_release: app.form_import_url()
             MyButton:
-                size_hint_y: 0.15
+                size_hint_y: 0.1
+                text: 'Download Backgrounds'
+                font_size: '30sp'
+                on_release: app.form_download_backgrounds()
+            MyButton:
+                size_hint_y: 0.1
                 text: 'Wipe Database'
                 font_size: '35sp'
                 on_release: app.form_wipe()
             FormTextArea:
-                size_hint_y: 0.4
+                size_hint_y: 0.5
                 font_size: '14sp'
                 font_name: 'assets/fonts/ubuntu/UbuntuMono-R.ttf'
                 id: backup_results

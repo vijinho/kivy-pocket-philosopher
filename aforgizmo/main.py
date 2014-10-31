@@ -478,8 +478,11 @@ class MainApp(App):
         self.FormImportUrl().open()
 
     class FormImportUrl(Popup):
+        url = StringProperty()
+
         def import_url(self, url):
             url = url.strip("\r\n\t\s ")
+            self.url = url
             if len(url) > 0:
                 try:
                     filename = "aphorisms_url-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
@@ -499,6 +502,80 @@ class MainApp(App):
                 else:
                     app.notify('success', 'Import from URL successful!')
                     app.root.backup_results.text += "Successfully imported the URL:\n" + url + "\n\n"
+                self.dismiss()
+            else:
+                app.notify('warning', 'No URL was entered!')
+                self.dismiss()
+
+    def form_download_backgrounds(self):
+        self.FormBackgroundUrl().open()
+
+    class FormBackgroundUrl(Popup):
+        url = StringProperty()
+
+        def download_ok(self, req, results):
+            base_url, file = os.path.split(req.url)
+            app.notify('success', 'Downloaded background image [b]{0}[/b] successfully.'.format(file))
+            app.root.backup_results.text += 'Downloaded background image {0} successfully.'.format(file)
+            app.backgrounds_refresh()
+
+        def download(self, r, data):
+            error_text = 'No valid images were found to download.'
+            if len(data) > 0:
+                urls = []
+                base_url, file = os.path.split(self.url)
+
+                for line in data.splitlines():
+                    line = line.strip("\r\n\t\s ")
+                    if line.endswith('jpg') or line.endswith('jpeg'):
+                        if len(line) > 0:
+                            if line[:4] == 'http':
+                                url = line
+                            else:
+                                url = base_url + '/' + line
+                        urls.append(url)
+
+                downloads = 0
+                if len(urls) > 0:
+                    for url in urls:
+                        base_url, filename = os.path.split(url)
+                        path = os.path.join(os.path.realpath('assets'), 'img', 'bg', filename)
+                        if os.path.isfile(path):
+                            pass
+                        else:
+                            try:
+                                UrlRequest(url, file_path = path, on_success = self.download_ok)
+                            except Exception as e:
+                                try:
+                                    os.remove(path)
+                                except:
+                                    pass
+                                print e
+                            else:
+                                downloads = downloads + 1
+
+                    if downloads > 0:
+                        app.notify('warning', 'Now downloading {0} background images... Please go make a cup of tea and be patient!'.format(downloads))
+                        app.notify('success', 'You will be notified after each successful download.'.format(downloads))
+                        app.backgrounds_refresh()
+                    else:
+                        raise AppError(error_text)
+                else:
+                    raise AppError(error_text)
+            else:
+                raise AppError(error_text)
+
+        def import_backgrounds(self, url):
+            url = url.strip("\r\n\t\s ")
+            self.url = url
+            if len(url) > 0:
+                try:
+                    UrlRequest(url, on_success = self.download)
+                except Exception as e:
+                    app.notify('error', 'Import background images from URL failed!')
+                    app.root.backup_results.text += "Failed import of the URL:\n" + url + "\nError: (" + str(e) + ")\n\n"
+                else:
+                    app.root.backup_results.text += "Importing the images from URL:\n" + url + "\n\n"
                 self.dismiss()
             else:
                 app.notify('warning', 'No URL was entered!')

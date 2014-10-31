@@ -1,11 +1,11 @@
-<FormImportUrl@Popup>:
+<FormBackgroundUrl@Popup>:
     size_hint: 0.85, 0.85
     auto_dismiss: True
-    title: 'Import Images'
+    title: 'Download Backgrounds'
     MyBoxLayout:
         MyLabel:
             size_hint_y: 0.1
-            text: "This will import a database from a Web URL."
+            text: "This will download background images from a URL. The file has a URL on each line or just the filename if the image is in the same folder."
         FormLabel:
             text: 'URL:'
         FormTextArea:
@@ -14,15 +14,15 @@
             max_chars: 1024
             size_hint_y: 0.2
             size: (self.parent.width, '72dp')
-            text: 'http://www.urunu.com/data/aphorisms.json'
+            text: 'http://www.urunu.com/data/bg/backgrounds.txt'
         MyBoxLayout:
             size_hint_y: 0.1
             cols: 2
             rows: 1
             orientation: "horizontal"
             MyButton:
-                text: '[b]Import Data[/b]'
-                on_release: root.import_url(root.ids.url.text)
+                text: '[b]Download[/b]'
+                on_release: root.import_backgrounds(root.ids.url.text)
             MyButton:
                 text: 'Cancel'
                 on_release: root.dismiss()
