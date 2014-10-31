@@ -559,11 +559,11 @@ class MainApp(App):
                         app.notify('success', 'You will be notified after each successful download.'.format(downloads))
                         app.backgrounds_refresh()
                     else:
-                        raise AppError(error_text)
+                        app.notify('warning', error_text)
                 else:
-                    raise AppError(error_text)
+                    app.notify('warning', error_text)
             else:
-                raise AppError(error_text)
+                app.notify('warning', error_text)
 
         def import_backgrounds(self, url):
             url = url.strip("\r\n\t\s ")
