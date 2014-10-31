@@ -480,6 +480,23 @@ class MainApp(App):
     class FormImportUrl(Popup):
         url = StringProperty()
 
+        def download(self, r, data):
+            if len(data) > 0:
+                try:
+                    Aphorism.insert_many(data).execute()
+                except:
+                    app.notify('error', 'Import data from URL successful!')
+                    app.notify('error', msg)
+                    app.root.backup_results.text += msg + "\n\n"
+                else:
+                    msg = 'Import data from URL successful!'
+                    app.notify('success', msg)
+                    app.root.backup_results.text += msg + "\n\n"
+            else:
+                msg = 'Could not download the data.'
+                app.notify('warning', msg)
+                app.root.backup_results.text += msg + "\n\n"
+
         def import_url(self, url):
             url = url.strip("\r\n\t\s ")
             self.url = url
@@ -487,21 +504,13 @@ class MainApp(App):
                 try:
                     filename = "aphorisms_url-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
                     path = os.path.join(os.path.realpath(app.data_folder.strip("\r\n\t\s ")), filename)
-                    UrlRequest(url, file_path = path)
-                    if os.path.isfile(path):
-                        with open(path) as json_file:
-                            json_data = json.load(json_file)
-                        Aphorism.insert_many(json_data).execute()
-                    else:
-                        msg = 'Bug: Try the Import button on the data folder for the file: ' + filename
-                        app.notify('warning', msg)
-                        raise AppError(msg)
+                    UrlRequest(url, on_success = self.download)
                 except Exception as e:
                     app.notify('error', 'Import from URL failed!')
                     app.root.backup_results.text += "Failed import of the URL:\n" + url + "\nError: (" + str(e) + ")\n\n"
                 else:
-                    app.notify('success', 'Import from URL successful!')
-                    app.root.backup_results.text += "Successfully imported the URL:\n" + url + "\n\n"
+                    app.notify('warning', 'Importing the data...')
+                    app.root.backup_results.text += "Importing the data from the URL:\n" + url + "\n\n"
                 self.dismiss()
             else:
                 app.notify('warning', 'No URL was entered!')
