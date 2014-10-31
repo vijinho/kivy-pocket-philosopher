@@ -536,7 +536,7 @@ class MainApp(App):
 
                 for line in data.splitlines():
                     line = line.strip("\r\n\t\s ")
-                    if line.endswith('jpg') or line.endswith('jpeg'):
+                    if line.endswith('.jpg') or line.endswith('.jpeg') or line.endswith('.tiff') or line.endswith('.png'):
                         if len(line) > 0:
                             if line[:4] == 'http':
                                 url = line
@@ -548,7 +548,7 @@ class MainApp(App):
                 if len(urls) > 0:
                     for url in urls:
                         base_url, filename = os.path.split(url)
-                        path = os.path.join(os.path.realpath('assets'), 'img', 'bg', filename)
+                        path = os.path.join(os.path.realpath(app.config.get('display', 'bg_folder')), filename)
                         if os.path.isfile(path):
                             pass
                         else:
@@ -611,7 +611,7 @@ class MainApp(App):
         try:
             for root, dirs, files in os.walk(self.config.get('display', 'bg_folder')):
                 for file in files:
-                    if file.endswith('.jpg'):
+                    if file.endswith('.jpg') or file.endswith('.png') or file.endswith('.jpeg') or file.endswith('.tiff'):
                          path = os.path.join(root, file)
                          if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
                              self.backgrounds.append(path)
