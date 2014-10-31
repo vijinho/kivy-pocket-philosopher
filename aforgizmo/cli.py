@@ -45,8 +45,8 @@ def cli(config, verbose, logfile):
               help     = 'The text of the aphorism itself.',
               required = True)
 @click.option('-t', '--tags',
-              prompt   = 'Hashtags',
-              help     = 'Hashtags for the aphorism, space or comma separated, '
+              prompt   = 'Tags',
+              help     = 'Tags for the aphorism, space or comma separated, '
                    '# symbol optional',
               default  = 'none',
               required = False)

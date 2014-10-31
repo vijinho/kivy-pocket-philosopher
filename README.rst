@@ -6,6 +6,7 @@ random backgrounds.
 
 Features
 --------
+-  Command-line interface utility to manipulate, import/export and display the data
 -  Copy aphorisms to the clipboard for sharing in other applications
 -  Easily search aphorisms
 -  Specify any local folder on your device for image display
