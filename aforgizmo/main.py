@@ -411,7 +411,7 @@ class MainApp(App):
 
     def remove_notification(self, dt):
         if len(self.notifications_queue) > 0:
-            x = self.notifications_queue.pop()
+            x = self.notifications_queue.pop(0)
             x = x.split('.')
             id, wid = x
             exec 'i = app.root.ids.'+id
