@@ -13,18 +13,16 @@ package.domain = com.urunu
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-#source.include_exts = py,png,jpg,jpeg,kv,atlas,ttf,ini,json
-source.include_exts =
+source.include_exts = ini,jpg,json,kv,png,py,rst,sh,ttf,txt
 
 # (list) Source files to exclude (let empty to not exclude anything)
-source.exclude_exts = spec,tests,.bak,.afdesign
+source.exclude_exts = DS_Store,afdesign,spec,sh
 
 # (list) List of directory to exclude (let empty to not exclude anything)
 source.exclude_dirs = tests,bin,aforgizmo.egg-info,.buildozer,.git,.idea
 
 # (list) List of exclusions using pattern matching
-#source.exclude_patterns = *.pyc,test*,.DS_Store,assets/img/bg/IMG*.jpg,assets/fonts/*/*.txt,cli.py,main.ini,*.db,*.sh
-source.exclude_patterns = *.pyc,test*,.DS_Store
+source.exclude_patterns = test*,.DS_Store,cli.py,*.sh,assets/img/bg/IMG*.jpg,assets/fonts/*/*.txt
 
 # (str) Application versioning (method 1)
 version.regex = __version__ = ['"](.*)['"]
@@ -40,11 +38,9 @@ requirements = kivy==master,peewee,sqlite3
 #garden_requirements =
 
 # (str) Presplash of the application
-#presplash.filename = %(source.dir)s/data/presplash.png
 presplash.filename = %(source.dir)s/assets/img/presplash.png
 
 # (str) Icon of the application
-#icon.filename = %(source.dir)s/data/icon.png
 icon.filename = %(source.dir)s/assets/img/icon.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
