@@ -1,4 +1,3 @@
 title=Pocket Philosopher
 author=Vijay Mahrra
 orientation=portrait
-
