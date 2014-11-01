@@ -13,6 +13,7 @@ __author__ = 'vijay.mahrra@gmail.com'
 
 import kivy
 kivy.require('1.8.0')
+from kivy import platform
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.config import Config
@@ -33,6 +34,7 @@ from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.clock import Clock
 import os
+import shutil
 import imghdr
 import random
 import re
@@ -299,7 +301,17 @@ class MainApp(App):
         self.title = 'Pocket Philosopher'
         self.icon = 'assets/img/icon.png'
         self.folder = os.path.dirname(os.path.abspath(__file__))
-        self.data_folder = os.path.join(self.folder, 'data')
+        if platform == 'android':
+            path = '/sdcard/pocketphilosopher'
+            copyfiles = ['aphorisms.json', 'aphorisms-authors.json']
+            if not os.path.exists(path):
+                os.mkdir(path)
+            for f in copyfiles:
+                shutil.copyfile(os.path.join('data', f), os.path.join(path, f))
+            self.data_folder = path
+        else:
+            self.data_folder = os.path.join(self.folder, 'data')
+
         Factory.register('Notify', cls=Notify)
         App.__init__(self)
 

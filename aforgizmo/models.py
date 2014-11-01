@@ -10,12 +10,18 @@ import click
 from peewee import *
 from datetime import datetime
 import json
+import kivy
+kivy.require('1.8.0')
+from kivy import platform
 
 def get_database():
-    import ConfigParser
-    config = ConfigParser.RawConfigParser()
-    config.read('config.ini')
-    file = config.get('database', 'file')
+    if platform == 'android':
+        file = '/sdcard/pocketphilosopher/aphorisms.db'
+    else:
+        import ConfigParser
+        config = ConfigParser.RawConfigParser()
+        config.read('config.ini')
+        file = config.get('database', 'file')
     return SqliteDatabase(file)
 
 class BaseModel(Model):
