@@ -1,55 +1,54 @@
 [app]
 
 # (str) Title of your application
-title = Pocket Philosopher
+title = My Application
 
 # (str) Package name
-package.name = aforgizmo
+package.name = myapp
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = com.urunu
+package.domain = org.test
 
 # (str) Source code where the main.py live
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,jpeg,kv,atlas,ttf,ini,json
+source.include_exts = py,png,jpg,kv,atlas
 
 # (list) Source files to exclude (let empty to not exclude anything)
-source.exclude_exts = spec,tests,.bak, .afdesign
+#source.exclude_exts = spec
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-source.exclude_dirs = tests, bin, aforgizmo.egg-info, .buildozer, .git, .idea, .buildozer, aforgizmo.egg-info
+#source.exclude_dirs = tests, bin
 
 # (list) List of exclusions using pattern matching
-source.exclude_patterns = *.pyc, test*, license,images/*/*.jpg, .DS_Store, assets/img/bg/IMG*.jpg, assets/fonts/*/*.txt, cli.py, main.ini, *.db, *.sh
+#source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
 version.regex = __version__ = ['"](.*)['"]
 version.filename = %(source.dir)s/main.py
 
 # (str) Application versioning (method 2)
-# version = 1.0.0
+# version = 1.2.0
 
 # (list) Application requirements
-requirements = kivy,peewee
+# comma seperated e.g. requirements = sqlite3,kivy
+requirements = kivy
 
 # (list) Garden requirements
 #garden_requirements =
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png
-presplash.filename = %(source.dir)s/assets/img/bg/IMGP1093_1.jpg
 
 # (str) Icon of the application
 #icon.filename = %(source.dir)s/data/icon.png
-icon.filename = %(source.dir)s/assets/img/icon.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
-orientation = all
+orientation = landscape
 
 # (bool) Indicate if the application should be fullscreen or not
-fullscreen = 0
+fullscreen = 1
 
 
 #
@@ -57,22 +56,22 @@ fullscreen = 0
 #
 
 # (list) Permissions
-android.permissions = INTERNET,READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE
+#android.permissions = INTERNET
 
 # (int) Android API to use
-android.api = 14
+#android.api = 14
 
 # (int) Minimum API required (8 = Android 2.2 devices)
-android.minapi = 8
+#android.minapi = 8
 
 # (int) Android SDK version to use
 #android.sdk = 21
 
 # (str) Android NDK version to use
-android.ndk = 9c
+#android.ndk = 9c
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
-android.private_storage = False
+#android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
 #android.ndk_path =
@@ -145,7 +144,7 @@ android.private_storage = False
 [buildozer]
 
 # (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
-log_level = 2
+log_level = 1
 
 # (int) Display warning if buildozer is run as root (0 = False, 1 = True)
 warn_on_root = 1
