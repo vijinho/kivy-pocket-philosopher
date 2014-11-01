@@ -1,7 +1,14 @@
+import os
+
 try:
     from setuptools import setup
+    from setuptools import find_packages
 except ImportError:
     from distutils.core import setup
+
+f = open(os.path.join(os.path.dirname(__file__), 'README.rst'))
+readme = f.read()
+f.close()
 
 setup(
     version='1.0',
