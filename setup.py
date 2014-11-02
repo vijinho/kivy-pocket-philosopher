@@ -33,18 +33,16 @@ setup(
           ],
     url='https://github.com/vijinho/aforgizmo',
     download_url='https://github.com/vijinho/aforgizmo',
-    package_dir = {'': 'aforgizmo'}
-    py_modules=['aforgizmo'],
+    package_dir = {'.': ''},
     install_requires=[
         'nose>=1.3.4',
         'Click>=3.3',
         'Peewee>=2.3.3',
         'docutils'
     ],
-    packages=[],
     scripts=[],
     entry_points='''
         [console_scripts]
-        aforgizmo=cli:cli
+        aforgizmo=cli
     '''
 )

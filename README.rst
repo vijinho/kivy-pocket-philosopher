@@ -4,6 +4,10 @@ Pocket Philosopher
 This app which saves, retrieves, edits and displays random aphorisms on
 random backgrounds.
 
+It runs from Android version 2.2 and is available on Google Play at:
+
+https://play.google.com/store/apps/details?id=com.urunu.aforgizmo
+
 Features
 --------
 -  Command-line interface utility to manipulate, import/export and display the data
