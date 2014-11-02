@@ -315,7 +315,7 @@ class MainApp(App):
         self.icon = 'assets/img/icon.png'
         self.folder = os.path.dirname(os.path.abspath(__file__))
         if platform == 'android':
-            path = '/sdcard/pocketp'
+            path = '/sdcard/pocketphilosopher/'
             copyfiles = ['aphorisms.json', 'aphorisms-authors.json']
             if not os.path.exists(path):
                 os.mkdir(path)
