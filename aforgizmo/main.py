@@ -8,7 +8,7 @@ An App which saves, retrieves, edits and displays aphorisms
 This app is written in Python using the Kivy library for cross-platform support (Android, IOS, Windows, Linux, Mac OSX).  See http://kivy.org/docs/guide/packaging.html for instructions on packaging the application for the different platforms.
 '''
 __title__ = 'Pocket Philosopher'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 __author__ = 'vijay.mahrra@gmail.com'
 
 import kivy
@@ -44,35 +44,50 @@ import json
 from peewee import *
 from models import Aphorism
 
+
 class AppError(Exception):
+
     def __init__(self, value):
         self.value = value
+
     def __str__(self):
         return repr(self.value)
+
 
 class MyBoxLayout(BoxLayout):
     pass
 
+
 class MyGridLayout(GridLayout):
     pass
+
 
 class FormListActions(MyGridLayout):
     pass
 
+
 class MyLabel(Label):
     pass
 
+
 class MyScreenManager(ScreenManager):
-    background_image = ObjectProperty(Image(source='assets/img/bg/background.png'))
+    """Set the background image for the app screens"""
+    background_image = ObjectProperty(
+        Image(
+            source='assets/img/bg/background.png'))
+
 
 class MyImage(Image):
+    """Some extensions to the default image class"""
     def __init__(self, **kwargs):
         super(MyImage, self).__init__()
 
     def texture_width(self):
+        """Return the actual width of the loaded image source (texture)"""
         return self.texture.size[0]
 
     def texture_height(self):
+        """Return the actual height of the loaded image source (texture)"""
         return self.texture.size[1]
 
     def rescale(self, width, height):
@@ -108,7 +123,9 @@ class MyImage(Image):
 
         return (new_width, new_height)
 
+
 class MyButton(Button):
+
     """
     Button with a possibility to change the color on on_press (similar to background_down in normal Button widget)
     and also the background image
@@ -127,7 +144,9 @@ class MyButton(Button):
     def on_release(self):
         self.background_color = self.background_color_normal
 
+
 class ImageClickable(ButtonBehavior, MyImage):
+    """An image which acts like a button"""
     source_up = ObjectProperty(Image(source='assets/img/pixel.png'))
     source_down = ObjectProperty(Image(source='assets/img/pixel.png'))
 
@@ -141,7 +160,9 @@ class ImageClickable(ButtonBehavior, MyImage):
     def on_release(self):
         self.source = self.source_up
 
+
 class Notify(ButtonBehavior, BoxLayout):
+    """Display a floating user notification on the current screen"""
     msg = StringProperty()
     icon = StringProperty()
 
@@ -151,15 +172,19 @@ class Notify(ButtonBehavior, BoxLayout):
         self.text = ''
 
     def message(self, msg_type, msg):
+        """Show the message using an icon named after the given type"""
         self.msg_type = msg_type
         self.msg = msg
         self.icon = 'assets/img/icons/notify/' + msg_type + '.png'
 
 
 class FormTextInput(TextInput):
+    """TextInput which checks against a regexp and length of input"""
     max_chars = 255
     valid_chars = ''
+
     def insert_text(self, substring, from_undo=False):
+        """Check against regexp of characters"""
         if len(self.valid_chars) > 0:
             valid_chars = '[^' + self.valid_chars + ']'
             pat = re.compile(valid_chars)
@@ -170,14 +195,17 @@ class FormTextInput(TextInput):
         self.validate(self.max_chars)
 
     def validate(self, max_chars):
+        """Check the string length of text input"""
         if int(max_chars) <= 0:
             max_chars = self.max_chars
         s = self.text
         self.text = (s[:max_chars]) if len(s) > max_chars else s
 
+
 class SearchFormTextInput(FormTextInput):
     max_chars = 30
     valid_chars = ''
+
     def insert_text(self, substring, from_undo=False):
         if len(self.valid_chars) > 0:
             valid_chars = '[^' + self.valid_chars + ']'
@@ -188,14 +216,17 @@ class SearchFormTextInput(FormTextInput):
         super(FormTextInput, self).insert_text(s, from_undo=from_undo)
         self.validate(self.max_chars)
 
+
 class MyListItemButton(ListItemButton):
     selected_id = NumericProperty()
     aphorism = ListProperty()
+
     def pressed(self, id):
         app.selected_id = id
         self.selected_id = id
         if self.is_selected:
             app.root.ids.FormList.ids.form_list_actions.clear_widgets()
+
 
 class FormSearch(MyBoxLayout):
     results = ObjectProperty()
@@ -204,6 +235,7 @@ class FormSearch(MyBoxLayout):
         pass
 
     def search(self, text):
+        """Search the aphorisms in the database by a text string"""
         results = []
         try:
             if len(str(text)) > 2:
@@ -219,7 +251,9 @@ class FormSearch(MyBoxLayout):
             self.results.adapter.data.extend(results)
             self.results._trigger_reset_populate()
         except Exception as e:
-            app.notify('warning', 'Could not query the database for matching aphorisms.')
+            app.notify(
+                'warning',
+                'Could not query the database for matching aphorisms.')
             app.notify('error', str(e))
 
     def args_converter(self, index, data_item):
@@ -234,16 +268,20 @@ class FormList(MyBoxLayout):
         pass
 
     def list(self):
+        """List all database rows"""
         results = []
         try:
-            for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
+            for a in Aphorism.select().order_by(
+                    Aphorism.author, Aphorism.source):
                 results.append([a.id, a.ToOneLine(40)])
             self.results.item_strings = results
             del self.results.adapter.data[:]
             self.results.adapter.data.extend(results)
             self.results._trigger_reset_populate()
         except:
-            app.notify('error', 'Could not retrieve the aphorisms from the database.')
+            app.notify(
+                'error',
+                'Could not retrieve the aphorisms from the database.')
 
     def args_converter(self, index, data_item):
         id, quote = data_item
@@ -251,31 +289,36 @@ class FormList(MyBoxLayout):
 
 
 class WidgetAphorism(MyBoxLayout):
+    """The widget that displays the aphorism on the home screen"""
     pixel = 'assets/img/pixel.png'
     aphorism = ObjectProperty()
 
-    def set(self, A, style = None):
+    def set(self, A, style=None):
+        """Set the widgets current aphorism"""
         if isinstance(A, Aphorism):
             self.aphorism = A
             app.current_aphorism = A
             self.style(style, A)
 
-    def style(self, style = None, A = None):
+    def style(self, style=None, A=None):
+        """Display the aphorism text in a given style"""
         if int(app.config.get('display', 'bg_enabled')) == 1:
             app.background_set(app.background_get_random())
         if isinstance(A, Aphorism):
             self.aphorism = A
         else:
             A = self.aphorism
-        if style == None:
+        if style is None:
             tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]"""
-            formatted = tpl.format(aphorism =  A.aphorism, author = A.author)
+            formatted = tpl.format(aphorism=A.aphorism, author=A.author)
             self.ids.quote.text = formatted
         elif style == 'full':
             tpl = """\"[b]{aphorism}[/b]\"\n\n    -- [i]{author}[/i]\n\n{source}"""
-            formatted = tpl.format(aphorism =  A.aphorism, author = A.author, source = A.source)
+            formatted = tpl.format(
+                aphorism=A.aphorism,
+                author=A.author,
+                source=A.source)
             self.ids.quote.text = formatted
-
 
     def screenshot(self):
         """
@@ -283,14 +326,18 @@ class WidgetAphorism(MyBoxLayout):
         http://stackoverflow.com/questions/22753306/export-to-png-function-of-kivy-gives-error
         :return:
         """
-        filename = "data/screenshot-{0}.png".format(time.strftime("%Y%m%d-%H%M%S"))
+        filename = "data/screenshot-{0}.png".format(
+            time.strftime("%Y%m%d-%H%M%S"))
         self.export_to_png(filename)
+
 
 class Main(MyScreenManager):
     backup_results = ObjectProperty()
+
     def __init__(self, **kwargs):
         self.transition = NoTransition()
         super(Main, self).__init__()
+
 
 class MainApp(App):
     pixel = 'assets/img/pixel.png'
@@ -304,6 +351,7 @@ class MainApp(App):
     notifications_queue = []
 
     def on_selected_id(self, *args):
+        """Used to store the currently viewed/chosen aphorism id"""
         id = int(self.selected_id)
         if id > 0:
             actions = app.root.ids.FormList.ids.form_list_actions
@@ -314,6 +362,7 @@ class MainApp(App):
         self.title = 'Pocket Philosopher'
         self.icon = 'assets/img/icon.png'
         self.folder = os.path.dirname(os.path.abspath(__file__))
+        # make sure android uses the /sdcard folder instead of data/
         if platform == 'android':
             path = '/sdcard/pocketphilosopher/'
             copyfiles = ['aphorisms.json', 'aphorisms-authors.json']
@@ -366,7 +415,7 @@ class MainApp(App):
     def build_settings(self, settings):
         with open('data/settings.json', 'r') as settings_json:
             settings.add_json_panel('Pocket Philosopher Settings',
-                                self.config, data=settings_json.read())
+                                    self.config, data=settings_json.read())
 
     def on_config_change(self, config, section, key, value):
         if config is self.config:
@@ -416,6 +465,7 @@ class MainApp(App):
         pass
 
     def setup_database(self):
+        """Initial setup for the application/database if empty or not existing"""
         try:
             for a in Aphorism.select().limit(1):
                 pass
@@ -427,83 +477,97 @@ class MainApp(App):
                 try:
                     Aphorism.create_table()
                 except:
-                    app.notify('error', 'Could not create the database table.  Please check the file permissions in the [b]data[/b] folder.')
+                    app.notify(
+                        'error',
+                        'Could not create the database table.  Please check the file permissions in the [b]data[/b] folder.')
 
                 with open('data/aphorisms.json') as json_file:
                     json_data = json.load(json_file)
                 Aphorism.insert_many(json_data).execute()
             except Exception:
-                app.notify('error', 'Could not load in the initial aphorism data - check that the [b]data/aphorisms.json[/b] file is readable and valid.')
+                app.notify(
+                    'error',
+                    'Could not load in the initial aphorism data - check that the [b]data/aphorisms.json[/b] file is readable and valid.')
 
-    def notify(self, msg_type, msg, screen = None):
-        if screen == None:
+    def notify(self, msg_type, msg, screen=None):
+        """Create and display a floating user notification box and timer to remove it"""
+        if screen is None:
             screen = app.root.current
         id = 'notifications_' + str(screen)
         w = Factory.Notify()
         w.message(msg_type, msg)
         wid = 'n' + str(random.randint(1000, 20000))
         w.id = wid
-        exec 'app.root.ids.'+id+'.add_widget(w)'
-        exec 'i = app.root.ids.'+id
-        exec 'kids = app.root.ids.'+id+'.children'
+        exec 'app.root.ids.' + id + '.add_widget(w)'
+        exec 'i = app.root.ids.' + id
+        exec 'kids = app.root.ids.' + id + '.children'
         for k in kids:
             if k.id == wid:
                 self.notifications_queue.append(id + '.' + k.id)
                 Clock.schedule_once(self.remove_notification, 8)
 
     def remove_notification(self, dt):
+        """Callback from the clock to remove a given floating user notification"""
         if len(self.notifications_queue) > 0:
             x = self.notifications_queue.pop(0)
             x = x.split('.')
             id, wid = x
-            exec 'i = app.root.ids.'+id
-            exec 'kids = app.root.ids.'+id+'.children'
+            exec 'i = app.root.ids.' + id
+            exec 'kids = app.root.ids.' + id + '.children'
             for k in kids:
                 if k.id == wid:
                     i.remove_widget(k)
 
     def form_wipe(self):
+        """open the clear database popup"""
         widget = self.FormWipe()
         widget.wipe()
 
     class FormWipe(Popup):
+        """popup window for database wiping"""
         def wipe(self):
+            """open the form"""
             self.open()
 
         def wipe_action(self):
+            """clear the database"""
             try:
                 app.db_backup()
                 Aphorism.drop_table()
                 Aphorism.create_table()
             except Exception as e:
                 app.notify('error', 'Failed clearing the database.')
-                app.root.backup_results.text += "Failed clearing the database.\nError: (" + str(e) + ")\n\n"
+                app.root.backup_results.text += "Failed clearing the database.\nError: (" + str(
+                    e) + ")\n\n"
             else:
                 app.notify('success', 'Successfully cleared the database!')
-                app.root.backup_results.text += "Successfully cleared the database!" + "\n\n"
+                app.root.backup_results.text += "Successfully cleared the database!" + \
+                    "\n\n"
 
             self.dismiss()
 
-
-    def db_backup(self, path = 'data'):
+    def db_backup(self, path='data'):
+        """backup the database to the given path as a json file"""
         data = []
         for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
             savedata = a.AsHash()
             del(savedata['id'])
             data.append(savedata)
         try:
-            filename = "aphorisms-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
+            filename = "aphorisms-{0}.json".format(
+                time.strftime("%Y%m%d-%H%M%S"))
             with open(os.path.join(path, filename), "w") as fp:
-                fp.write(json.dumps(data, fp, indent = 4, sort_keys = True))
+                fp.write(json.dumps(data, fp, indent=4, sort_keys=True))
             app.notify('success', 'Database backup successful!')
         except:
             app.notify('warning', 'Could not backup the database!')
 
-
     def form_backup(self):
+        """open the backup popup screen"""
         self.FormBackup().open()
 
     class FormBackup(Popup):
+        """perform a backup of the data to the given path and filename"""
         def backup(self, path, filename):
             if filename and len(filename) > 0:
                 filename = os.path.join(path, filename[0])
@@ -513,9 +577,11 @@ class MainApp(App):
                 app.db_backup(path)
             except Exception as e:
                 app.notify('error', 'Backup Failed!')
-                app.root.backup_results.text += "Failed backup of the file:\n" + path + "\nError: (" + str(e) + ")\n\n"
+                app.root.backup_results.text += "Failed backup of the file:\n" + \
+                    path + "\nError: (" + str(e) + ")\n\n"
             else:
-                app.root.backup_results.text += "Successfully backed up to the file:\n" + path + "\n\n"
+                app.root.backup_results.text += "Successfully backed up to the file:\n" + \
+                    path + "\n\n"
 
             self.dismiss()
 
@@ -523,6 +589,7 @@ class MainApp(App):
         self.FormImport().open()
 
     class FormImport(Popup):
+        """Restore the imported json data file"""
         def restore(self, path, filename):
             if filename and len(filename) > 0:
                 try:
@@ -532,10 +599,12 @@ class MainApp(App):
                     Aphorism.insert_many(json_data).execute()
                 except Exception as e:
                     app.notify('error', 'Import Failed!')
-                    app.root.backup_results.text += "Failed import of the file:\n" + filename + "\nError: (" + str(e) + ")\n\n"
+                    app.root.backup_results.text += "Failed import of the file:\n" + \
+                        filename + "\nError: (" + str(e) + ")\n\n"
                 else:
                     app.notify('success', 'Import Successful!')
-                    app.root.backup_results.text += "Successfully imported the backup file:\n" + filename + "\n\n"
+                    app.root.backup_results.text += "Successfully imported the backup file:\n" + \
+                        filename + "\n\n"
 
                 self.dismiss()
 
@@ -545,7 +614,34 @@ class MainApp(App):
     class FormImportUrl(Popup):
         url = StringProperty()
 
+        def import_url(self, url):
+            """import data from the given json file url"""
+            url = url.strip("\r\n\t\s ")
+            self.url = url
+            if len(url) > 0:
+                try:
+                    filename = "aphorisms_url-{0}.json".format(
+                        time.strftime("%Y%m%d-%H%M%S"))
+                    path = os.path.join(
+                        os.path.realpath(
+                            app.data_folder.strip("\r\n\t\s ")),
+                        filename)
+                    UrlRequest(url, on_success=self.download)
+                except Exception as e:
+                    app.notify('error', 'Import from URL failed!')
+                    app.root.backup_results.text += "Failed import of the URL:\n" + \
+                        url + "\nError: (" + str(e) + ")\n\n"
+                else:
+                    app.notify('warning', 'Importing the data...')
+                    app.root.backup_results.text += "Importing the data from the URL:\n" + \
+                        url + "\n\n"
+                self.dismiss()
+            else:
+                app.notify('warning', 'No URL was entered!')
+                self.dismiss()
+
         def download(self, r, data):
+            """process data that was downloaded"""
             if len(data) > 0:
                 try:
                     Aphorism.insert_many(data).execute()
@@ -562,24 +658,6 @@ class MainApp(App):
                 app.notify('warning', msg)
                 app.root.backup_results.text += msg + "\n\n"
 
-        def import_url(self, url):
-            url = url.strip("\r\n\t\s ")
-            self.url = url
-            if len(url) > 0:
-                try:
-                    filename = "aphorisms_url-{0}.json".format(time.strftime("%Y%m%d-%H%M%S"))
-                    path = os.path.join(os.path.realpath(app.data_folder.strip("\r\n\t\s ")), filename)
-                    UrlRequest(url, on_success = self.download)
-                except Exception as e:
-                    app.notify('error', 'Import from URL failed!')
-                    app.root.backup_results.text += "Failed import of the URL:\n" + url + "\nError: (" + str(e) + ")\n\n"
-                else:
-                    app.notify('warning', 'Importing the data...')
-                    app.root.backup_results.text += "Importing the data from the URL:\n" + url + "\n\n"
-                self.dismiss()
-            else:
-                app.notify('warning', 'No URL was entered!')
-                self.dismiss()
 
     def form_download_backgrounds(self):
         self.FormBackgroundUrl().open()
@@ -587,13 +665,29 @@ class MainApp(App):
     class FormBackgroundUrl(Popup):
         url = StringProperty()
 
-        def download_ok(self, req, results):
-            base_url, file = os.path.split(req.url)
-            app.notify('success', 'Downloaded background image [b]{0}[/b] successfully.'.format(file))
-            app.root.backup_results.text += 'Downloaded background image {0} successfully.'.format(file)
-            app.backgrounds_refresh()
+        def import_backgrounds(self, url):
+            """Import backgrounds listed in a txt file at a URL"""
+            url = url.strip("\r\n\t\s ")
+            self.url = url
+            if len(url) > 0:
+                try:
+                    UrlRequest(url, on_success=self.download)
+                except Exception as e:
+                    app.notify(
+                        'error',
+                        'Import background images from URL failed!')
+                    app.root.backup_results.text += "Failed import of the URL:\n" + \
+                        url + "\nError: (" + str(e) + ")\n\n"
+                else:
+                    app.root.backup_results.text += "Importing the images from URL:\n" + \
+                        url + "\n\n"
+                self.dismiss()
+            else:
+                app.notify('warning', 'No URL was entered!')
+                self.dismiss()
 
         def download(self, r, data):
+            """Download the image URLS/files from the text file"""
             error_text = 'No valid images were found to download.'
             if len(data) > 0:
                 urls = []
@@ -601,7 +695,8 @@ class MainApp(App):
 
                 for line in data.splitlines():
                     line = line.strip("\r\n\t\s ")
-                    if line.endswith('.jpg') or line.endswith('.jpeg') or line.endswith('.tiff') or line.endswith('.png'):
+                    if line.endswith('.jpg') or line.endswith(
+                            '.jpeg') or line.endswith('.tiff') or line.endswith('.png'):
                         if len(line) > 0:
                             if line[:4] == 'http':
                                 url = line
@@ -613,12 +708,20 @@ class MainApp(App):
                 if len(urls) > 0:
                     for url in urls:
                         base_url, filename = os.path.split(url)
-                        path = os.path.join(os.path.realpath(app.config.get('display', 'bg_folder')), filename)
+                        path = os.path.join(
+                            os.path.realpath(
+                                app.config.get(
+                                    'display',
+                                    'bg_folder')),
+                            filename)
                         if os.path.isfile(path):
                             pass
                         else:
                             try:
-                                UrlRequest(url, file_path = path, on_success = self.download_ok)
+                                UrlRequest(
+                                    url,
+                                    file_path=path,
+                                    on_success=self.download_ok)
                             except Exception as e:
                                 try:
                                     os.remove(path)
@@ -629,8 +732,12 @@ class MainApp(App):
                                 downloads = downloads + 1
 
                     if downloads > 0:
-                        app.notify('warning', 'Now downloading {0} background images... Please go make a cup of tea and be patient!'.format(downloads))
-                        app.notify('success', 'You will be notified after each successful download.'.format(downloads))
+                        app.notify(
+                            'warning',
+                            'Now downloading {0} background images... Please go make a cup of tea and be patient!'.format(downloads))
+                        app.notify(
+                            'success',
+                            'You will be notified after each successful download.'.format(downloads))
                         app.backgrounds_refresh()
                     else:
                         app.notify('warning', error_text)
@@ -639,30 +746,27 @@ class MainApp(App):
             else:
                 app.notify('warning', error_text)
 
-        def import_backgrounds(self, url):
-            url = url.strip("\r\n\t\s ")
-            self.url = url
-            if len(url) > 0:
-                try:
-                    UrlRequest(url, on_success = self.download)
-                except Exception as e:
-                    app.notify('error', 'Import background images from URL failed!')
-                    app.root.backup_results.text += "Failed import of the URL:\n" + url + "\nError: (" + str(e) + ")\n\n"
-                else:
-                    app.root.backup_results.text += "Importing the images from URL:\n" + url + "\n\n"
-                self.dismiss()
-            else:
-                app.notify('warning', 'No URL was entered!')
-                self.dismiss()
+        def download_ok(self, req, results):
+            """Callback floating user message if download was OK"""
+            base_url, file = os.path.split(req.url)
+            app.notify(
+                'success',
+                'Downloaded background image [b]{0}[/b] successfully.'.format(file))
+            app.root.backup_results.text += 'Downloaded background image {0} successfully.'.format(
+                file)
+            app.backgrounds_refresh()
+
 
     def get_rst_doc(self, doc):
+        """a crash happened on android when using a KV file or importing at the top"""
         from kivy.uix.rst import RstDocument
-        return RstDocument(source = doc)
+        return RstDocument(source=doc)
 
     def about(self):
         self.WidgetAbout().open()
 
     class WidgetAbout(Popup):
+
         def __init__(self, **kwargs):
             super(MainApp.WidgetAbout, self).__init__()
             self.ids.rst_doc.add_widget(app.get_rst_doc('docs/about.rst'))
@@ -671,6 +775,7 @@ class MainApp(App):
         self.WidgetHelp().open()
 
     class WidgetHelp(Popup):
+        """help screen popup"""
         def __init__(self, **kwargs):
             super(MainApp.WidgetHelp, self).__init__()
             self.ids.rst_doc.add_widget(app.get_rst_doc('docs/help.rst'))
@@ -682,33 +787,39 @@ class MainApp(App):
         """
         self.backgrounds = []
         try:
-            for root, dirs, files in os.walk(self.config.get('display', 'bg_folder')):
+            for root, dirs, files in os.walk(
+                    self.config.get('display', 'bg_folder')):
                 for file in files:
-                    if file.endswith('.jpg') or file.endswith('.png') or file.endswith('.jpeg') or file.endswith('.tiff'):
-                         path = os.path.join(root, file)
-                         if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
-                             self.backgrounds.append(path)
+                    if file.endswith('.jpg') or file.endswith(
+                            '.png') or file.endswith('.jpeg') or file.endswith('.tiff'):
+                        path = os.path.join(root, file)
+                        if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+                            self.backgrounds.append(path)
         except:
             pass
 
         return self.backgrounds
 
     def backgrounds_cleanup(self):
+        """remove invvalid image files from the download folder if not running under android"""
         if not platform == 'android':
             try:
-                for root, dirs, files in os.walk(self.config.get('display', 'bg_folder')):
+                for root, dirs, files in os.walk(
+                        self.config.get('display', 'bg_folder')):
                     for file in files:
-                        if file.endswith('.jpg') or file.endswith('.png') or file.endswith('.jpeg') or file.endswith('.tiff'):
-                             path = os.path.join(root, file)
-                             if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+                        if file.endswith('.jpg') or file.endswith(
+                                '.png') or file.endswith('.jpeg') or file.endswith('.tiff'):
+                            path = os.path.join(root, file)
+                            if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
                                 pass
-                             else:
+                            else:
                                 os.remove(path)
             except:
                 pass
 
-    def background_set(self, path = None):
-        if path == None:
+    def background_set(self, path=None):
+        """set the current background image"""
+        if path is None:
             path = app.background_get_random()
         if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
             app.root.ids.background.source = path
@@ -732,11 +843,15 @@ class MainApp(App):
             return self.pixel
 
     def aphorism_copy(self):
+        """copy the current aphorism to the clipboard"""
         if not self.current_aphorism:
             return
         A = self.current_aphorism
         tpl = "\"{aphorism}\"\n  -- {author}\n\n({source})"
-        quote = tpl.format(aphorism = A.aphorism, author = A.author, source = A.source)
+        quote = tpl.format(
+            aphorism=A.aphorism,
+            author=A.author,
+            source=A.source)
         Clipboard.put(quote, 'TEXT')
         Clipboard.put(quote, 'text/plain;charset=utf-8')
         Clipboard.put(quote, 'UTF8_STRING')
@@ -748,7 +863,8 @@ class MainApp(App):
         textarea_copy = ObjectProperty()
         pass
 
-    def aphorism_get(self, id = None):
+    def aphorism_get(self, id=None):
+        """get an aphorism by its ID"""
         try:
             if id is None:
                 for A in Aphorism.select().order_by(fn.Random()).limit(1):
@@ -772,6 +888,7 @@ class MainApp(App):
         app.root.ids.aphorism_container.add_widget(widget)
 
     def aphorism_show(self, id):
+        """display an aphorism by ID"""
         try:
             A = self.aphorism_get(id)
         except:
@@ -781,6 +898,7 @@ class MainApp(App):
         app.root.current = 'Main'
 
     def aphorism_random(self):
+        """Choose a random aphorism and display it"""
         app.root.ids.aphorism_container.clear_widgets()
         try:
             A = app.aphorism_get()
@@ -795,12 +913,13 @@ class MainApp(App):
         self.FormNew().open()
 
     class FormNew(Popup):
+        """Add a new aphorism"""
         def new(self):
             data = {
                 'aphorism': self.ids.aphorism.text,
-                'author'  : self.ids.author.text,
-                'source'  : self.ids.source.text,
-                'tags'    : self.ids.tags.text
+                'author': self.ids.author.text,
+                'source': self.ids.source.text,
+                'tags': self.ids.tags.text
             }
 
             # set required fields if empty
@@ -826,10 +945,10 @@ class MainApp(App):
             if len(data['aphorism']) > 0:
                 try:
                     a = Aphorism(
-                        aphorism = data['aphorism'],
-                        author   = data['author'],
-                        source   = data['source'],
-                        tags = data['tags'])
+                        aphorism=data['aphorism'],
+                        author=data['author'],
+                        source=data['source'],
+                        tags=data['tags'])
                     a.save()
                 except:
                     app.notify('warning', 'Could not add the aphorism!')
@@ -854,9 +973,11 @@ class MainApp(App):
                 widget.edit(A)
 
     class FormEdit(Popup):
+        """Edit an existing aphorism"""
         aphorism_id = NumericProperty()
 
         def edit(self, A):
+            """show the aphorism being edited"""
             if isinstance(A, Aphorism):
                 self.aphorism_id = A.id
                 self.ids.aphorism.text = A.aphorism
@@ -866,12 +987,13 @@ class MainApp(App):
                 self.open()
 
         def edit_action(self):
+            """process the submitted form"""
             data = {
                 'id': int(self.aphorism_id),
                 'aphorism': self.ids.aphorism.text,
-                'author'  : self.ids.author.text,
-                'source'  : self.ids.source.text,
-                'tags'    : self.ids.tags.text
+                'author': self.ids.author.text,
+                'source': self.ids.source.text,
+                'tags': self.ids.tags.text
             }
 
             # set required fields if empty
@@ -891,11 +1013,11 @@ class MainApp(App):
             if data['id'] > 0 and len(data['aphorism']) > 0:
                 try:
                     a = Aphorism(
-                        id       = data['id'],
-                        aphorism = data['aphorism'],
-                        author   = data['author'],
-                        source   = data['source'],
-                        tags = data['tags'])
+                        id=data['id'],
+                        aphorism=data['aphorism'],
+                        author=data['author'],
+                        source=data['source'],
+                        tags=data['tags'])
                     a.save()
                 except:
                     app.notify('warning', 'Could not edit the aphorism!')
@@ -920,6 +1042,7 @@ class MainApp(App):
             return A
 
     class FormDelete(Popup):
+        """delete an aphorism after confirmation"""
         aphorism_id = NumericProperty()
 
         def delete(self, A):
@@ -927,10 +1050,10 @@ class MainApp(App):
                 self.aphorism_id = A.id
                 tpl = "\"[b]{aphorism}[/b]\"\n  -- [i]{author}[/i]\n\n({source})"
                 self.ids.aphorism_text.text = tpl.format(
-                    aphorism = A.aphorism,
-                    author = A.author,
-                    source = A.source,
-                    tags = A.tags
+                    aphorism=A.aphorism,
+                    author=A.author,
+                    source=A.source,
+                    tags=A.tags
                 )
                 self.open()
 
