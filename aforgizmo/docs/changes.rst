@@ -3,5 +3,5 @@ Aforizmo Changes
 
 Version 1.0.0
 -------------
--  Initial Release
+-  Initial Android release to Google Play
 
