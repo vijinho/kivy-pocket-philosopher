@@ -41,11 +41,11 @@
                 source_up: 'assets/img/icons/copy.png'
                 source_down: 'assets/img/icons/copy_down.png'
                 on_release: app.aphorism_copy()
-                opacity: 0.5
-
+                opacity: 0.3
     MyButton:
         id: aphorism_btn
-        size_hint_y: 0.4
+        size_hint_y: None
+        height: '125sp'
         background_normal: app.pixel
         background_down: app.pixel
         on_press: aphorism_rnd.source = 'assets/img/icons/refresh_down.png'
@@ -54,6 +54,8 @@
             size_hint: None, None
             size: aphorism_rnd.size
             Image:
+                size_hint_y: None
+                height: '125sp'
                 auto_bring_to_front: False
                 id: aphorism_rnd
                 pos: ((aphorism_box.width / 2) - self.width/2, 0)
