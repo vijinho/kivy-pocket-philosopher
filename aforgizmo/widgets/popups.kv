@@ -28,8 +28,8 @@
     title: 'About'
     BoxLayout:
         orientation: "vertical"
-        RstDocument:
-            source: 'docs/about.rst'
+        MyBoxLayout:
+            id: rst_doc
         MyButton:
             size_hint_y: 0.15
             text: 'Ok'
@@ -40,8 +40,8 @@
     title: 'Help'
     BoxLayout:
         orientation: "vertical"
-        RstDocument:
-            source: 'docs/help.rst'
+        MyBoxLayout:
+            id: rst_doc
         MyButton:
             size_hint_y: 0.2
             text: 'Ok'

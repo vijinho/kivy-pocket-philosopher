@@ -32,7 +32,9 @@ from kivy.uix.button import Button
 from kivy.uix.listview import ListItemButton, ListView
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
+from kivy.uix.rst import RstDocument
 from kivy.clock import Clock
+
 import os
 import shutil
 import imghdr
@@ -56,6 +58,9 @@ class MyGridLayout(GridLayout):
     pass
 
 class FormListActions(MyGridLayout):
+    pass
+
+class MyLabel(Label):
     pass
 
 class MyScreenManager(ScreenManager):
@@ -651,17 +656,30 @@ class MainApp(App):
                 app.notify('warning', 'No URL was entered!')
                 self.dismiss()
 
+    def get_rst_doc(self, doc):
+        if not platform == 'android':
+            with open(doc, 'r') as f:
+                text = f.read()
+            document = MyLabel(text = text)
+        else:
+            document = RstDocument(source = doc)
+        return document
+
     def about(self):
         self.WidgetAbout().open()
 
     class WidgetAbout(Popup):
-        pass
+        def __init__(self, **kwargs):
+            super(MainApp.WidgetAbout, self).__init__()
+            self.ids.rst_doc.add_widget(app.get_rst_doc('docs/about.rst'))
 
     def help(self):
         self.WidgetHelp().open()
 
     class WidgetHelp(Popup):
-        pass
+        def __init__(self, **kwargs):
+            super(MainApp.WidgetHelp, self).__init__()
+            self.ids.rst_doc.add_widget(app.get_rst_doc('docs/help.rst'))
 
     def backgrounds_refresh(self):
         """
@@ -736,7 +754,7 @@ class MainApp(App):
     class WidgetCopy(Popup):
         textarea_copy = ObjectProperty()
         pass
-    
+
     def aphorism_get(self, id = None):
         try:
             if id is None:
