@@ -32,7 +32,6 @@ from kivy.uix.button import Button
 from kivy.uix.listview import ListItemButton, ListView
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
-from kivy.uix.rst import RstDocument
 from kivy.clock import Clock
 
 import os
@@ -316,7 +315,7 @@ class MainApp(App):
         self.icon = 'assets/img/icon.png'
         self.folder = os.path.dirname(os.path.abspath(__file__))
         if platform == 'android':
-            path = '/sdcard/pocketphilosopher'
+            path = '/sdcard/pocketp'
             copyfiles = ['aphorisms.json', 'aphorisms-authors.json']
             if not os.path.exists(path):
                 os.mkdir(path)
@@ -657,13 +656,8 @@ class MainApp(App):
                 self.dismiss()
 
     def get_rst_doc(self, doc):
-        if not platform == 'android':
-            with open(doc, 'r') as f:
-                text = f.read()
-            document = MyLabel(text = text)
-        else:
-            document = RstDocument(source = doc)
-        return document
+        from kivy.uix.rst import RstDocument
+        return RstDocument(source = doc)
 
     def about(self):
         self.WidgetAbout().open()
@@ -700,19 +694,18 @@ class MainApp(App):
         return self.backgrounds
 
     def backgrounds_cleanup(self):
-        try:
-            for root, dirs, files in os.walk(self.config.get('display', 'bg_folder')):
-                for file in files:
-                    if file.endswith('.jpg') or file.endswith('.png') or file.endswith('.jpeg') or file.endswith('.tiff'):
-                         path = os.path.join(root, file)
-                         if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
-                            pass
-                         else:
-                            os.remove(path)
-        except:
-            pass
-
-        return self.backgrounds
+        if not platform == 'android':
+            try:
+                for root, dirs, files in os.walk(self.config.get('display', 'bg_folder')):
+                    for file in files:
+                        if file.endswith('.jpg') or file.endswith('.png') or file.endswith('.jpeg') or file.endswith('.tiff'):
+                             path = os.path.join(root, file)
+                             if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+                                pass
+                             else:
+                                os.remove(path)
+            except:
+                pass
 
     def background_set(self, path = None):
         if path == None:
@@ -789,11 +782,14 @@ class MainApp(App):
 
     def aphorism_random(self):
         app.root.ids.aphorism_container.clear_widgets()
-        A = app.aphorism_get()
-        widget = Factory.WidgetAphorism()
-        widget.set(A)
-        app.root.ids.aphorism_container.add_widget(widget)
-        app.selected_id = A.id
+        try:
+            A = app.aphorism_get()
+            widget = Factory.WidgetAphorism()
+            widget.set(A)
+            app.root.ids.aphorism_container.add_widget(widget)
+            app.selected_id = A.id
+        except:
+            app.notify('error', 'Could show the initial aphorism!')
 
     def aphorism_new(self):
         self.FormNew().open()
