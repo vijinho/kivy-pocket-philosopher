@@ -6,6 +6,10 @@ The project codename is *aforgizmo* based on the words *aphorism* and *gizmo*,
 in that this is a tool originally envisioned to maintain and display a
 database of aphorisms.
 
+**DISCLAIMER** I provide this app free-of-charge and as-is with no implied
+blah blah blah, if you like it and would like to support my hard effort, I'd
+gladly accept a donation towards my cycling trip and drinking funds by PayPal.
+
 Author & Copyright
 ------------------
 Copyright from 2014
