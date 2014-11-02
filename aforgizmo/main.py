@@ -49,9 +49,6 @@ class AppError(Exception):
     def __str__(self):
         return repr(self.value)
 
-class FormTextInput(TextInput):
-    pass
-
 class MyBoxLayout(BoxLayout):
     pass
 
@@ -174,6 +171,18 @@ class FormTextInput(TextInput):
         s = self.text
         self.text = (s[:max_chars]) if len(s) > max_chars else s
 
+class SearchFormTextInput(FormTextInput):
+    max_chars = 30
+    valid_chars = ''
+    def insert_text(self, substring, from_undo=False):
+        if len(self.valid_chars) > 0:
+            valid_chars = '[^' + self.valid_chars + ']'
+            pat = re.compile(valid_chars)
+            s = re.sub(valid_chars, '', substring)
+        else:
+            s = substring
+        super(FormTextInput, self).insert_text(s, from_undo=from_undo)
+        self.validate(self.max_chars)
 
 class MyListItemButton(ListItemButton):
     selected_id = NumericProperty()
@@ -193,13 +202,13 @@ class FormSearch(MyBoxLayout):
     def search(self, text):
         results = []
         try:
-            if len(str(text)) > 0:
+            if len(str(text)) > 2:
                 for a in Aphorism.select().where(
                         Aphorism.aphorism.contains(text) |
                         Aphorism.author.contains(text) |
                         Aphorism.source.contains(text) |
                         Aphorism.tags.contains(text)).order_by(Aphorism.author, Aphorism.source):
-                    results.append([a.id, a.ToOneLine(40)])
+                    results.append([a.id, a.ToOneLine(60)])
                 app.current_search = text
             self.results.item_strings = results
             del self.results.adapter.data[:]
@@ -224,7 +233,7 @@ class FormList(MyBoxLayout):
         results = []
         try:
             for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
-                results.append([a.id, a.ToOneLine(40)])
+                results.append([a.id, a.ToOneLine(60)])
             self.results.item_strings = results
             del self.results.adapter.data[:]
             self.results.adapter.data.extend(results)
@@ -320,9 +329,23 @@ class MainApp(App):
         return Main()
 
     def build_config(self, config):
-        config.setdefaults('display', {
-            'bg_folder': 'assets/img/bg'
-        })
+        if platform == 'android':
+            if os.path.exists('/sdcard/Pictures'):
+                config.setdefaults('display', {
+                    'bg_folder': '/sdcard/DCIM'
+                })
+            elif os.path.exists('/sdcard/Snapseed'):
+                config.setdefaults('display', {
+                    'bg_folder': '/sdcard/Snapseed'
+                })
+            else:
+                config.setdefaults('display', {
+                    'bg_folder': '/sdcard/Pictures'
+                })
+        else:
+            config.setdefaults('display', {
+                'bg_folder': 'assets/img/bg'
+            })
         config.setdefaults('display', {
             'bg_enabled': 1
         })
@@ -754,6 +777,7 @@ class MainApp(App):
         widget = Factory.WidgetAphorism()
         widget.set(A)
         app.root.ids.aphorism_container.add_widget(widget)
+        app.selected_id = A.id
 
     def aphorism_new(self):
         self.FormNew().open()
@@ -888,7 +912,7 @@ class MainApp(App):
         def delete(self, A):
             if isinstance(A, Aphorism):
                 self.aphorism_id = A.id
-                tpl = "\"[b]{aphorism}[/b]\"\n  -- [i]{author}[/i]\n\nSource: [b]{source}[/b]\n\nTags: [b]{tags}[/b]"
+                tpl = "\"[b]{aphorism}[/b]\"\n  -- [i]{author}[/i]\n\n({source})"
                 self.ids.aphorism_text.text = tpl.format(
                     aphorism = A.aphorism,
                     author = A.author,

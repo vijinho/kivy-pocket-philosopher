@@ -1,18 +1,17 @@
 <FormImport@Popup>:
-    size_hint: 0.85, 0.85
+    size_hint: 0.85, 0.6
     auto_dismiss: True
     title: 'Import Database'
     MyBoxLayout:
         MyLabel:
-            size_hint_y: 0.1
+            size_hint_y: 0.3
             text: "This will import a previously backed up database."
         FileChooserListView:
-            size_hint_y: 0.8
             id: filechooser
             path: app.data_folder
             filters: ['*.json']
         MyGridLayout:
-            size_hint_y: 0.1
+            size_hint_y: 0.2
             cols: 2
             rows: 1
             orientation: "horizontal"

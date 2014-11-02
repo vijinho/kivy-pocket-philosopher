@@ -58,7 +58,8 @@ class Aphorism(BaseModel):
 
     def ToOneLine(self, length = 80):
         """Return a string of the object data as a one line string"""
-        return "{0}: \"{1}\"".format(self.author, (self.aphorism[:length] + '..') if len(self.aphorism) > length else self.aphorism)
+        string = '{0}: \"{1}\"'.format(self.author, self.aphorism)
+        return "{0}".format((string[:length] + '"...') if len(string) > length else string)
 
 
 def CreateTables():

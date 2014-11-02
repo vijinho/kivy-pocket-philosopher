@@ -6,21 +6,25 @@
             orientation: "horizontal"
             size_hint_y: None
             size: (self.parent.width, '40dp')
-            Image:
-                size_hint_x: None
-                width: '32dp'
-                height: root.height
+            SearchFormTextInput:
+                id: search_box
+                size_hint_x: 0.65
+            ImageClickable:
+                id: search_submit
+                size_hint_x: 0.35
                 keep_ratio: True
                 allow_stretch: True
                 source: 'assets/img/icons/search.png'
-            FormTextInput:
-                id: search_box
-            MyButton:
-                id: search_submit
-                size_hint_x: None
-                width: '120dp'
-                text: 'Go!'
+                source_up: 'assets/img/icons/search.png'
+                source_down: 'assets/img/icons/search_down.png'
                 on_press: root.search(text = search_box.text)
+                canvas.before:
+                    Color:
+                        rgba: [0.3, 0.3, 0.3, 0.5]
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
         ListView:
             id: results
             adapter:

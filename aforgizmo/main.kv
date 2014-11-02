@@ -18,6 +18,7 @@
     size_hint: 1, 1
     Screen:
         name: 'Main'
+        id: MainScreen
         Scatter:
             size_hint: (1, 1)
             auto_bring_to_front: False
@@ -62,39 +63,15 @@
         backup_results: backup_results
         MyBoxLayout:
             ActionBarMain:
-            MyButton:
-                size_hint_y: 0.1
-                text: 'Download Backgrounds'
-                font_size: '30sp'
-                on_release: app.form_download_backgrounds()
-            MyButton:
-                size_hint_y: 0.1
-                text: 'Backup Data'
-                font_size: '30sp'
-                on_release: app.form_backup()
-            MyButton:
-                size_hint_y: 0.1
-                text: 'Import Data (File)'
-                font_size: '30sp'
-                on_release: app.form_import()
-            MyButton:
-                size_hint_y: 0.1
-                text: 'Import Data (URL)'
-                font_size: '30sp'
-                on_release: app.form_import_url()
+            DataForm:
+                size_hint_y: 0.6
             FormTextArea:
-                size_hint_y: 0.5
-                font_size: '14sp'
+                size_hint_y: 0.4
                 font_name: 'assets/fonts/ubuntu/UbuntuMono-R.ttf'
                 id: backup_results
                 readonly: True
                 allow_copy: True
                 use_bubble: False
-            MyButton:
-                size_hint_y: 0.1
-                text: 'Wipe Database'
-                font_size: '35sp'
-                on_release: app.form_wipe()
         FloatLayout:
             MyStackLayout:
                 id: notifications_Backup

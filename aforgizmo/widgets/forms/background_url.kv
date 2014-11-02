@@ -1,5 +1,5 @@
 <FormBackgroundUrl@Popup>:
-    size_hint: 0.85, 0.85
+    size_hint: 0.85, 0.4
     auto_dismiss: True
     title: 'Download Backgrounds'
     MyBoxLayout:
@@ -12,7 +12,6 @@
             id: url
             valid_chars: 'a-z0-9_\s'
             max_chars: 1024
-            size_hint_y: 0.2
             size: (self.parent.width, '72dp')
             text: 'http://www.urunu.com/data/bg/backgrounds.txt'
         MyBoxLayout:

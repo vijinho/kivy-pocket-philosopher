@@ -9,33 +9,43 @@
                 pos: (0, 0 + aphorism_rnd.height)
                 text_size: aphorism_box.width, None
                 size: self.texture_size
-                font_size: '26sp'
+                font_size: .5 * ((aphorism_box.width / 15) + (aphorism_box.height / 20))
                 padding_y: ('20sp')
                 valign: 'middle'
                 font_name: 'assets/fonts/roboto/RobotoSlab-Bold.ttf'
                 markup: True
                 canvas.before:
                     Color:
-                        rgba: get_random_color(0.4)
+                        rgba: get_random_color(0.7)
                     Rectangle:
                         pos: self.pos
                         size: self.size
+        FloatLayout:
+            size_hint: None, None
+            size: aphorism_edit.size
+            ImageClickable:
+                id: aphorism_edit
+                pos: (0, aphorism_box.height - 100)
+                source: 'assets/img/icons/edit.png'
+                source_up: 'assets/img/icons/edit.png'
+                source_down: 'assets/img/icons/edit_down.png'
+                on_release: app.aphorism_edit()
+                opacity: 0.5
         FloatLayout:
             size_hint: None, None
             size: aphorism_copy.size
             ImageClickable:
                 id: aphorism_copy
                 pos: (aphorism_box.width - 100, aphorism_box.height - 100)
-                source: 'assets/img/icons/copy_up.png'
-                source_up: 'assets/img/icons/copy_up.png'
+                source: 'assets/img/icons/copy.png'
+                source_up: 'assets/img/icons/copy.png'
                 source_down: 'assets/img/icons/copy_down.png'
                 on_release: app.aphorism_copy()
-                opacity: 0.2
+                opacity: 0.5
 
     MyButton:
         id: aphorism_btn
         size_hint_y: None
-        height: '100sp'
         background_normal: app.pixel
         background_down: app.pixel
         on_press: aphorism_rnd.source = 'assets/img/icons/refresh_down.png'
@@ -47,4 +57,4 @@
                 auto_bring_to_front: False
                 id: aphorism_rnd
                 pos: ((aphorism_box.width / 2) - self.width/2, 0)
-                source: 'assets/img/icons/refresh_up.png'
+                source: 'assets/img/icons/refresh.png'

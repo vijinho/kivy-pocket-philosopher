@@ -22,24 +22,21 @@
             markup: True
             text_size: app.root.width, None
             size: self.texture_size
-            font_size: '16sp'
 
 <WidgetAbout@Popup>:
-    size_hint: 0.9, 0.9
+    size_hint: 0.85, 0.85
     title: 'About'
     BoxLayout:
         orientation: "vertical"
         RstDocument:
             source: 'docs/ABOUT.rst'
         MyButton:
-            size_hint_y: 0.2
-            height: '64dp'
-            font_size: '24sp'
-            text: 'OK'
+            size_hint_y: 0.15
+            text: 'Ok'
             on_release: root.dismiss()
 
 <WidgetHelp@Popup>:
-    size_hint: 0.9, 0.9
+    size_hint: 0.85, 0.6
     title: 'Help'
     BoxLayout:
         orientation: "vertical"
@@ -47,30 +44,26 @@
             source: 'docs/HELP.rst'
         MyButton:
             size_hint_y: 0.2
-            height: '64dp'
-            font_size: '24sp'
-            text: 'OK'
+            text: 'Ok'
             on_release: root.dismiss()
 
 <WidgetCopy@Popup>:
-    size_hint: 0.8, 0.8
+    size_hint: 0.75, 0.4
     title: 'Copy Aphorism'
     textarea_copy: copytext
     BoxLayout:
         orientation: "vertical"
-        FormLabel:
-            size_hint_y: 0.2
-            text: 'If the copy button fails, try to directly copy the text below.'
-        FormTextArea:
-            id: copytext
-            size_hint_y: 0.6
-            size: (self.parent.width, '72dp')
-            markup: False
-            focus: True
-            font_name: 'assets/fonts/ubuntu/UbuntuMono-R.ttf'
-        MyButton:
-            size_hint_y: 0.2
-            height: '64dp'
-            font_size: '24sp'
-            text: 'Copy'
-            on_release: root.dismiss()
+        BoxLayout:
+            size_hint_y: 0.5
+            orientation: "vertical"
+            FormTextArea:
+                id: copytext
+                size_hint_y: 0.6
+                size: (self.parent.width, '72dp')
+                markup: False
+                focus: True
+                font_name: 'assets/fonts/ubuntu/UbuntuMono-R.ttf'
+            MyButton:
+                size_hint_y: 0.2
+                text: 'Copy'
+                on_release: root.dismiss()
