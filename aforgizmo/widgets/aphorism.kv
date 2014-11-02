@@ -16,7 +16,7 @@
                 markup: True
                 canvas.before:
                     Color:
-                        rgba: get_random_color(0.7)
+                        rgba: get_random_color(0.5)
                     Rectangle:
                         pos: self.pos
                         size: self.size
@@ -45,7 +45,7 @@
 
     MyButton:
         id: aphorism_btn
-        size_hint_y: None
+        size_hint_y: 0.4
         background_normal: app.pixel
         background_down: app.pixel
         on_press: aphorism_rnd.source = 'assets/img/icons/refresh_down.png'

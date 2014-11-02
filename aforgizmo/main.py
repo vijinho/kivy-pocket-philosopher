@@ -208,7 +208,7 @@ class FormSearch(MyBoxLayout):
                         Aphorism.author.contains(text) |
                         Aphorism.source.contains(text) |
                         Aphorism.tags.contains(text)).order_by(Aphorism.author, Aphorism.source):
-                    results.append([a.id, a.ToOneLine(60)])
+                    results.append([a.id, a.ToOneLine(40)])
                 app.current_search = text
             self.results.item_strings = results
             del self.results.adapter.data[:]
@@ -233,7 +233,7 @@ class FormList(MyBoxLayout):
         results = []
         try:
             for a in Aphorism.select().order_by(Aphorism.author, Aphorism.source):
-                results.append([a.id, a.ToOneLine(60)])
+                results.append([a.id, a.ToOneLine(40)])
             self.results.item_strings = results
             del self.results.adapter.data[:]
             self.results.adapter.data.extend(results)
@@ -511,7 +511,6 @@ class MainApp(App):
                 app.notify('error', 'Backup Failed!')
                 app.root.backup_results.text += "Failed backup of the file:\n" + path + "\nError: (" + str(e) + ")\n\n"
             else:
-                app.notify('success', 'Backup Successful!')
                 app.root.backup_results.text += "Successfully backed up to the file:\n" + path + "\n\n"
 
             self.dismiss()
@@ -732,13 +731,12 @@ class MainApp(App):
         Clipboard.put(quote, 'UTF8_STRING')
         w = self.WidgetCopy()
         w.textarea_copy.text = quote
-        w.textarea_copy.select_all()
         w.open()
 
     class WidgetCopy(Popup):
         textarea_copy = ObjectProperty()
-
-
+        pass
+    
     def aphorism_get(self, id = None):
         try:
             if id is None:
@@ -822,6 +820,7 @@ class MainApp(App):
                 except:
                     app.notify('warning', 'Could not add the aphorism!')
                 else:
+                    app.selected_id = A.id
                     app.aphorism_show(a.id)
                     app.notify('success', 'Aphorism added successfully!')
                     self.dismiss()
