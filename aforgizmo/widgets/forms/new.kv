@@ -1,24 +1,22 @@
 <FormNew@Popup>:
-    size_hint: 0.8, 0.6
+    size_hint: 0.9, 0.6
     auto_dismiss: False
     title: 'Add New Aphorism'
     MyBoxLayout:
         padding: 3
         MyBoxLayout:
             id: form
-            FormLabel:
-                text: 'Aphorism:'
             FormTextArea:
                 id: aphorism
                 focus: True
                 max_chars: 4096
-                size_hint_y: 0.5
+                size_hint_y: 0.4
             FormLabel:
                 text: 'Author:'
             FormTextInput:
                 id: author
             FormLabel:
-                text: 'Source:'
+                text: 'From:'
             FormTextInput:
                 id: source
             FormLabel:
@@ -30,10 +28,9 @@
                 size_hint_y: 0.2
                 size: (self.parent.width, '72dp')
         MyGridLayout:
-            size_hint_y: 0.1
             cols: 2
             rows: 1
-            size_hint_y: 0.1
+            size_hint_y: 0.2
             MyButton:
                 id: submit
                 size_hint_x: 0.7
