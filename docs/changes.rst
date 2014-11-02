@@ -9,3 +9,4 @@ Version 1.0.2
 -------------
 -  Code PEP-8 compliance
 -  Class/Method/Function documentation added
+-  Setup/packaging fixes
