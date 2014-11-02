@@ -8,7 +8,7 @@ An App which saves, retrieves, edits and displays aphorisms
 This app is written in Python using the Kivy library for cross-platform support (Android, IOS, Windows, Linux, Mac OSX).  See http://kivy.org/docs/guide/packaging.html for instructions on packaging the application for the different platforms.
 '''
 __title__ = 'Pocket Philosopher'
-__version__ = '1.0'
+__version__ = '1.0.1'
 __author__ = 'vijay.mahrra@gmail.com'
 
 import kivy
