@@ -793,8 +793,11 @@ class MainApp(App):
                     if file.endswith('.jpg') or file.endswith(
                             '.png') or file.endswith('.jpeg') or file.endswith('.tiff'):
                         path = os.path.join(root, file)
-                        if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+                        if platform == 'android':
                             self.backgrounds.append(path)
+                        else:
+                            if imghdr.what(path) in ('jpeg', 'png', 'tiff'):
+                                self.backgrounds.append(path)
         except:
             pass
 

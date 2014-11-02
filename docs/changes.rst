@@ -10,3 +10,4 @@ Version 1.0.2
 -  Code PEP-8 compliance
 -  Class/Method/Function documentation added
 -  Setup/packaging fixes
+-  Peformance - Don't read all image headers on android when refreshing backgrounds
