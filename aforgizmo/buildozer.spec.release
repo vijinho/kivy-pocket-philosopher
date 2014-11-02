@@ -16,7 +16,7 @@ source.dir = .
 source.include_exts = ini,jpg,json,kv,png,py,rst,sh,ttf,txt,rst
 
 # (list) Source files to exclude (let empty to not exclude anything)
-source.exclude_exts = DS_Store,afdesign,spec,sh,db
+source.exclude_exts = DS_Store,afdesign,spec,sh
 
 # (list) List of directory to exclude (let empty to not exclude anything)
 source.exclude_dirs = tests,bin,aforgizmo.egg-info,.buildozer,.git,.idea
