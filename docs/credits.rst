@@ -22,6 +22,7 @@ SOFTWARE PROJECTS
 -  SQLite - http://www.sqlite.org/cli.html
 -  Database ORM - https://github.com/coleifer/peewee
 -  Kivy for the App - http://kivy.org/#home
+-  Platform-independent API for mobile features - https://github.com/kivy/plyer
 -  Travis for basic build tests - https://travis-ci.org
 
 DESIGN, GRAPHICS, TYPOGRAPHY

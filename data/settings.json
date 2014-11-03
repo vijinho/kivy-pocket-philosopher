@@ -42,5 +42,17 @@
         "desc": "What tags should appear by default in the editor?",
         "section": "editor",
         "key": "default_tags"
+    },
+    {
+        "type": "title",
+        "title": "Accessibility Settings"
+    },
+    {
+        "type": "bool",
+        "title": "Spoken Feedback?",
+        "desc": "Use text-to-speech features for user feedback?",
+        "section": "accessibility",
+        "key": "tts",
+        "true": "auto"
     }
 ]

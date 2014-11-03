@@ -38,7 +38,8 @@ setup(
         'nose>=1.3.4',
         'Click>=3.3',
         'Peewee>=2.3.3',
-        'docutils'
+        'docutils',
+        'plyer'
     ],
     scripts=[],
     entry_points='''

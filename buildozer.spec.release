@@ -32,7 +32,7 @@ version.filename = %(source.dir)s/main.py
 # version = 1.0.0
 
 # (list) Application requirements
-requirements = kivy==master,peewee,sqlite3,click,docutils
+requirements = kivy==master,peewee,sqlite3,click,docutils,plyer
 
 # (list) Garden requirements
 #garden_requirements =

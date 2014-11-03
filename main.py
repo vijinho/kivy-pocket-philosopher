@@ -33,6 +33,7 @@ from kivy.uix.listview import ListItemButton, ListView
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.clock import Clock
+from plyer import tts
 
 import os
 import shutil
@@ -175,6 +176,11 @@ class Notify(ButtonBehavior, BoxLayout):
         """Show the message using an icon named after the given type"""
         self.msg_type = msg_type
         self.msg = msg
+        if int(app.config.get('accessibility', 'tts')) == 1:
+            tts.speak("New notification. Notification type is " + msg_type)
+            tts.speak('Notification message follows.')
+            tts.speak(msg)
+            tts.speak('End of notification message.')
         self.icon = 'assets/img/icons/notify/' + msg_type + '.png'
 
 
@@ -319,6 +325,13 @@ class WidgetAphorism(MyBoxLayout):
                 author=A.author,
                 source=A.source)
             self.ids.quote.text = formatted
+        if int(app.config.get('accessibility', 'tts')) == 1:
+            tts.speak("New aphorism.")
+            tts.speak(A.aphorism)
+            tts.speak('spoken by')
+            tts.speak(A.author)
+            tts.speak("End of new aphorism.")
+
 
     def screenshot(self):
         """
@@ -410,6 +423,9 @@ class MainApp(App):
         })
         config.setdefaults('editor', {
             'default_tags': ''
+        })
+        config.setdefaults('accessibility', {
+            'tts': 0
         })
 
     def build_settings(self, settings):
