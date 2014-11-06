@@ -500,6 +500,7 @@ class MainApp(App):
                 with open('data/aphorisms.json') as json_file:
                     json_data = json.load(json_file)
                 Aphorism.insert_many(json_data).execute()
+
             except Exception:
                 app.notify(
                     'error',
@@ -972,7 +973,7 @@ class MainApp(App):
                 except:
                     app.notify('warning', 'Could not add the aphorism!')
                 else:
-                    app.selected_id = A.id
+                    app.selected_id = a.id
                     app.aphorism_show(a.id)
                     app.notify('success', 'Aphorism added successfully!')
                     self.dismiss()

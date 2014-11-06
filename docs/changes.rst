@@ -17,3 +17,6 @@ Version 1.0.3
 -  Allow portrait-view (even though buggy with aspect switching)
 -  Accessibility - can now speak the aphorisms and notification messages
 
+Version 1.0.4
+-------------
+-  Bugfix: Adding an aphorism was causing a crash!
