@@ -245,12 +245,12 @@ class FormSearch(MyBoxLayout):
         results = []
         try:
             if len(str(text)) > 2:
-                for a in Aphorism.select().where(
+                for A in Aphorism.select().where(
                         Aphorism.aphorism.contains(text) |
                         Aphorism.author.contains(text) |
                         Aphorism.source.contains(text) |
                         Aphorism.tags.contains(text)).order_by(Aphorism.author, Aphorism.source):
-                    results.append([a.id, a.ToOneLine(40)])
+                    results.append([A.id, A.ToOneLine(40)])
                 app.current_search = text
             self.results.item_strings = results
             del self.results.adapter.data[:]
@@ -277,9 +277,9 @@ class FormList(MyBoxLayout):
         """List all database rows"""
         results = []
         try:
-            for a in Aphorism.select().order_by(
+            for A in Aphorism.select().order_by(
                     Aphorism.author, Aphorism.source):
-                results.append([a.id, a.ToOneLine(40)])
+                results.append([A.id, A.ToOneLine(40)])
             self.results.item_strings = results
             del self.results.adapter.data[:]
             self.results.adapter.data.extend(results)
@@ -500,11 +500,16 @@ class MainApp(App):
                 with open('data/aphorisms.json') as json_file:
                     json_data = json.load(json_file)
                 Aphorism.insert_many(json_data).execute()
-
+                app.aphorism_remove_dupes()
             except Exception:
                 app.notify(
                     'error',
                     'Could not load in the initial aphorism data - check that the [b]data/aphorisms.json[/b] file is readable and valid.')
+        else:
+            app.aphorism_remove_dupes()
+
+        # Seems to be an issue with dupes being removed so need to setup a timer to do it
+        Clock.schedule_interval(self.aphorism_remove_dupes, 60)
 
     def notify(self, msg_type, msg, screen=None):
         """Create and display a floating user notification box and timer to remove it"""
@@ -622,7 +627,10 @@ class MainApp(App):
                     app.notify('success', 'Import Successful!')
                     app.root.backup_results.text += "Successfully imported the backup file:\n" + \
                         filename + "\n\n"
-
+                    try:
+                       app.aphorism_remove_dupes()
+                    except Exception as e:
+                        app.notify('error', 'Problem removing duplicate aphorisms.' + str(e))
                 self.dismiss()
 
     def form_import_url(self):
@@ -662,8 +670,10 @@ class MainApp(App):
             if len(data) > 0:
                 try:
                     Aphorism.insert_many(data).execute()
+                    app.aphorism_remove_dupes()
                 except:
-                    app.notify('error', 'Import data from URL successful!')
+                    msg = 'Import data from URL failedl!'
+                    app.notify('error', msg)
                     app.notify('error', msg)
                     app.root.backup_results.text += msg + "\n\n"
                 else:
@@ -964,17 +974,17 @@ class MainApp(App):
             # add aphorism is required fields valid
             if len(data['aphorism']) > 0:
                 try:
-                    a = Aphorism(
+                    A = Aphorism(
                         aphorism=data['aphorism'],
                         author=data['author'],
                         source=data['source'],
                         tags=data['tags'])
-                    a.save()
+                    A.save()
                 except:
                     app.notify('warning', 'Could not add the aphorism!')
                 else:
-                    app.selected_id = a.id
-                    app.aphorism_show(a.id)
+                    app.selected_id = A.id
+                    app.aphorism_show(A.id)
                     app.notify('success', 'Aphorism added successfully!')
                     self.dismiss()
             else:
@@ -1032,13 +1042,13 @@ class MainApp(App):
             # add aphorism is required fields valid
             if data['id'] > 0 and len(data['aphorism']) > 0:
                 try:
-                    a = Aphorism(
+                    A = Aphorism(
                         id=data['id'],
                         aphorism=data['aphorism'],
                         author=data['author'],
                         source=data['source'],
                         tags=data['tags'])
-                    a.save()
+                    A.save()
                 except:
                     app.notify('warning', 'Could not edit the aphorism!')
                 else:
@@ -1061,6 +1071,19 @@ class MainApp(App):
                 return widget
             return A
 
+    def aphorism_remove_dupes(self, dt = None):
+        try:
+            A = Aphorism()
+            dupes = A.RemoveDuplicates()
+        except Exception as e:
+            print "Failed removing duplicates." + str(e)
+        else:
+            if dupes > 0:
+                app.notify(
+                    'warning',
+                    'Removed [b]{0}[/b] duplicate aphorisms.'.format(dupes))
+            return dupes
+
     class FormDelete(Popup):
         """delete an aphorism after confirmation"""
         aphorism_id = NumericProperty()
@@ -1080,8 +1103,8 @@ class MainApp(App):
         def delete_action(self):
             if self.aphorism_id > 0:
                 try:
-                    a = Aphorism.get(Aphorism.id == self.aphorism_id)
-                    a.delete_instance()
+                    A = Aphorism.get(Aphorism.id == self.aphorism_id)
+                    A.delete_instance()
                 except:
                     app.notify('error', 'Could not delete the aphorism!')
                 else:

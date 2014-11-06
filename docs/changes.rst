@@ -20,3 +20,5 @@ Version 1.0.3
 Version 1.0.4
 -------------
 -  Bugfix: Adding an aphorism was causing a crash!
+-  Remove duplicates when importing data
+-  Changed import file browser to list instead of icon view

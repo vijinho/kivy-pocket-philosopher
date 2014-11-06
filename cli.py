@@ -192,6 +192,7 @@ def insert(config, source_file, input_format):
         else:
             try:
                 Aphorism.insert_many(json_data).execute()
+                Aphorism.RemoveDuplicates()
             except Exception as e:
                 click.echo(click.style('Unable to insert the data',
                                        fg='red'), file=config.logfile)
