@@ -350,7 +350,8 @@ class Main(MyScreenManager):
     def __init__(self, **kwargs):
         self.transition = NoTransition()
         super(Main, self).__init__()
-
+        if platform == 'linux':
+            app.config.set('accessibility', 'tts', 0)
 
 class MainApp(App):
     pixel = 'assets/img/pixel.png'
@@ -444,6 +445,13 @@ class MainApp(App):
                     app.background_set()
                 else:
                     app.background_set(self.pixel)
+            elif platform == 'linux' and token == 'accessibility' and value == 1:
+                if platform == 'linux':
+                    app.config.set('accessibility', 'tts', 0)
+                    app.notify(
+                        'warning',
+                        'Text-to-speech is not currently supported on Linux.')
+
 
     def on_start(self):
         """
