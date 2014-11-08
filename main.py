@@ -176,7 +176,7 @@ class Notify(ButtonBehavior, BoxLayout):
         """Show the message using an icon named after the given type"""
         self.msg_type = msg_type
         self.msg = msg
-        if int(app.config.get('accessibility', 'tts')) == 1:
+        if int(app.config.get('accessibility', 'tts')) == 1 and str(platform) != 'linux':
             tts.speak("New notification. Notification type is " + msg_type)
             tts.speak('Notification message follows.')
             tts.speak(msg)
@@ -325,7 +325,7 @@ class WidgetAphorism(MyBoxLayout):
                 author=A.author,
                 source=A.source)
             self.ids.quote.text = formatted
-        if int(app.config.get('accessibility', 'tts')) == 1:
+        if int(app.config.get('accessibility', 'tts')) == 1 and str(platform) != 'linux':
             tts.speak("New aphorism.")
             tts.speak(A.aphorism)
             tts.speak('spoken by')
@@ -350,7 +350,7 @@ class Main(MyScreenManager):
     def __init__(self, **kwargs):
         self.transition = NoTransition()
         super(Main, self).__init__()
-        if platform == 'linux':
+        if str(platform) == 'linux':
             app.config.set('accessibility', 'tts', 0)
 
 class MainApp(App):
@@ -428,6 +428,7 @@ class MainApp(App):
         config.setdefaults('accessibility', {
             'tts': 0
         })
+        self.config = config
 
     def build_settings(self, settings):
         with open('data/settings.json', 'r') as settings_json:
@@ -445,13 +446,12 @@ class MainApp(App):
                     app.background_set()
                 else:
                     app.background_set(self.pixel)
-            elif platform == 'linux' and token == 'accessibility' and value == 1:
-                if platform == 'linux':
-                    app.config.set('accessibility', 'tts', 0)
+            elif token == ('accessibility', 'tts'):
+                if int(value) == 1 and str(platform) == 'linux':
+                    config.set('accessibility', 'tts', 0)
                     app.notify(
                         'warning',
                         'Text-to-speech is not currently supported on Linux.')
-
 
     def on_start(self):
         """
