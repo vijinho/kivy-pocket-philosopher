@@ -99,4 +99,4 @@ cross-platform support (Android, IOS, Windows, Linux, Mac OSX). See
 http://kivy.org/docs/guide/packaging.html for instructions on packaging
 the application for the different platforms.
 
-(c) Copyright 2014 Vijay Mahrra http://about.me/vijay.mahrra
+(c) Copyright 2014 Vijay Mahrra http://www.urunu.com/
