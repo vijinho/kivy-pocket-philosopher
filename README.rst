@@ -91,7 +91,6 @@ Running the Kivy App
 See Also
 --------
 
--  https://travis-ci.org/vijinho/aforgizmo - Travis Build Test
 -  https://github.com/jcalazan/random-quotes - A similar Kivy App
 
 This app is written in Python using the Kivy library for
@@ -99,4 +98,4 @@ cross-platform support (Android, IOS, Windows, Linux, Mac OSX). See
 http://kivy.org/docs/guide/packaging.html for instructions on packaging
 the application for the different platforms.
 
-(c) Copyright 2014 Vijay Mahrra http://www.urunu.com/
+Copyright 2014 Vijay Mahrra http://www.urunu.com/
